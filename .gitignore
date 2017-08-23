@@ -19,3 +19,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# native
+kingfisher-native/node_modules/
+kingfisher-native/.expo
+kingfisher-native/npm-debug.*

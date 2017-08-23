@@ -4,11 +4,18 @@ import * as firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
 
-declare const authUi: firebaseui.auth.AuthUI;
+interface Props {
+  authUi: firebaseui.auth.AuthUI;
+}
+interface State {}
 
-class Login extends React.Component<{}, {}> {
+class Login extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+  }
+
    componentWillUnmount() {
-       authUi.reset();
+    this.props.authUi.reset();
    }
 
   componentDidMount() {
@@ -27,7 +34,7 @@ class Login extends React.Component<{}, {}> {
         tosUrl: '<your-tos-url>'
       };
 
-      authUi.start('#firebaseui-auth-container', uiConfig);
+      this.props.authUi.start('#firebaseui-auth-container', uiConfig);
   }
 
   render() {

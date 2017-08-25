@@ -28,7 +28,7 @@ class Login extends React.Component<Props, State> {
           firebase.auth.EmailAuthProvider.PROVIDER_ID,
           firebase.auth.PhoneAuthProvider.PROVIDER_ID
         ],
-        tosUrl: '<your-tos-url>'
+        tosUrl: '/tos`'
       };
 
       if (!user) {

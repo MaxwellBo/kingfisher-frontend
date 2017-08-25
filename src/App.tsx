@@ -19,6 +19,7 @@ firebase.initializeApp(firebaseConfig);
 // XXX: Login must be imported after firebase has been init'd
 import Export from './Export';
 import Login from './Login';
+import TOS from './TOS';
 
 interface Props {}
 interface State {}
@@ -45,6 +46,7 @@ class App extends React.Component<Props, State> {
         </p>
         <Route path="/export" component={Export}/>
         <Route path="/login" component={Login}/>
+        <Route path="/tos" component={TOS}/>
       </div>
     );
   }

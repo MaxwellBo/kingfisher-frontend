@@ -16,10 +16,13 @@ export default class PageAddTree extends React.Component {
     return (
       <View>
         <Title
-          titleInfo={this.props.titleInfo}
+          titleInfo={"Add Tree for Site " + this.props.activeSite}
           goBack={() => this.props.goBack()}
         />
         <View style={[styles.pageCont, styles.siteTrees]}>
+          <View>
+            <Text style={styles.pageHeadTitle}>Add Tree Record</Text>
+          </View>
           <View style={styles.verticalFlexCont}>
             <Field label="Species" name="species"
               onChangeText={(specName, value) => this.changeSpec(specName, value)}/>

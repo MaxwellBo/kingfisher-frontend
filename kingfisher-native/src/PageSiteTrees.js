@@ -20,10 +20,14 @@ export default class PageSiteTrees extends React.Component {
     return (
       <View>
         <Title
-          titleInfo={this.props.titleInfo}
+          titleInfo={"Tree Records for\nSite " + this.props.activeSite}
           goBack={() => this.props.goBack()}
         />
         <View style={[styles.pageCont, styles.siteTrees]}>
+          <View>
+            <Text style={styles.pageHeadTitle}>Site Tree Records</Text>
+            <Text style={styles.pageHeadDesc}>Add new trees, view trees input this session, and save data input session.</Text>
+          </View>
           <View style={[styles.horizontalFlexCont]}>
             <GreenButton
               buttonText="Add"

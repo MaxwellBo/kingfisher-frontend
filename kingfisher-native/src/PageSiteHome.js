@@ -15,34 +15,40 @@ export default class PageSiteHome extends React.Component {
     return (
       <View>
         <Title
-          titleInfo={this.props.titleInfo}
+          titleInfo={"Site " + this.props.activeSite + "\nHome"}
           goBack={() => this.props.goBack()}
         />
         <View style={[styles.pageCont, styles.siteHome]}>
-          <GreenButton
-            extraStyles={[styles.siteHomeButton]}
-            buttonText="SITE SPECIFICATIONS"
-            pageName="siteSpec"
-            changePage={(pageName) => this.props.changePage(pageName)}
-          />
-          <GreenButton
-            extraStyles={[styles.siteHomeButton]}
-            buttonText="NEW TREES"
-            pageName="siteTrees"
-            changePage={(pageName) => this.props.changePage(pageName)}
-          />
-          <GreenButton
-            extraStyles={[styles.siteHomeButton]}
-            buttonText="NEW DENSITOMETER"
-            pageName="siteTrees" // TODO: Change these pagenames
-            changePage={(pageName) => this.props.changePage(pageName)}
-          />
-          <GreenButton
-            extraStyles={[styles.siteHomeButton]}
-            buttonText="REVIEW"
-            pageName="siteTrees" // TODO: Change these pagenames
-            changePage={(pageName) => this.props.changePage(pageName)}
-          />
+          <View>
+            <Text style={styles.pageHeadTitle}>Site Home</Text>
+            <Text style={styles.pageHeadDesc}>Update Current Site Information and Add New Tree Measurements</Text>
+          </View>
+          <View style={styles.siteHomeButtonCont}>
+            <GreenButton
+              extraStyles={[styles.siteHomeButton]}
+              buttonText="SITE SPECIFICATIONS"
+              pageName="siteSpec"
+              changePage={(pageName) => this.props.changePage(pageName)}
+            />
+            <GreenButton
+              extraStyles={[styles.siteHomeButton]}
+              buttonText="NEW TREES"
+              pageName="siteTrees"
+              changePage={(pageName) => this.props.changePage(pageName)}
+            />
+            <GreenButton
+              extraStyles={[styles.siteHomeButton]}
+              buttonText="NEW DENSITOMETER"
+              pageName="siteTrees" // TODO: Change these pagenames
+              changePage={(pageName) => this.props.changePage(pageName)}
+            />
+            <GreenButton
+              extraStyles={[styles.siteHomeButton]}
+              buttonText="REVIEW"
+              pageName="siteTrees" // TODO: Change these pagenames
+              changePage={(pageName) => this.props.changePage(pageName)}
+            />
+          </View>
         </View>
       </View>
     )

@@ -9,17 +9,13 @@ export default class Title extends React.Component {
         <View style={styles.titleLeft}>
           <TouchableHighlight onPress={() => this.props.goBack()}>
             <Image
-              style={styles.titleLogo}
+              style={styles.titleBack}
               source={require("./img/icon_back.png")} 
             />
           </TouchableHighlight>
         </View>
         <View style={styles.titleRight}>
-          <Image
-            style={styles.titleLogo}
-            source={require("./img/kingfisher_logo_small.png")}
-          />
-          {this.props.titleInfo}
+          <Text style={styles.titleText}>{this.props.titleInfo}</Text>
         </View>
       </View>
     );

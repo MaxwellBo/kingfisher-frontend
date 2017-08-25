@@ -17,7 +17,7 @@ const KINGFISHER_ORANGE = '#FFB76B';
 const KINGFISHER_ORANGE_DARK = '#ff9e38';
 
 
-const TITLE_BG = "#e9e9e9";
+const TITLE_BG = "#48b040";
 
 const BUTTON_BG = KINGFISHER_GREEN;
 const BUTTON_TEXT = '#fff';
@@ -32,12 +32,29 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
 
+  h2: {
+    textAlign: "center",
+  },
+
+  pageHeadTitle: {
+    fontSize: 30,
+    color: TEXT_GREY,
+    paddingBottom: 20,
+    textAlign: "center",
+  },
+
+  pageHeadDesc: {
+    fontSize: 16,
+    color: TEXT_GREY,
+    paddingBottom: 20,
+    textAlign: "center",
+  },
+
   pageCont: {
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "stretch",
     padding: 20,
-    
   },
 
   centerItemsCont: {
@@ -102,6 +119,10 @@ export const styles = StyleSheet.create({
     width: 70,
   },
 
+  titleCenter: {
+    
+  },
+
   titleRight: {
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -110,12 +131,19 @@ export const styles = StyleSheet.create({
   titleLogo: {
     width: 50,
     height: 50,
-    paddingRight: 20,
+    marginLeft: 30,
+    marginRight: 10,
+  },
+
+  titleBack: {
+    width: 50,
+    height: 50,
+    marginRight: 30,
   },
 
   titleText: {
     marginLeft: 30,
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#000000"
   },
@@ -149,12 +177,17 @@ export const styles = StyleSheet.create({
   siteHome: {
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: "30%",
+  },
+
+  siteHomeButtonCont: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "stretch",
+    paddingTop: 30,
   },
 
   siteHomeButton: {
     marginBottom: 20,
-    width: "70%",
   },
 
   /***** SITE TREES *****/

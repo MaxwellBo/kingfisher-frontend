@@ -38,6 +38,7 @@ export default class AppScreen extends React.Component {
         currentPage = (
           <PageSiteHome
             titleInfo={this.props.titleInfo}
+            activeSite={this.props.activeSite}
             goBack={() => this.props.goBack()}
             changePage={(pageName) => this.props.changePage(pageName)} />
         )
@@ -54,6 +55,7 @@ export default class AppScreen extends React.Component {
         currentPage = (
           <PageSiteTrees
             titleInfo={this.props.titleInfo}
+            activeSite={this.props.activeSite}
             goBack={() => this.props.goBack()}
             changePage={(pageName) => this.props.changePage(pageName)} />
         )
@@ -64,6 +66,7 @@ export default class AppScreen extends React.Component {
         currentPage = (
           <PageAddTree
             titleInfo={this.props.titleInfo}
+            activeSite={this.props.activeSite}
             goBack={() => this.props.goBack()}
             changePage={(pageName) => this.props.changePage(pageName)} /> 
         )

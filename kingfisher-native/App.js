@@ -12,7 +12,7 @@ export default class App extends React.Component {
     this.state = {
       currentPage: "index",
       activeSite: "000000",
-      titleInfo: (<Text style={styles.titleText}>Placeholder</Text>),
+      titleInfo: "Placeholder",
       pageHistory: []
     };
     this.changePage = this.changePage.bind(this);

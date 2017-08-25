@@ -1,13 +1,8 @@
 import * as React from 'react';
 import { Link, Route } from 'react-router-dom';
-
 import * as firebase from 'firebase';
-import * as firebaseui from 'firebaseui';
 
 import './App.css';
-import Export from './Export';
-import Login from './Login';
-
 const logo = require('./logo.svg');
 
 var firebaseConfig = {
@@ -21,31 +16,17 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+// XXX: Login must be imported after firebase has been init'd
+import Export from './Export';
+import Login from './Login';
+
 interface Props {}
-interface State {
-  authUi: firebaseui.auth.AuthUI;
-}
+interface State {}
 
 class App extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-
-    this.state = {
-      // FIXME: Not sure that this is idomatic
-      authUi: new firebaseui.auth.AuthUI(firebase.auth())
-    };
-  }
-
-  // FIXME: Get the GitHub link that describes why this exists
-  // TODO: Find out whether it's better style to keep this as a class method
-  //       or scoped in a module. I'm thinking it's meant to be a class method
-  makeLogin = () => {
-    return (
-      <Login 
-        authUi={this.state.authUi}
-      />
-    );
   }
 
   render() {
@@ -63,7 +44,7 @@ class App extends React.Component<Props, State> {
           To get started, edit <code>src/App.tsx</code> and save to reload.
         </p>
         <Route path="/export" component={Export}/>
-        <Route path="/login" render={this.makeLogin}/>
+        <Route path="/login" component={Login}/>
       </div>
     );
   }

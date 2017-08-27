@@ -4,43 +4,45 @@ import * as firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
 
-interface Props {
-  authUi: firebaseui.auth.AuthUI;
-}
 interface State {}
+interface Props {}
+
+const authUi = new firebaseui.auth.AuthUI(firebase.auth());
+firebase.auth().onAuthStateChanged(authStateChangedCallback);
+
+var user: firebase.User | null = null;
+
+function authStateChangedCallback(u: firebase.User) {
+  user = u;
+}
 
 class Login extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-  }
-
    componentWillUnmount() {
-    this.props.authUi.reset();
+    authUi.reset();
    }
 
   componentDidMount() {
       var uiConfig = {
-        signInSuccessUrl: '/app', 
+        signInSuccessUrl: '/export', 
         signInOptions: [
-          // Leave the lines as is for the providers you want to offer your users.
-          // firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-          // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-          // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-          // firebase.auth.GithubAuthProvider.PROVIDER_ID,
           firebase.auth.EmailAuthProvider.PROVIDER_ID,
           firebase.auth.PhoneAuthProvider.PROVIDER_ID
         ],
-        // Terms of service url.
-        tosUrl: '<your-tos-url>'
+        tosUrl: '/tos`'
       };
 
-      this.props.authUi.start('#firebaseui-auth-container', uiConfig);
+      if (!user) {
+        authUi.start('#Login-firebaseui-auth-container', uiConfig);
+      }
   }
 
   render() {
-    return (
-      <div id="firebaseui-auth-container" />
-    );
+    if (user) {
+      // authUi.reset(); // You might need to do this
+      return (<div id="Login-info"><p>You're already logged in!</p></div>);
+    } else {
+      return (<div id="Login-firebaseui-auth-container" />);
+    }
   }
 }
 

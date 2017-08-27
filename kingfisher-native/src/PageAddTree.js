@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { styles } from "./Styles"
 import GreenButton from "./GreenButton"
 import Title from "./Title"
@@ -19,7 +19,7 @@ export default class PageAddTree extends React.Component {
           titleInfo={"Add Tree for Site " + this.props.activeSite}
           goBack={() => this.props.goBack()}
         />
-        <View style={[styles.pageCont, styles.siteTrees]}>
+        <ScrollView contentContainerStyle={[styles.pageCont, styles.siteTrees]}>
           <View>
             <Text style={styles.pageHeadTitle}>Add Tree Record</Text>
           </View>
@@ -44,7 +44,7 @@ export default class PageAddTree extends React.Component {
             <Field label="B5" name="DBH5"
               onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
           </View>
-        </View>
+        </ScrollView>
       </View>
     )
   }

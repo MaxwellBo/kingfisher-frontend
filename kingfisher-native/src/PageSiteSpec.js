@@ -56,6 +56,7 @@ export default class PageSiteSpec extends React.Component {
               extraStyles={styles.thirds} onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
           </View>
           <Field label="Species" name="species" // TODO: Convert this to dropdown menu
+              inputStyles={styles.error}
               onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
           <Field label="Threshold" name="threshold" 
               onChangeText={(specName, value) => this.changeSpec(specName, value)}/>

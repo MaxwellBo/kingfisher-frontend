@@ -16,6 +16,8 @@ const KINGFISHER_GREEN = '#0BA900'
 const KINGFISHER_ORANGE = '#FFB76B';
 const KINGFISHER_ORANGE_DARK = '#ff9e38';
 
+const ERROR_COLOR = "#ff2222";
+
 
 const TITLE_BG = "#48b040";
 
@@ -30,6 +32,10 @@ const TEXT_GREY = '#3E3E3E'; // More Dark
 export const styles = StyleSheet.create({
   app: {
     flex: 1,
+  },
+
+  error: {
+    backgroundColor: ERROR_COLOR,
   },
 
   h2: {
@@ -96,9 +102,12 @@ export const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  fieldInput: {
+  fieldInputCont: {
     marginTop: 5,
     marginBottom: 10,
+  },
+
+  fieldInput: {
     textAlign: "center",
     height: 40,
     borderWidth: 1,

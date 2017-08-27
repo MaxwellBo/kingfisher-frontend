@@ -38,12 +38,6 @@ export default class PageSiteHome extends React.Component {
             />
             <GreenButton
               extraStyles={[styles.siteHomeButton]}
-              buttonText="NEW DENSITOMETER"
-              pageName="siteTrees" // TODO: Change these pagenames
-              changePage={(pageName) => this.props.changePage(pageName)}
-            />
-            <GreenButton
-              extraStyles={[styles.siteHomeButton]}
               buttonText="REVIEW"
               pageName="siteTrees" // TODO: Change these pagenames
               changePage={(pageName) => this.props.changePage(pageName)}

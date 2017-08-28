@@ -44,8 +44,8 @@ export default class PageSiteSpec extends React.Component {
         />
         <View style={[styles.pageCont, styles.siteSpec]}>
           <View style={styles.centerItemsCont}>
-            <Text style={styles.headingText}>Site Specifications</Text>
-            <Text>Dimensions</Text>
+            <Text style={styles.pageHeadTitle}>Site Specifications</Text>
+            <Text style={styles.pageHeadDesc}>Dimensions</Text>
           </View>
           <View style={styles.horizontalFlexCont}>
             <Field label="Length" name="length" 

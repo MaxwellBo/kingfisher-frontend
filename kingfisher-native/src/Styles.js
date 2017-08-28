@@ -1,30 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 
 /***************************/
 /******** VARIABLES ********/
 /***************************/
 
-const KINGFISHER_BLUE_1 = '#6D6BFF'; // More Vivid
-const KINGFISHER_BLUE_2 = '#83C9F4'; // ...
-const KINGFISHER_BLUE_3 = '#A3D5FF'; // ...
-const KINGFISHER_BLUE_4 = '#D9F0FF'; // More Light
 
-const KINGFISHER_GREEN = '#0BA900'
-
-
-const KINGFISHER_ORANGE = '#FFB76B';
-const KINGFISHER_ORANGE_DARK = '#ff9e38';
+//const KINGFISHER_GREEN = '#0BA900'
+const KINGFISHER_GREEN = "#48B040"
 
 const ERROR_COLOR = "#ff2222";
 
+const KINGFISHER_RED = '#DD4649';
+const FILLED_FIELD = '#96DD90';
+const ACTIVE_FIELD = '#E5E0E5';
+const UNFILLED_FIELD = '#898689';
 
+const PAGE_BG = "#252B38";
 const TITLE_BG = "#48b040";
 
 const BUTTON_BG = KINGFISHER_GREEN;
-const BUTTON_TEXT = '#fff';
-
-const TEXT_GREY = '#3E3E3E'; // More Dark
+const BUTTON_TEXT = '#e6e6e6';
+const TEXT_GREY = '#c4c4c4';
+const MIDDLE_GREY = '#6d6d6d';
 
 /****************************/
 /********** STYLES **********/
@@ -32,6 +30,8 @@ const TEXT_GREY = '#3E3E3E'; // More Dark
 export const styles = StyleSheet.create({
   app: {
     flex: 1,
+    //height: Dimensions.get('window').height,
+    backgroundColor: PAGE_BG,
   },
 
   error: {
@@ -58,7 +58,7 @@ export const styles = StyleSheet.create({
 
   pageCont: {
     flexDirection: "column",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
     alignItems: "stretch",
     padding: 20,
   },
@@ -99,6 +99,7 @@ export const styles = StyleSheet.create({
   },
 
   fieldLabel: {
+    color: TEXT_GREY,
     textAlign: "center",
   },
 
@@ -154,7 +155,7 @@ export const styles = StyleSheet.create({
     marginLeft: 30,
     fontSize: 20,
     fontWeight: "bold",
-    color: "#000000"
+    color: PAGE_BG
   },
 
   /***** INDEX *****/
@@ -224,6 +225,7 @@ export const styles = StyleSheet.create({
   },
 
   siteTreeText: {
+    color: TEXT_GREY,
     fontSize: 20,
   },
 

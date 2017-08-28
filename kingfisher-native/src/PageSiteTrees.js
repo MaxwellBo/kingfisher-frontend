@@ -7,8 +7,8 @@ import SiteTreesItem from "./SiteTreesItem"
 
 /*
  * All classes beginning with "Page" are different representations of pages
- * to be rendered by AppScreen. 
- * 
+ * to be rendered by AppScreen.
+ *
  * This page is a view of all the tree measurements taken for a particular site.
  */
 export default class PageSiteTrees extends React.Component {
@@ -31,13 +31,8 @@ export default class PageSiteTrees extends React.Component {
               changePage={(pageName) => this.props.changePage(pageName)}
             />
             <GreenButton
-              buttonText="Count"
-              pageName="treeCounter"
-              changePage={(pageName) => this.props.changePage(pageName)}
-            />
-            <GreenButton
-              buttonText="Finish"
-              pageName="siteHome"
+              buttonText="Current Summary"
+              pageName="currentSummary"
               changePage={(pageName) => this.props.changePage(pageName)}
             />
           </View>

@@ -7,6 +7,7 @@ import PageSiteHome from "./PageSiteHome"
 import PageSiteTrees from "./PageSiteTrees"
 import PageSiteSpec from "./PageSiteSpec"
 import PageAddTree from "./PageAddTree"
+import PageCurrentSummary from "./PageCurrentSummary"
 
 /*
  * AppScreen takes the role of rendering the page given to it by App.
@@ -15,7 +16,7 @@ export default class AppScreen extends React.Component {
   constructor() {
     super();
   }
-  
+
   // Renders a different Page depending on the user's interactions.
   // The page to be rendered is gotten from App (the root component).
   // Pages must be passed the following props:
@@ -65,10 +66,16 @@ export default class AppScreen extends React.Component {
           <PageAddTree
             titleInfo={this.props.titleInfo}
             goBack={() => this.props.goBack()}
-            changePage={(pageName) => this.props.changePage(pageName)} /> 
+            changePage={(pageName) => this.props.changePage(pageName)} />
         )
         break;
-      case "treeCounter":
+      case "currentSummary":
+        currentPage = (
+          <PageCurrentSummary
+          titleInfo={this.props.titleInfo}
+          goBack={() => this.props.goBack()}
+          changePage={(pageName) => this.props.changePage(pageName)} />
+        )
         break;
       case "siteHistory":
         break;

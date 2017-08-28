@@ -81,6 +81,7 @@ export const styles = StyleSheet.create({
   buttonText: {
     color: BUTTON_TEXT,
     fontWeight: "bold",
+    fontSize: 20,
   },
 
   horizontalFlexCont: {
@@ -130,18 +131,18 @@ export const styles = StyleSheet.create({
   },
 
   titleCenter: {
-    
+    flexGrow: 1,
+    justifyContent: "center",
   },
 
   titleRight: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
+    width: 70,
   },
 
   titleLogo: {
     width: 50,
     height: 50,
-    marginLeft: 30,
+    marginLeft: 10,
     marginRight: 10,
   },
 
@@ -152,7 +153,7 @@ export const styles = StyleSheet.create({
   },
 
   titleText: {
-    marginLeft: 30,
+    textAlign: "center",
     fontSize: 20,
     fontWeight: "bold",
     color: PAGE_BG
@@ -190,6 +191,7 @@ export const styles = StyleSheet.create({
   },
 
   siteHomeButtonCont: {
+    width: "100%",
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "stretch",

@@ -26,20 +26,20 @@ export default class PageSiteHome extends React.Component {
           <View style={styles.siteHomeButtonCont}>
             <GreenButton
               extraStyles={[styles.siteHomeButton]}
-              buttonText="SITE SPECIFICATIONS"
-              pageName="siteSpec"
-              changePage={(pageName) => this.props.changePage(pageName)}
-            />
-            <GreenButton
-              extraStyles={[styles.siteHomeButton]}
-              buttonText="NEW TREES"
+              buttonText="Add New Trees"
               pageName="siteTrees"
               changePage={(pageName) => this.props.changePage(pageName)}
             />
             <GreenButton
               extraStyles={[styles.siteHomeButton]}
-              buttonText="REVIEW"
+              buttonText="Data Analysis"
               pageName="siteTrees" // TODO: Change these pagenames
+              changePage={(pageName) => this.props.changePage(pageName)}
+            />
+            <GreenButton
+              extraStyles={[styles.siteHomeButton]}
+              buttonText="Site Information"
+              pageName="siteSpec"
               changePage={(pageName) => this.props.changePage(pageName)}
             />
           </View>

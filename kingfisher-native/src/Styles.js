@@ -38,6 +38,7 @@ export const styles = StyleSheet.create({
   },
 
   h2: {
+    color: TEXT_GREY,
     textAlign: "center",
   },
 
@@ -191,7 +192,6 @@ export const styles = StyleSheet.create({
   /***** SITE HOME *****/
 
   siteHome: {
-    justifyContent: "center",
     alignItems: "center",
   },
 

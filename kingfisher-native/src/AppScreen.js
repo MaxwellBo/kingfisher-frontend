@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { styles } from "./Styles"
 
 import PageIndex from "./PageIndex"
+import PageHomeHome from "./PageHomeHome"
+import PageEnterSiteNewRecord from "./PageEnterSiteNewRecord"
 import PageSiteHome from "./PageSiteHome"
 import PageSiteTrees from "./PageSiteTrees"
 import PageSiteSpec from "./PageSiteSpec"
@@ -33,6 +35,25 @@ export default class AppScreen extends React.Component {
       case "login":
         break;
       case "map":
+        break;
+      case "homeHome":
+        currentPage = (
+          <PageHomeHome
+            titleInfo={this.props.titleInfo}
+            activeSite={this.props.activeSite}
+            goBack={() => this.props.goBack()}
+            changePage={(pageName) => this.props.changePage(pageName)} />
+        )
+        break;
+      case "enterSiteNewRecord":
+        currentPage = (
+          <PageEnterSiteNewRecord
+            titleInfo={this.props.titleInfo}
+            activeSite={this.props.activeSite}
+            goBack={() => this.props.goBack()}
+            changeActiveSite={(siteCode) => this.props.changeActiveSite(siteCode)}
+            changePage={(pageName) => this.props.changePage(pageName)} />
+        )
         break;
       case "siteHome": // Choose what to add to the site (trees, densitometer, review)
         currentPage = (

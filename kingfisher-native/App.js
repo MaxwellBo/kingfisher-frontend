@@ -16,6 +16,7 @@ export default class App extends React.Component {
       pageHistory: []
     };
     this.changePage = this.changePage.bind(this);
+    this.changeActiveSite = this.changeActiveSite.bind(this);
     this.goBack = this.goBack.bind(this);
   }
 
@@ -25,6 +26,12 @@ export default class App extends React.Component {
       currentPage: pageName
     })
     console.log(this.state.pageHistory)
+  }
+
+  changeActiveSite(siteCode) {
+    this.setState({
+      activeSite: siteCode
+    })
   }
 
   goBack() {
@@ -43,6 +50,7 @@ export default class App extends React.Component {
         <AppScreen
           currentPage={this.state.currentPage}
           changePage={(pageName) => this.changePage(pageName)}
+          changeActiveSite={(siteCode) => this.changeActiveSite(siteCode)}
           activeSite={this.state.activeSite}
           titleInfo={this.state.titleInfo}
           goBack={() => this.goBack()}

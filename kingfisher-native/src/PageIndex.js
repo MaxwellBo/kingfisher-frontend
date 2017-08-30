@@ -25,7 +25,7 @@ export default class PageIndex extends React.Component {
         <GreenButton
           extraStyles={[styles.indexButton]}
           buttonText="Login"
-          pageName="siteHome"
+          pageName="homeHome"
           changePage={(pageName) => this.props.changePage(pageName)}
         />
       </View>

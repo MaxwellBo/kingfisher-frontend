@@ -17,7 +17,7 @@ export default class PageAddTree extends React.Component {
     return (
       <View>
         <Title
-          titleInfo={"Add Tree for Site " + this.props.activeSite}
+          titleInfo={"Add Tree for\nSite " + this.props.activeSite}
           goBack={() => this.props.goBack()}
         />
         <ScrollView

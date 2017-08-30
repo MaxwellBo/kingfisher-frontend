@@ -30,7 +30,6 @@ const MIDDLE_GREY = '#6d6d6d';
 export const styles = StyleSheet.create({
   app: {
     flex: 1,
-    //height: Dimensions.get('window').height,
     backgroundColor: PAGE_BG,
   },
 
@@ -57,10 +56,17 @@ export const styles = StyleSheet.create({
   },
 
   pageCont: {
+    backgroundColor: KINGFISHER_RED,
+    flex: 1,
+    minHeight: Dimensions.get('window').height,
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "stretch",
     padding: 20,
+  },
+
+  scroller: {
+    minHeight: Dimensions.get('window').height - 90, // 90 is the height of the title
   },
 
   centerItemsCont: {
@@ -205,10 +211,8 @@ export const styles = StyleSheet.create({
   /***** SITE TREES *****/
 
   siteTrees: {
-    justifyContent: "space-between",
-    minWidth: "100%",
+    backgroundColor: "#440044",
   },
-
 
   keepOnBottom: {
     position: "absolute",

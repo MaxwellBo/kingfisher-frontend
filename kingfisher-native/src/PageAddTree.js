@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, Dimensions } from 'react-native';
 import { styles } from "./Styles"
 import GreenButton from "./GreenButton"
 import Title from "./Title"
@@ -10,6 +10,7 @@ import Field from "./Field"
  * to be rendered by AppScreen. 
  * 
  * This page is for creating a new tree measurement for a particular site.
+        <View style={{height: Dimensions.get('window').height}}>
  */
 export default class PageAddTree extends React.Component {
   render() {
@@ -19,7 +20,11 @@ export default class PageAddTree extends React.Component {
           titleInfo={"Add Tree for Site " + this.props.activeSite}
           goBack={() => this.props.goBack()}
         />
-        <ScrollView contentContainerStyle={[styles.pageCont, styles.siteTrees]}>
+        <ScrollView
+          contentContainerStyle={[styles.pageCont]}
+          style={styles.scroller}
+          showsVerticalScrollIndicator={true}
+        >
           <View>
             <Text style={styles.pageHeadTitle}>Add Tree Record</Text>
           </View>

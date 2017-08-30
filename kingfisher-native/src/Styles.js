@@ -56,7 +56,6 @@ export const styles = StyleSheet.create({
   },
 
   pageCont: {
-    backgroundColor: KINGFISHER_RED,
     flex: 1,
     minHeight: Dimensions.get('window').height,
     flexDirection: "column",
@@ -211,7 +210,6 @@ export const styles = StyleSheet.create({
   /***** SITE TREES *****/
 
   siteTrees: {
-    backgroundColor: "#440044",
   },
 
   keepOnBottom: {

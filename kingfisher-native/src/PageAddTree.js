@@ -13,7 +13,40 @@ import Field from "./Field"
         <View style={{height: Dimensions.get('window').height}}>
  */
 export default class PageAddTree extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      species: "",
+      height: 0,
+      dbhs: [],
+    }
+  }
+  changeSpec(specName, value) {
+    obj = {};
+    obj[specName] = value;
+    this.setState(obj);
+  }
+  DBHChangeText(dbhIndex, value) {
+    console.log(dbhIndex);
+    console.log(value);
+    newDbhs = this.state.dbhs;
+    if (dbhIndex == newDbhs.length - 1 && value == "") { 
+      // If it is the last DBH and it's been deleted
+      newDbhs.pop(dbhIndex); // Remove it from the list
+    } else if (dbhIndex <= newDbhs.length) { // Otherwise, as long as its a valid index
+      newDbhs[dbhIndex] = value; // TODO: Validate inputs
+    }
+    this.setState({dbhs: newDbhs});
+    console.log(this.state.dbhs)
+  } 
   render() {
+    dbhList = [];
+    for (let i = 0; i <= this.state.dbhs.length; i++) {
+      dbhList.push(
+        <Field label={"B" + (i+1)} name={i} key={"DBH " + i}
+          onChangeText={(dbhIndex, value) => this.DBHChangeText(dbhIndex, value)}/>
+      )
+    }
     return (
       <View>
         <Title
@@ -38,16 +71,7 @@ export default class PageAddTree extends React.Component {
             <Text style={styles.h2}>
               DIAMETER AT BREAST HEIGHT
             </Text>
-            <Field label="B1" name="DBH1"
-              onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
-            <Field label="B2" name="DBH2"
-              onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
-            <Field label="B3" name="DBH3"
-              onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
-            <Field label="B4" name="DBH4"
-              onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
-            <Field label="B5" name="DBH5"
-              onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
+            {dbhList}
           </View>
         </ScrollView>
       </View>

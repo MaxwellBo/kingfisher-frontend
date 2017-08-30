@@ -13,13 +13,15 @@ import { styles } from "./Styles"
  * object's worth of styles.
  */
 export default class GreenButton extends React.Component {
+  onClick() {
+    this.props.additionalOnClick();
+    this.props.changePage(this.props.pageName);
+  }
+
   render() {
     return (
       <TouchableHighlight 
-          onPress={function() {
-            this.props.changePage(this.props.pageName)
-            this.props.additionalOnClick();
-          }}
+          onPress={() => this.onClick()}
           accessibilityLabel={this.props.pageName}
           style={[styles.button].concat(this.props.extraStyles)} >
         <Text style={[styles.centeredText, styles.buttonText]}>{this.props.buttonText}</Text>

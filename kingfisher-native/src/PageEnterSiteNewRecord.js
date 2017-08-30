@@ -18,13 +18,20 @@ export default class PageAddTree extends React.Component {
     this.state = {
       pendingSiteCode: "no code"
     }
+    this.changeSpec = this.changeSpec.bind(this)
+  }
+
+  changeSpec(specName, value) {
+    const newState = {};
+    newState[specName] = value
+    this.setState(newState);
   }
 
   render() {
     return (
       <View>
         <Title 
-          titleInfo={"Add Tree for Site " + this.props.activeSite}
+          titleInfo={"Enter Site Code"}
           goBack={() => this.props.goBack()}
         />
         <View style={[styles.pageCont, styles.siteHome]}>
@@ -36,12 +43,12 @@ export default class PageAddTree extends React.Component {
             <Field label="Site Code" name="pendingSiteCode"
               onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
             
-            <GreenButton
+            <SpecialButton
               extraStyles={[styles.siteHomeButton]}
               buttonText="Begin Record"
               pageName="siteHome"
               changePage={(pageName) => this.props.changePage(pageName)}
-              //additionalOnClick={() => this.props.changeActiveSite(this.state.pendingSiteCode)}
+              additionalOnClick={() => this.props.changeActiveSite(this.state.pendingSiteCode)}
             />
           </View>
         </View>

@@ -15,13 +15,19 @@ import { styles } from "./Styles"
  * box extra styles.
  */
 export default class Field extends React.Component {
+  constructor() {
+    super();
+  }
+  
   render() {
     return (
       <View style={[styles.field].concat(this.props.extraStyles)}>
         <Text style={styles.fieldLabel}>{this.props.label}</Text>
         <View style={[styles.fieldInputCont].concat(this.props.inputStyles)}>
-          <TextInput style={styles.fieldInput}
-              onChangeText={(value) => this.props.onChangeText(this.props.name, value)}
+          <TextInput 
+            underlineColorAndroid={"transparent"}
+            style={styles.fieldInput}
+            onChangeText={(value) => this.props.onChangeText(this.props.name, value)}
           />
         </View>
       </View>

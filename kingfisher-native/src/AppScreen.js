@@ -5,10 +5,12 @@ import { styles } from "./Styles"
 import PageIndex from "./PageIndex"
 import PageHomeHome from "./PageHomeHome"
 import PageEnterSiteNewRecord from "./PageEnterSiteNewRecord"
+import PageEnterSiteNavigate from "./PageEnterSiteNavigate"
 import PageSiteHome from "./PageSiteHome"
 import PageSiteTrees from "./PageSiteTrees"
 import PageSiteSpec from "./PageSiteSpec"
 import PageAddTree from "./PageAddTree"
+import PlaceholderPage from "./PLACEHOLDERPAGE"
 
 /*
  * AppScreen takes the role of rendering the page given to it by App.
@@ -52,6 +54,15 @@ export default class AppScreen extends React.Component {
             activeSite={this.props.activeSite}
             goBack={() => this.props.goBack()}
             changeActiveSite={(siteCode) => this.props.changeActiveSite(siteCode)}
+            changePage={(pageName) => this.props.changePage(pageName)} />
+        )
+        break;
+      case "enterSiteNavigate":
+        currentPage = (
+          <PageEnterSiteNavigate
+            titleInfo={this.props.titleInfo}
+            activeSite={this.props.activeSite}
+            goBack={() => this.props.goBack()}
             changePage={(pageName) => this.props.changePage(pageName)} />
         )
         break;
@@ -99,7 +110,14 @@ export default class AppScreen extends React.Component {
       case "settings":
         break;
       default:
-        currentPage = <Text>Yall fucked it</Text>
+        currentPage = (
+          <PlaceholderPage
+            titleInfo={this.props.titleInfo}
+            activeSite={this.props.activeSite}
+            goBack={() => this.props.goBack()}
+            changePage={(pageName) => this.props.changePage(pageName)} /> 
+        )
+        break;
         // Index screen
     };
 

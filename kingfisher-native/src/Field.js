@@ -18,15 +18,15 @@ export default class Field extends React.Component {
   constructor() {
     super();
   }
-  
+
   render() {
     return (
       <View style={[styles.field].concat(this.props.extraStyles)}>
         <Text style={styles.fieldLabel}>{this.props.label}</Text>
-        <View style={[styles.fieldInputCont].concat(this.props.inputStyles)}>
+        <View style={styles.fieldInputCont}>
           <TextInput 
             underlineColorAndroid={"transparent"}
-            style={styles.fieldInput}
+            style={[styles.fieldInput].concat(this.props.inputStyles)}
             onChangeText={(value) => this.props.onChangeText(this.props.name, value)}
           />
         </View>

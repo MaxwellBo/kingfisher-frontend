@@ -31,13 +31,13 @@ export default class PageAddTree extends React.Component {
     return (
       <View>
         <Title 
-          titleInfo={"Enter Site Code"}
+          titleInfo={"Select Site\nBegin New Record"}
           goBack={() => this.props.goBack()}
         />
         <View style={[styles.pageCont, styles.siteHome]}>
           <View>
-            <Text style={styles.pageHeadTitle}>Welcome!</Text>
-            <Text style={styles.pageHeadDesc}>Add a new site record to get started.</Text>
+            <Text style={styles.pageHeadTitle}>Enter Site Code</Text>
+            <Text style={styles.pageHeadDesc}>New Site Record</Text>
           </View>
           <View>
             <Field label="Site Code" name="pendingSiteCode"

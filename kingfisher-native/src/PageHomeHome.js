@@ -32,8 +32,14 @@ export default class PageHomeHome extends React.Component {
             />
             <GreenButton
               extraStyles={[styles.siteHomeButton]}
+              buttonText="Sync Status"
+              pageName="syncStatus"
+              changePage={(pageName) => this.props.changePage(pageName)}
+            />
+            <GreenButton
+              extraStyles={[styles.siteHomeButton]}
               buttonText="Download Site Data"
-              pageName="enterSiteDownload" // TODO: Change these pagenames
+              pageName="enterSiteDownload"
               changePage={(pageName) => this.props.changePage(pageName)}
             />
             <GreenButton

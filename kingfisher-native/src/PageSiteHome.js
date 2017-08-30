@@ -33,7 +33,7 @@ export default class PageSiteHome extends React.Component {
             <GreenButton
               extraStyles={[styles.siteHomeButton]}
               buttonText="Data Analysis"
-              pageName="siteTrees" // TODO: Change these pagenames
+              pageName="siteDataAnalysis" 
               changePage={(pageName) => this.props.changePage(pageName)}
             />
             <GreenButton

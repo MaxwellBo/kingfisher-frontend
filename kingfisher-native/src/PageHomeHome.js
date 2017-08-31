@@ -10,36 +10,42 @@ import GreenButton from "./GreenButton"
  * 
  * This page is the main menu once a site has been selected.
  */
-export default class PageSiteHome extends React.Component {
+export default class PageHomeHome extends React.Component {
   render() {
     return (
       <View>
         <Title
-          titleInfo={"Site " + this.props.activeSite + "\nHome"}
+          titleInfo={"Home"}
           goBack={() => this.props.goBack()}
         />
         <View style={[styles.pageCont, styles.siteHome]}>
           <View>
-            <Text style={styles.pageHeadTitle}>Site Home</Text>
-            <Text style={styles.pageHeadDesc}>Update Current Site Information and Add New Tree Measurements</Text>
+            <Text style={styles.pageHeadTitle}>Welcome!</Text>
+            <Text style={styles.pageHeadDesc}>Add a new site record to get started.</Text>
           </View>
           <View style={styles.siteHomeButtonCont}>
             <GreenButton
               extraStyles={[styles.siteHomeButton]}
-              buttonText="Add New Trees"
-              pageName="siteTrees"
+              buttonText="Add New Site Record"
+              pageName="enterSiteNewRecord"
               changePage={(pageName) => this.props.changePage(pageName)}
             />
             <GreenButton
               extraStyles={[styles.siteHomeButton]}
-              buttonText="Data Analysis"
-              pageName="siteDataAnalysis" 
+              buttonText="Sync Status"
+              pageName="syncStatus"
               changePage={(pageName) => this.props.changePage(pageName)}
             />
             <GreenButton
               extraStyles={[styles.siteHomeButton]}
-              buttonText="Site Information"
-              pageName="siteSpec"
+              buttonText="Download Site Data"
+              pageName="enterSiteDownload"
+              changePage={(pageName) => this.props.changePage(pageName)}
+            />
+            <GreenButton
+              extraStyles={[styles.siteHomeButton]}
+              buttonText="Navigate to Site"
+              pageName="enterSiteNavigate"
               changePage={(pageName) => this.props.changePage(pageName)}
             />
           </View>

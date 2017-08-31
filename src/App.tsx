@@ -3,6 +3,7 @@ import { Link, Route } from 'react-router-dom';
 import * as firebase from 'firebase';
 
 import './App.css';
+import './Bulma.css';
 const logo = require('./logo.svg');
 
 var firebaseConfig = {

@@ -24,3 +24,9 @@ yarn-error.log*
 kingfisher-native/node_modules/
 kingfisher-native/.expo
 kingfisher-native/npm-debug.*
+kingfisher-native/android/.gradle
+kingfisher-native/android/.idea
+kingfisher-native/android/app/build
+kingfisher-native/android/build
+
+

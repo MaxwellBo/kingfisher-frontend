@@ -32,7 +32,7 @@
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
-  [self.window makeKeoyAndVisible];
+  [self.window makeKeyAndVisible];
   [FIRApp configure];
 
   return YES;

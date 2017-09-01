@@ -20,6 +20,38 @@ export default class App extends React.Component {
     this.changePage = this.changePage.bind(this);
     this.changeActiveSite = this.changeActiveSite.bind(this);
     this.goBack = this.goBack.bind(this);
+
+    const defaultApp = new firebase();
+
+    console.log("name", defaultApp.name);
+    console.log("apiKey", defaultApp.options.apiKey);
+    console.log("applicationId", defaultApp.options.applicationId);
+    console.log("databaseUrl", defaultApp.options.databaseUrl);
+    console.log("messagingSenderId", defaultApp.options.messagingSenderId);
+    console.log("projectId", defaultApp.options.projectId);
+    console.log("storageBucket", defaultApp.options.projectId);
+
+    defaultApp.auth().signInWithEmailAndPassword('admin@kingfisher.com', 'password')
+    .then((user) => {
+      console.log('User successfully logged in', user)
+    })
+    .catch((err) => {
+      console.error('User signin error', err);
+    });
+
+    defaultApp.database()
+    .ref('posts/1234')
+    .set({
+      title: 'My awesome post',
+      content: 'Some awesome content',
+    });
+
+    let result = ""
+    defaultApp.database()
+      .ref('users/bkvl4stROsdQ7i49as3ZmMLNOmh1/email')
+      .once('value', (snapshot) => {
+        let result = snapshot.val();
+      });
   }
 
   changePage(pageName) {

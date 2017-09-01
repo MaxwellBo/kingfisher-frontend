@@ -26,3 +26,9 @@ kingfishernative/.expo
 kingfishernative/npm-debug.*
 kingfishernative/ios/build
 kingfishernative/android/build
+kingfishernative/android/.gradle
+kingfishernative/android/.idea
+kingfishernative/android/app/app.iml
+kingfishernative/android/app/build
+kingfishernative/android/kingfishernative.iml
+kingfishernative/android/local.properties

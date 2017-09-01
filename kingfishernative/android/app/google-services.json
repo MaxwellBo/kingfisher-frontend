@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "964963629394",
+    "firebase_url": "https://kingfisher-d6ef0.firebaseio.com",
+    "project_id": "kingfisher-d6ef0",
+    "storage_bucket": "kingfisher-d6ef0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964963629394:android:8dd97130f3071883",
+        "android_client_info": {
+          "package_name": "com.kingfishernative"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "964963629394-0fk8pck4qanfggiuh7fcmn0ofl5q4d7q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPLNe8XzdySkWI_R8e8uXc19ZgeRaP0tM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

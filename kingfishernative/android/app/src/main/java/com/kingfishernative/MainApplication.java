@@ -32,7 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
         new MainReactPackage(),
         new RNFirebasePackage(),  // <-- Add this line
         new RNFirebaseAuthPackage(),
-        new RNFirebaseDatabasePackage(),
+        new RNFirebaseDatabasePackage()
 
 
       );

@@ -8,6 +8,8 @@
  */
 
 #import "AppDelegate.h"
+#import <Firebase.h>
+
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -30,7 +32,9 @@
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
-  [self.window makeKeyAndVisible];
+  [self.window makeKeoyAndVisible];
+  [FIRApp configure];
+
   return YES;
 }
 

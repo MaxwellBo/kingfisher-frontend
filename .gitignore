@@ -24,3 +24,5 @@ yarn-error.log*
 kingfishernative/node_modules/
 kingfishernative/.expo
 kingfishernative/npm-debug.*
+kingfishernative/ios/build
+kingfishernative/android/build

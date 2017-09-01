@@ -25,6 +25,7 @@ kingfishernative/node_modules/
 kingfishernative/.expo
 kingfishernative/npm-debug.*
 kingfishernative/ios/build
+kingfishernative/ios/Pods
 kingfishernative/android/build
 kingfishernative/android/.gradle
 kingfishernative/android/.idea

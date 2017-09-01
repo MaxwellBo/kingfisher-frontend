@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import AppScreen from "./src/AppScreen"
 import { styles } from "./src/Styles"
+import firebase from 'react-native-firebase';
+
 
 /*
  * The very top component. Handles which page is active.

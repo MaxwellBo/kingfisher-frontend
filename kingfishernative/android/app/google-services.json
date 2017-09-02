@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "964963629394",
-    "firebase_url": "https://kingfisher-d6ef0.firebaseio.com",
-    "project_id": "kingfisher-d6ef0",
-    "storage_bucket": "kingfisher-d6ef0.appspot.com"
+    "project_number": "768313055672",
+    "firebase_url": "https://kingfisher-ac989.firebaseio.com",
+    "project_id": "kingfisher-ac989",
+    "storage_bucket": "kingfisher-ac989.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:964963629394:android:8dd97130f3071883",
+        "mobilesdk_app_id": "1:768313055672:android:8dd97130f3071883",
         "android_client_info": {
           "package_name": "com.kingfishernative"
         }
       },
       "oauth_client": [
         {
-          "client_id": "964963629394-0fk8pck4qanfggiuh7fcmn0ofl5q4d7q.apps.googleusercontent.com",
+          "client_id": "768313055672-nank69j4ah9ri54fordg7ehlhvaebcs4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAPLNe8XzdySkWI_R8e8uXc19ZgeRaP0tM"
+          "current_key": "AIzaSyBEc3YEZCvEoYEv4M8i6ECP1f20q-QJSsk"
         }
       ],
       "services": {

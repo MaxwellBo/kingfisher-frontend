@@ -21,17 +21,9 @@ export default class App extends React.Component {
     this.changeActiveSite = this.changeActiveSite.bind(this);
     this.goBack = this.goBack.bind(this);
 
-    const defaultApp = new firebase();
+    const fbi = new firebase();
 
-    console.log("name", defaultApp.name);
-    console.log("apiKey", defaultApp.options.apiKey);
-    console.log("applicationId", defaultApp.options.applicationId);
-    console.log("databaseUrl", defaultApp.options.databaseUrl);
-    console.log("messagingSenderId", defaultApp.options.messagingSenderId);
-    console.log("projectId", defaultApp.options.projectId);
-    console.log("storageBucket", defaultApp.options.projectId);
-
-    defaultApp.auth().signInWithEmailAndPassword('admin@kingfisher.com', 'password')
+    fbi.auth().signInWithEmailAndPassword('admin@kingfisher.com', 'password')
     .then((user) => {
       console.log('User successfully logged in', user)
     })
@@ -39,15 +31,15 @@ export default class App extends React.Component {
       console.error('User signin error', err);
     });
 
-    defaultApp.database()
-    .ref('posts/1234')
-    .set({
-      title: 'My awesome post',
-      content: 'Some awesome content',
-    });
+    fbi.database()
+      .ref('posts/1234')
+      .set({
+        title: 'My awesome post',
+       content: 'Some awesome content',
+      });
 
     let result = ""
-    defaultApp.database()
+    fbi.database()
       .ref('users/bkvl4stROsdQ7i49as3ZmMLNOmh1/email')
       .once('value', (snapshot) => {
         let result = snapshot.val();

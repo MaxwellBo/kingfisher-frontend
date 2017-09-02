@@ -7,10 +7,12 @@ The app has now been ejected from  `create-react-native-app`. To get it running:
 - `cd ios`
 - `pod install`
 - `cd ..`
-###iOS
+
+### iOS
 - Install xcode
 - `react-native run-ios`
-###Android
+
+### Android
 - Install Android Studio
 - Tools > Android > AVD Manager
 - Create Virtual Device

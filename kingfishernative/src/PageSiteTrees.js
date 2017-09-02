@@ -19,9 +19,7 @@ export default class PageSiteTrees extends React.Component {
     this.state = {
       treeList: {},
     };
-  }
 
-  componentDidMount() {
     const ref = fbi.database().ref(this.props.activeSite).child('trees');
     ref
       .on('value', (trees) => {

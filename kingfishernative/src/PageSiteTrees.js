@@ -4,6 +4,7 @@ import { styles } from "./Styles"
 import Title from "./Title"
 import GreenButton from "./GreenButton"
 import SiteTreesItem from "./SiteTreesItem"
+import { fbi } from "./Global"
 
 /*
  * All classes beginning with "Page" are different representations of pages
@@ -12,11 +13,29 @@ import SiteTreesItem from "./SiteTreesItem"
  * This page is a view of all the tree measurements taken for a particular site.
  */
 export default class PageSiteTrees extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      treeList: {},
+    };
+  }
+
+  componentDidMount() {
+    const ref = fbi.database().ref(this.props.activeSite).child('trees');
+    ref
+      .on('value', (trees) => {
+        this.setState({treeList: trees.val()});
+      });
+  }
+
   render() {
-    let treeList = [ // TODO: Remove this default test list and implement real treeList
-      <SiteTreesItem key="1" treeName="Tree 1" />,
-      <SiteTreesItem key="2" treeName="Tree 2" />
-    ]
+    const { treeList } = this.state;
+
+    const treeComponents = Object.keys(treeList).map(key => {
+      <SiteTreesItem key={key} treeName={key} />
+    });
+
     return (
       <View>
         <Title
@@ -46,7 +65,7 @@ export default class PageSiteTrees extends React.Component {
             />
           </View>
           <View style={styles.treeList}>
-            {treeList}
+            {treeComponents}
           </View>
         </View>
       </View>

@@ -1,6 +1,6 @@
-#Kingfisher
+# Kingfisher
 
-##Native App
+## Native App
 The app has now been ejected from  `create-react-native-app`. To get it running:
 - in `/kingfishernative/`, run `npm install`
 - `yarn`

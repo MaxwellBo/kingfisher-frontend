@@ -29,9 +29,9 @@ export default class PageSiteTrees extends React.Component {
 
   render() {
     const { treeList } = this.state;
-    const treeComponents = Object.keys(treeList).map(key => {
+    const treeComponents = Object.keys(treeList).map(key =>
       <SiteTreesItem key={key} treeName={key} />
-    });
+    );
 
     return (
       <View>

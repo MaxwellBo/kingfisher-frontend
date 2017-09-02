@@ -33,3 +33,7 @@ kingfishernative/android/app/app.iml
 kingfishernative/android/app/build
 kingfishernative/android/kingfishernative.iml
 kingfishernative/android/local.properties
+
+\.tmp/reactNativeBuild/
+
+\.idea/

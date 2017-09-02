@@ -20,7 +20,7 @@ export default class PageSiteTrees extends React.Component {
       treeList: {},
     };
 
-    const ref = fbi.database().ref(this.props.activeSite).child('trees');
+    const ref = fbi.database().ref("sites").child(this.props.activeSite).child('trees');
     ref
       .on('value', (trees) => {
         this.setState({treeList: trees.val()});
@@ -29,7 +29,6 @@ export default class PageSiteTrees extends React.Component {
 
   render() {
     const { treeList } = this.state;
-
     const treeComponents = Object.keys(treeList).map(key => {
       <SiteTreesItem key={key} treeName={key} />
     });

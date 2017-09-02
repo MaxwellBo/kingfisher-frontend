@@ -25,7 +25,7 @@ export default class PageAddTree extends React.Component {
   }
 
   push = () => {
-    const ref = fbi.database().ref(this.props.activeSite).child('trees').push();
+    const ref = fbi.database().ref("sites").child(this.props.activeSite).child('trees').push();
     ref.set({
       species: this.state.species,
       height: this.state.height,

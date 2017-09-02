@@ -28,20 +28,6 @@ export default class App extends React.Component {
     .catch((err) => {
       console.error('User signin error', err);
     });
-
-    fbi.database()
-      .ref('posts/1234')
-      .set({
-        title: 'My awesome post',
-       content: 'Some awesome content',
-      });
-
-    let result = ""
-    fbi.database()
-      .ref('users/bkvl4stROsdQ7i49as3ZmMLNOmh1/email')
-      .on('value', (snapshot) => {
-        let result = snapshot.val();
-      });
   }
 
   changePage(pageName) {

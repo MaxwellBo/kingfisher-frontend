@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import AppScreen from "./src/AppScreen"
 import { styles } from "./src/Styles"
-import firebase from 'react-native-firebase';
+import { fbi } from "./src/Global"
 
 
 /*
@@ -20,8 +20,6 @@ export default class App extends React.Component {
     this.changePage = this.changePage.bind(this);
     this.changeActiveSite = this.changeActiveSite.bind(this);
     this.goBack = this.goBack.bind(this);
-
-    const fbi = new firebase();
 
     fbi.auth().signInWithEmailAndPassword('admin@kingfisher.com', 'password')
     .then((user) => {
@@ -41,7 +39,7 @@ export default class App extends React.Component {
     let result = ""
     fbi.database()
       .ref('users/bkvl4stROsdQ7i49as3ZmMLNOmh1/email')
-      .once('value', (snapshot) => {
+      .on('value', (snapshot) => {
         let result = snapshot.val();
       });
   }

@@ -2,8 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, Dimensions } from 'react-native';
 import { styles } from "./Styles"
 import GreenButton from "./GreenButton"
+import SpecialButton from "./SpecialButton"
 import Title from "./Title"
 import Field from "./Field"
+import { fbi } from "./Global"
 
 /*
  * All classes beginning with "Page" are different representations of pages
@@ -21,6 +23,16 @@ export default class PageAddTree extends React.Component {
       dbhs: [],
     }
   }
+
+  push = () => {
+    const ref = fbi.database().ref(this.props.activeSite).child('trees').push();
+    ref.set({
+      species: this.state.species,
+      height: this.state.height,
+      dbhs : this.state.dbhs
+    });
+  }
+
   changeSpec(specName, value) {
     obj = {};
     obj[specName] = value;
@@ -73,6 +85,13 @@ export default class PageAddTree extends React.Component {
             </Text>
             {dbhList}
           </View>
+          <SpecialButton 
+            extraStyles={[styles.indexButton]}
+            buttonText="Add"
+            pageName="siteTrees"
+            additionalOnClick={this.push}
+            changePage={this.props.changePage}
+          />
         </ScrollView>
       </View>
     )

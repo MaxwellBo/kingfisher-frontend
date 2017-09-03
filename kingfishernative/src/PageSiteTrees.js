@@ -34,6 +34,9 @@ export default class PageSiteTrees extends React.Component {
       <AccordionView
         treeName={key}
         key={key}
+        species={treeList[key]['species']}
+        height={treeList[key]['height']}
+        dbhs={treeList[key]['dbhs']}
       />
     );
 

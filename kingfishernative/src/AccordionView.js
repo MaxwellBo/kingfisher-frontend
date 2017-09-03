@@ -28,9 +28,9 @@ export default class AccordionView extends Component {
         </TouchableHighlight>
         <Collapsible collapsed={this.state.collapsed} align="center">
           <View style={styles.content}>
-            <Text>Height: 1</Text>
-            <Text>Species: JQuery Tree</Text>
-            <Text>Width: 3</Text>
+            <Text>Height: {this.props.height}</Text>
+            <Text>Species: {this.props.species}</Text>
+            <Text>DBHS: {this.props.dbhs}</Text>
           </View>
         </Collapsible>
       </View>

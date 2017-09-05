@@ -18,13 +18,20 @@ export default class PageSiteTrees extends React.Component {
 
     this.state = {
       treeList: {},
+      treeRef: fbi.database().ref("sites").child(this.props.activeSite).child('trees')
     };
 
-    const ref = fbi.database().ref("sites").child(this.props.activeSite).child('trees');
-    ref
+  }
+
+  componentDidMount() {
+    this.state.treeRef
       .on('value', (trees) => {
         this.setState({treeList: trees.val()});
       });
+  }
+
+  componentWillUnmount() {
+    this.state.treeRef.off();
   }
 
   render() {

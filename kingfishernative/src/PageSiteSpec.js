@@ -38,10 +38,6 @@ export default class PageSiteSpec extends React.Component {
   render() {
     return (
       <View>
-        <Title
-          titleInfo={this.props.titleInfo}
-          goBack={() => this.props.goBack()}
-        />
         <View style={[styles.pageCont, styles.siteSpec]}>
           <View style={styles.centerItemsCont}>
             <Text style={styles.pageHeadTitle}>Site Specifications</Text>

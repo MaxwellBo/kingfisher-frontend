@@ -16,10 +16,12 @@ export default class PageHomeHome extends React.Component {
   render() {
     return (
       <View>
-        <Title
-          titleInfo={"Home"}
-          goBack={() => this.props.goBack()}
-        />
+        <Route path="/home">
+          <Title
+            titleInfo={this.props.location.pathname}
+            goBack={() => this.props.history.goBack()}
+          />
+        </Route>
         <View style={[styles.pageCont, styles.siteHome]}>
           <View>
             <Text style={styles.pageHeadTitle}>Welcome!</Text>

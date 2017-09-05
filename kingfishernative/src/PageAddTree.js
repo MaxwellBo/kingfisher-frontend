@@ -61,10 +61,6 @@ export default class PageAddTree extends React.Component {
     }
     return (
       <View>
-        <Title
-          titleInfo={"Add Tree for\nSite " + this.props.activeSite}
-          goBack={() => this.props.goBack()}
-        />
         <ScrollView
           contentContainerStyle={[styles.pageCont]}
           style={styles.scroller}

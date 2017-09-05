@@ -30,10 +30,6 @@ export default class PageAddTree extends React.Component {
   render() {
     return (
       <View>
-        <Title 
-          titleInfo={"Select Site\nNavigate To Site"}
-          goBack={() => this.props.goBack()}
-        />
         <View style={[styles.pageCont, styles.siteHome]}>
           <View>
             <Text style={styles.pageHeadTitle}>Enter Site Code</Text>

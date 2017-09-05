@@ -14,10 +14,6 @@ export default class PageSiteHome extends React.Component {
   render() {
     return (
       <View>
-        <Title
-          titleInfo={"Site " + this.props.activeSite + "\nHome"}
-          goBack={() => this.props.goBack()}
-        />
         <View style={[styles.pageCont, styles.siteHome]}>
           <View>
             <Text style={styles.pageHeadTitle}>Site Home</Text>

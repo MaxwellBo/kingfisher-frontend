@@ -1,8 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Link, Route } from 'react-router-native'
 import { styles } from "./Styles"
 import Title from "./Title"
 import GreenButton from "./GreenButton"
+import PageEnterSiteNewRecord from "./PageEnterSiteNewRecord"
 
 /*
  * All classes beginning with "Page" are different representations of pages
@@ -24,30 +26,13 @@ export default class PageHomeHome extends React.Component {
             <Text style={styles.pageHeadDesc}>Add a new site record to get started.</Text>
           </View>
           <View style={styles.siteHomeButtonCont}>
-            <GreenButton
-              extraStyles={[styles.siteHomeButton]}
-              buttonText="Add New Site Record"
-              pageName="enterSiteNewRecord"
-              changePage={(pageName) => this.props.changePage(pageName)}
-            />
-            <GreenButton
-              extraStyles={[styles.siteHomeButton]}
-              buttonText="Sync Status"
-              pageName="syncStatus"
-              changePage={(pageName) => this.props.changePage(pageName)}
-            />
-            <GreenButton
-              extraStyles={[styles.siteHomeButton]}
-              buttonText="Download Site Data"
-              pageName="enterSiteDownload"
-              changePage={(pageName) => this.props.changePage(pageName)}
-            />
-            <GreenButton
-              extraStyles={[styles.siteHomeButton]}
-              buttonText="Navigate to Site"
-              pageName="enterSiteNavigate"
-              changePage={(pageName) => this.props.changePage(pageName)}
-            />
+            <Link to='/home/sites/add'><Text>Add New Site Record</Text></Link>
+            <Link to='/home/sync'><Text>Sync Status</Text></Link>
+            <Link to='/home/sites/download'><Text>Download Site Data</Text></Link>
+            <Route path="/home/sites/add" component={PageEnterSiteNewRecord}/>
+            {/* FIXME: The above route isn't matching properly - should printf the current address */}
+            {/* TODO */}
+            {/* TODO */}
           </View>
         </View>
       </View>

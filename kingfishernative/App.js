@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import AppScreen from "./src/AppScreen"
+import { NativeRouter, Route } from 'react-router-native'
+import PageIndex from "./src/PageIndex"
+import PageHomeHome from "./src/PageHomeHome"
 import { styles } from "./src/Styles"
 import { fbi } from "./src/Global"
 
@@ -11,12 +13,6 @@ import { fbi } from "./src/Global"
 export default class App extends React.Component {
   constructor() {
     super();
-    this.state = {
-      activeSite: "000000",
-    };
-    this.changePage = this.changePage.bind(this);
-    this.changeActiveSite = this.changeActiveSite.bind(this);
-    this.goBack = this.goBack.bind(this);
 
     fbi.auth().signInWithEmailAndPassword('admin@kingfisher.com', 'password')
     .then((user) => {
@@ -27,21 +23,14 @@ export default class App extends React.Component {
     });
   }
 
-
-  changeActiveSite(siteCode) {
-    this.setState({
-      activeSite: siteCode
-    })
-  }
-
   render() {
     return (
-      <View style={styles.app}>
-        <AppScreen
-          changeActiveSite={(siteCode) => this.changeActiveSite(siteCode)}
-          activeSite={this.state.activeSite}
-        />
-      </View>
+      <NativeRouter>
+        <View style={styles.app}>
+          <Route exact path="/" component={PageIndex}/>
+          <Route exact path="/home" component={PageHomeHome}/>
+        </View>
+      </NativeRouter>
     )
   }
 }

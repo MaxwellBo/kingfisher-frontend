@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
+import { Link } from 'react-router-native'
 import { styles } from "./Styles"
 import GreenButton from "./GreenButton"
 
@@ -22,12 +23,7 @@ export default class PageIndex extends React.Component {
         <Text style={[styles.centeredText, styles.indexH2]}>
           Mangrove Monitoring App for the Queensland Herbarium
         </Text>
-        <GreenButton
-          extraStyles={[styles.indexButton]}
-          buttonText="Login"
-          pageName="homeHome"
-          changePage={(pageName) => this.props.changePage(pageName)}
-        />
+        <Link to='/home'><Text>Login</Text></Link>
       </View>
     )
   }

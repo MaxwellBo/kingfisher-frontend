@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { Link } from 'react-router-native'
 import { styles } from "./Styles"
-import GreenButton from "./GreenButton"
+import LinkButton from "./LinkButton"
 
 /*
  * All classes beginning with "Page" are different representations of pages
@@ -23,7 +23,10 @@ export default class PageIndex extends React.Component {
         <Text style={[styles.centeredText, styles.indexH2]}>
           Mangrove Monitoring App for the Queensland Herbarium
         </Text>
-        <Link to='/home'><Text>Login</Text></Link>
+        <LinkButton
+          to="/home"
+          buttonText="Login" 
+        />
       </View>
     )
   }

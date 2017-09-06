@@ -19,18 +19,25 @@ export default class AccordionView extends Component {
   }
 
   render() {
+    let stringifiedDBHS = "";
+    for (let i = 0; i < this.props.dbhs.length; i++) {
+      stringifiedDBHS = stringifiedDBHS + this.props.dbhs[i];
+      if (i < this.props.dbhs.length - 1) {
+        stringifiedDBHS = stringifiedDBHS + ", ";
+      }
+    }
     return (
       <View>
-        <TouchableHighlight onPress={this._toggleExpanded}>
-          <View style={styles.header}>
-            <Text style={styles.headerText}>{this.props.treeName}</Text>
+        <TouchableHighlight style={styles.treeEntry} onPress={this._toggleExpanded}>
+          <View style={styles.treeName}>
+            <Text style={styles.siteTreeText}>Tree ID: {this.props.treeName}</Text>
           </View>
         </TouchableHighlight>
         <Collapsible collapsed={this.state.collapsed} align="center">
-          <View style={styles.content}>
-            <Text>Height: {this.props.height}</Text>
-            <Text>Species: {this.props.species}</Text>
-            <Text>DBHS: {this.props.dbhs}</Text>
+          <View style={styles.treeDropdown}>
+            <Text style={styles.siteTreeText}>Height: {this.props.height}</Text>
+            <Text style={styles.siteTreeText}>Species: {this.props.species}</Text>
+            <Text style={styles.siteTreeText}>DBHs: {stringifiedDBHS}</Text>
           </View>
         </Collapsible>
       </View>

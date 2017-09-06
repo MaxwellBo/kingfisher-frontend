@@ -5,8 +5,9 @@ import Title from "./Title"
 import GreenButton from "./GreenButton"
 import SiteTreesItem from "./SiteTreesItem"
 import { fbi } from "./Global"
+import AccordionView from "./AccordionView"
 
-/*
+/**
  * All classes beginning with "Page" are different representations of pages
  * to be rendered by AppScreen. 
  * 
@@ -36,9 +37,15 @@ export default class PageSiteTrees extends React.Component {
 
   render() {
     const { treeList } = this.state;
-    const treeComponents = Object.keys(treeList).map(key => {
-      <SiteTreesItem key={key} treeName={key} />
-    });
+    const treeComponents = Object.keys(treeList) == {} ? <View/> : Object.keys(treeList).map(key =>
+      <AccordionView
+        treeName={key}
+        key={key}
+        species={treeList[key]['species']}
+        height={treeList[key]['height']}
+        dbhs={treeList[key]['dbhs']}
+      />
+    );
 
     return (
       <View>

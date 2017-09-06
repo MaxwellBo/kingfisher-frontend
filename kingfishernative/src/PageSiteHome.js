@@ -1,8 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Link, Route } from 'react-router-native'
 import { styles } from "./Styles"
 import Title from "./Title"
-import GreenButton from "./GreenButton"
+import LinkButton from "./LinkButton"
 
 /*
  * All classes beginning with "Page" are different representations of pages
@@ -20,23 +21,20 @@ export default class PageSiteHome extends React.Component {
             <Text style={styles.pageHeadDesc}>Update Current Site Information and Add New Tree Measurements</Text>
           </View>
           <View style={styles.siteHomeButtonCont}>
-            <GreenButton
-              extraStyles={[styles.siteHomeButton]}
+            <LinkButton
+              extraStyles={[styles.verticallyStackedButton]}
               buttonText="Add New Trees"
-              pageName="siteTrees"
-              changePage={(pageName) => this.props.changePage(pageName)}
+              to="addTrees"
             />
-            <GreenButton
-              extraStyles={[styles.siteHomeButton]}
+            <LinkButton
+              extraStyles={[styles.verticallyStackedButton]}
               buttonText="Data Analysis"
-              pageName="siteDataAnalysis" 
-              changePage={(pageName) => this.props.changePage(pageName)}
+              to="dataAnalysis" 
             />
-            <GreenButton
-              extraStyles={[styles.siteHomeButton]}
+            <LinkButton
+              extraStyles={[styles.verticallyStackedButton]}
               buttonText="Site Information"
-              pageName="siteSpec"
-              changePage={(pageName) => this.props.changePage(pageName)}
+              to="spec"
             />
           </View>
         </View>

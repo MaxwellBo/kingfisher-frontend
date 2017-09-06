@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { styles } from "./Styles"
-import GreenButton from "./GreenButton"
+import LinkButton from "./LinkButton"
 import SpecialButton from "./SpecialButton"
 import Title from "./Title"
 import Field from "./Field"
@@ -39,12 +39,12 @@ export default class PageAddTree extends React.Component {
             <Field label="Site Code" name="pendingSiteCode"
               onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
             
-            <SpecialButton
-              extraStyles={[styles.siteHomeButton]}
+            <LinkButton
               buttonText="Begin Record"
-              pageName="siteHome"
-              changePage={(pageName) => this.props.changePage(pageName)}
-              additionalOnClick={() => this.props.changeActiveSite(this.state.pendingSiteCode)}
+              to="/home/site/siteHome"
+              // This button should also change the active site.
+              // Below is how it was done on GreenButton.
+              //additionalOnClick={() => this.props.changeActiveSite(this.state.pendingSiteCode)}
             />
           </View>
         </View>

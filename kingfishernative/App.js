@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NativeRouter, Route } from 'react-router-native'
 import PageIndex from "./src/PageIndex"
 import PageHomeHome from "./src/PageHomeHome"
+import PageSiteHome from "./src/PageSiteHome"
 import { styles } from "./src/Styles"
 import { fbi } from "./src/Global"
 
@@ -29,6 +30,7 @@ export default class App extends React.Component {
         <View style={styles.app}>
           <Route exact path="/" component={PageIndex}/>
           <Route path="/home" component={PageHomeHome}/>
+          <Route path="/home/site/siteHome" component={PageSiteHome} />
         </View>
       </NativeRouter>
     )

@@ -84,6 +84,10 @@ export const styles = StyleSheet.create({
     borderRadius: 2,
   },
 
+  verticallyStackedButton: {
+    marginBottom: 20,
+  },
+
   buttonText: {
     color: BUTTON_TEXT,
     fontWeight: "bold",
@@ -203,10 +207,6 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "stretch",
     paddingTop: 30,
-  },
-
-  siteHomeButton: {
-    marginBottom: 20,
   },
 
   /***** SITE TREES *****/

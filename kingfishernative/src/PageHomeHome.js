@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Link, Route } from 'react-router-native'
 import { styles } from "./Styles"
 import Title from "./Title"
-import GreenButton from "./GreenButton"
+import LinkButton from "./LinkButton"
 import PageEnterSiteNewRecord from "./PageEnterSiteNewRecord"
 
 /*
@@ -28,9 +28,21 @@ export default class PageHomeHome extends React.Component {
             <Text style={styles.pageHeadDesc}>Add a new site record to get started.</Text>
           </View>
           <View style={styles.siteHomeButtonCont}>
-            <Link to='/home/sites/add'><Text>Add New Site Record</Text></Link>
-            <Link to='/home/sync'><Text>Sync Status</Text></Link>
-            <Link to='/home/sites/download'><Text>Download Site Data</Text></Link>
+            <LinkButton
+              to="/home/sites/add"
+              buttonText="Add New Site Record"
+              extraStyles={styles.verticallyStackedButton}
+            />
+            <LinkButton
+              to="/home/sync"
+              buttonText="Sync Status"
+              extraStyles={styles.verticallyStackedButton}
+            />
+            <LinkButton
+              to="/home/sites/download"
+              buttonText="Download Site Data"
+              extraStyles={styles.verticallyStackedButton}
+            />
             <Route path="/home/sites/add" component={PageEnterSiteNewRecord}/>
             {/* FIXME: The above route isn't matching properly - should printf the current address */}
             {/* TODO */}

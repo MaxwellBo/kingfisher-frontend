@@ -1,8 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { styles } from "./Styles"
-import GreenButton from "./GreenButton"
-import SpecialButton from "./SpecialButton"
 import Title from "./Title"
 import Field from "./Field"
 

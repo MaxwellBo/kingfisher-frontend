@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { Link } from 'react-router-native'
 import { styles } from "./Styles"
-import GreenButton from "./GreenButton"
 
 
 /*

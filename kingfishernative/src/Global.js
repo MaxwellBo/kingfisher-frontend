@@ -1,3 +1,7 @@
 import firebase from 'react-native-firebase';
 
-export const fbi = new firebase();
+const configurationOptions = {
+    persistence: true
+  };
+
+export const fbi = new firebase(configurationOptions);

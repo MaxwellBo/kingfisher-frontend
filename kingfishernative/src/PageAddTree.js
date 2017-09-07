@@ -22,16 +22,20 @@ export default class PageAddTree extends React.Component {
       height: 0,
       dbhs: [],
     }
+
   }
 
   push = () => {
     const siteCode = this.props.match.params.siteCode
+
     const ref = fbi.database().ref("sites").child(siteCode).child('trees').push();
     ref.set({
       species: this.state.species,
       height: this.state.height,
       dbhs : this.state.dbhs
     });
+
+    ref.keepSynced(true);
   }
 
   changeSpec(specName, value) {

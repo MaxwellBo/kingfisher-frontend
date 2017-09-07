@@ -26,6 +26,7 @@ export default class PageSiteTrees extends React.Component {
       treesRef: fbi.database().ref("sites").child(siteCode).child('trees')
     };
 
+    this.state.treesRef.keepSynced(true);
   }
 
   componentDidMount() {

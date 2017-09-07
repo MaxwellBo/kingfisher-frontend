@@ -51,6 +51,8 @@ export default class PageSites extends React.Component {
       // TODO: find out if we can retrieve a JSON one layer deep
       sitesRef: fbi.database().ref("sites")
     }
+
+    this.state.sitesRef.keepSynced(true);
   }
 
   componentDidMount() {

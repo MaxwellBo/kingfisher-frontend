@@ -5,7 +5,7 @@ import Title from "./Title"
 import LinkButton from "./LinkButton"
 import SiteTreesItem from "./SiteTreesItem"
 import { fbi } from "./Global"
-import AccordionView from "./AccordionView"
+import AccordionViewTree from "./AccordionViewTree"
 
 /**
  * All classes beginning with "Page" are different representations of pages
@@ -45,7 +45,7 @@ export default class PageSiteTrees extends React.Component {
   render() {
     const { trees } = this.state;
     const treesComponents = Object.keys(trees).map(key =>
-      <AccordionView
+      <AccordionViewTree
         treeName={key}
         key={key}
         species={trees[key]['species']}

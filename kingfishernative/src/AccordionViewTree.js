@@ -8,7 +8,7 @@ import {
 import { styles } from "./Styles"
 import Collapsible from 'react-native-collapsible';
 
-export default class AccordionView extends Component {
+export default class AccordionViewTree extends Component {
   state = {
     activeSection: false,
     collapsed: true,

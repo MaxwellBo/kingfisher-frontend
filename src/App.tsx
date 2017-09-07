@@ -21,7 +21,6 @@ import Export from './Export';
 import Login from './Login';
 import TOS from './TOS';
 
-
 function Home() {
   return (
     <section className="hero is-primary is-medium">

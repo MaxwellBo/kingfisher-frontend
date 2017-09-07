@@ -23,7 +23,7 @@ class Login extends React.Component<Props, State> {
 
   componentDidMount() {
       var uiConfig = {
-        signInSuccessUrl: '/export', 
+        signInSuccessUrl: '/app/export', 
         signInOptions: [
           firebase.auth.EmailAuthProvider.PROVIDER_ID,
           firebase.auth.PhoneAuthProvider.PROVIDER_ID

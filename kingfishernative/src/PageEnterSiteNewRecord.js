@@ -41,7 +41,7 @@ export default class PageAddTree extends React.Component {
             
             <LinkButton
               buttonText="Begin Record"
-              to="/home/site/siteHome"
+              to={"/site/" + this.state.pendingSiteCode}
               // This button should also change the active site.
               // Below is how it was done on GreenButton.
               //additionalOnClick={() => this.props.changeActiveSite(this.state.pendingSiteCode)}

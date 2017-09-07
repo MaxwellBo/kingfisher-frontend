@@ -35,6 +35,10 @@ export default class PageSiteTrees extends React.Component {
 
     return (
       <View>
+        <Title
+          titleInfo={this.props.location.pathname}
+          goBack={() => this.props.history.goBack()}
+        />
         <View style={[styles.pageCont, styles.siteTrees]}>
           <View>
             <Text style={styles.pageHeadTitle}>Site Tree Records</Text>

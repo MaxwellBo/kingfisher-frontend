@@ -15,6 +15,10 @@ export default class PageSiteHome extends React.Component {
   render() {
     return (
       <View>
+        <Title
+          titleInfo={this.props.location.pathname}
+          goBack={() => this.props.history.goBack()}
+        />
         <View style={[styles.pageCont, styles.siteHome]}>
           <View>
             <Text style={styles.pageHeadTitle}>Site Home</Text>
@@ -24,7 +28,7 @@ export default class PageSiteHome extends React.Component {
             <LinkButton
               extraStyles={[styles.verticallyStackedButton]}
               buttonText="Add New Trees"
-              to="addTrees"
+              to={"/trees/" + this.props.match.params.siteCode  }
             />
             <LinkButton
               extraStyles={[styles.verticallyStackedButton]}

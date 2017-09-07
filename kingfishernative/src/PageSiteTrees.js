@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { styles } from "./Styles"
 import Title from "./Title"
-import GreenButton from "./GreenButton"
+import LinkButton from "./LinkButton"
 import SiteTreesItem from "./SiteTreesItem"
 import { fbi } from "./Global"
 import AccordionView from "./AccordionView"
@@ -53,6 +53,8 @@ export default class PageSiteTrees extends React.Component {
       />
     );
 
+    const siteCode = this.props.match.params.siteCode
+
     return (
       <View>
         <View style={[styles.pageCont, styles.siteTrees]}>
@@ -61,10 +63,9 @@ export default class PageSiteTrees extends React.Component {
             <Text style={styles.pageHeadDesc}>Add new trees, view trees input this session, and save data input session.</Text>
           </View>
           <View style={[styles.horizontalFlexCont]}>
-            <GreenButton
+            <LinkButton
               buttonText="Add"
-              pageName="addTree"
-              changePage={(pageName) => this.props.changePage(pageName)}
+              to={"/sites/" + siteCode + "/add"} 
             />
           </View>
           <View style={styles.trees}>

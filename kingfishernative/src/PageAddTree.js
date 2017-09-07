@@ -25,7 +25,8 @@ export default class PageAddTree extends React.Component {
   }
 
   push = () => {
-    const ref = fbi.database().ref("sites").child(this.props.activeSite).child('trees').push();
+    const siteCode = this.props.match.params.siteCode
+    const ref = fbi.database().ref("sites").child(siteCode).child('trees').push();
     ref.set({
       species: this.state.species,
       height: this.state.height,
@@ -84,9 +85,11 @@ export default class PageAddTree extends React.Component {
           <SpecialButton 
             extraStyles={[styles.indexButton]}
             buttonText="Add"
-            pageName="siteTrees"
-            additionalOnClick={this.push}
-            changePage={this.props.changePage}
+            onClick={() => {
+                this.push();
+                this.props.history.goBack();
+              }
+            }
           />
         </ScrollView>
       </View>

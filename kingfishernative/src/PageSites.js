@@ -6,6 +6,7 @@ import Title from "./Title"
 import LinkButton from "./LinkButton"
 import { fbi } from "./Global"
 import PageSiteTrees from "./PageSiteTrees"
+import PageAddTree from "./PageAddTree"
 
 /*
  * All classes beginning with "Page" are different representations of pages
@@ -81,6 +82,7 @@ export default class PageSites extends React.Component {
       <View>
         <Route path="/sites" render={TitleComponent} />
         <Route exact path="/sites/:siteCode" component={PageSiteTrees} />
+        <Route exact path="/sites/:siteCode/add" component={PageAddTree} />
         <Route exact path="/sites" render={SitesComponent} />
       </View>
     );

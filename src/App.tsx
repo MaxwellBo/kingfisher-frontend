@@ -21,8 +21,6 @@ import Export from './Export';
 import Login from './Login';
 import TOS from './TOS';
 
-interface Props { }
-interface State { }
 
 function Home() {
   return (
@@ -120,12 +118,10 @@ function Footer() {
   );
 }
 
+interface Props { }
+interface State { }
+
 class App extends React.Component<Props, State> {
-
-  constructor(props: Props) {
-    super(props);
-  }
-
   render() {
     return (
       <div>

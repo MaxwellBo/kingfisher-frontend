@@ -25,8 +25,8 @@ export default class PageSiteTrees extends React.Component {
   }
 
   componentDidMount() {
-    this.state.treeRef
-      .on('value', (trees) => {
+    this.state.treeRef.on('value', (trees) => {
+        // FIXME: trees is nullable, do project wise pass ~mbo
         this.setState({treeList: trees.val()});
       });
   }

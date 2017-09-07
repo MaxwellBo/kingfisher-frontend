@@ -24,6 +24,7 @@
     "acceptance-tests",
     "webpack",
     "jest",
+    "kingfishernative",
     "src/setupTests.ts"
   ],
   "types": [

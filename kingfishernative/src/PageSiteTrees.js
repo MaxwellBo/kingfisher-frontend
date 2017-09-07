@@ -17,42 +17,44 @@ export default class PageSiteTrees extends React.Component {
   constructor(props) {
     super(props);
 
+    // Fuckin hell
+    const siteCode = this.props.match.params.siteCode
+
     this.state = {
-      treeList: {},
-      treeRef: fbi.database().ref("sites").child(this.props.activeSite).child('trees')
+      trees: {},
+      // TODO: v rename v 
+      treesRef: fbi.database().ref("sites").child(siteCode).child('trees')
     };
 
   }
 
   componentDidMount() {
-    this.state.treeRef
+    this.state.treesRef
       .on('value', (trees) => {
-        this.setState({treeList: trees.val()});
+        if (trees) {
+          this.setState({ trees: trees.val() });
+        }
       });
   }
 
   componentWillUnmount() {
-    this.state.treeRef.off();
+    this.state.treesRef.off();
   }
 
   render() {
-    const { treeList } = this.state;
-    const treeComponents = (treeList == {} || treeList == null) ? <View/> : Object.keys(treeList).map(key =>
+    const { trees } = this.state;
+    const treesComponents = Object.keys(trees).map(key =>
       <AccordionView
         treeName={key}
         key={key}
-        species={treeList[key]['species']}
-        height={treeList[key]['height']}
-        dbhs={treeList[key]['dbhs']}
+        species={trees[key]['species']}
+        height={trees[key]['height']}
+        dbhs={trees[key]['dbhs']}
       />
     );
 
     return (
       <View>
-        <Title
-          titleInfo={this.props.location.pathname}
-          goBack={() => this.props.history.goBack()}
-        />
         <View style={[styles.pageCont, styles.siteTrees]}>
           <View>
             <Text style={styles.pageHeadTitle}>Site Tree Records</Text>
@@ -64,19 +66,9 @@ export default class PageSiteTrees extends React.Component {
               pageName="addTree"
               changePage={(pageName) => this.props.changePage(pageName)}
             />
-            <GreenButton
-              buttonText="Count"
-              pageName="treeCounter"
-              changePage={(pageName) => this.props.changePage(pageName)}
-            />
-            <GreenButton
-              buttonText="Finish"
-              pageName="siteHome"
-              changePage={(pageName) => this.props.changePage(pageName)}
-            />
           </View>
-          <View style={styles.treeList}>
-            {treeComponents}
+          <View style={styles.trees}>
+            {treesComponents}
           </View>
         </View>
       </View>

@@ -24,8 +24,8 @@ export default class PageIndex extends React.Component {
           Mangrove Monitoring App for the Queensland Herbarium
         </Text>
         <LinkButton
-          to="/home"
-          buttonText="Login" 
+          to="/sites"
+          buttonText="Login"
         />
       </View>
     )

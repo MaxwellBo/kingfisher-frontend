@@ -202,6 +202,10 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  site: {
+    backgroundColor: "#FFF000"
+  },
+
   siteHomeButtonCont: {
     width: "100%",
     flexDirection: "column",

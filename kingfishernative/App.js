@@ -31,8 +31,8 @@ export default class App extends React.Component {
         <View style={styles.app}>
           <Route exact path="/" component={PageIndex}/>
           <Route path="/home" component={PageHomeHome}/>
-          <Route path="/site/:siteCode" component={PageSiteHome} />
-          <Route path="/trees/:siteCode" component={PageSiteTrees} />
+          <Route exact path="/site/:siteCode" component={PageSiteHome} />
+          <Route exact path="/site/:siteCode/trees" component={PageSiteTrees} />
         </View>
       </NativeRouter>
     )

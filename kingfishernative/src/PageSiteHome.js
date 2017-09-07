@@ -28,7 +28,7 @@ export default class PageSiteHome extends React.Component {
             <LinkButton
               extraStyles={[styles.verticallyStackedButton]}
               buttonText="Add New Trees"
-              to={"/trees/" + this.props.match.params.siteCode  }
+              to={this.props.location.pathname + "/trees"}
             />
             <LinkButton
               extraStyles={[styles.verticallyStackedButton]}

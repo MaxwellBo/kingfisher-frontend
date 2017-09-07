@@ -23,6 +23,7 @@ const BUTTON_BG = KINGFISHER_GREEN;
 const BUTTON_TEXT = '#e6e6e6';
 const TEXT_GREY = '#c4c4c4';
 const MIDDLE_GREY = '#6d6d6d';
+const DARK_GREY = '#303030'
 
 /****************************/
 /********** STYLES **********/
@@ -231,7 +232,7 @@ export const styles = StyleSheet.create({
   },
 
   siteTreeText: {
-    color: TEXT_GREY,
+    color: DARK_GREY,
     fontSize: 20,
   },
 
@@ -245,5 +246,25 @@ export const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
+
+  treeEntry: {
+    backgroundColor: KINGFISHER_GREEN,
+    marginTop: 7,
+    borderRadius: 4,
+    padding: 3,
+  },
+
+  treeName: {
+    padding: 3,
+  },
+
+  treeDropdown: {
+    paddingLeft: 20,
+    paddingVertical: 10,
+    marginHorizontal: 5,
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 5,
+    backgroundColor: FILLED_FIELD,
+  }
 
 });

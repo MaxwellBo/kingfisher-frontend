@@ -4,7 +4,6 @@ import * as firebase from 'firebase';
 
 import './App.css';
 import './Bulma.css';
-const logo = require('./logo.svg');
 
 var firebaseConfig = {
   apiKey: 'AIzaSyA2orh7KUcjyaVp44lm59Wq_nSkydEPK3c',
@@ -22,8 +21,35 @@ import Export from './Export';
 import Login from './Login';
 import TOS from './TOS';
 
-interface Props {}
-interface State {}
+interface Props { }
+interface State { }
+
+function Nav() {
+  return (
+    <div className="tabs">
+      <ul>
+        <Link to="/export"><li><a>Export</a></li></Link>
+        {/* <Link to="/export"><li className="is-active"><a>Export</a></li></Link> */}
+        <Link to="/login"><li><a>Login</a></li></Link>
+        <Link to="/tos"><li><a>Terms of Service</a></li></Link>
+      </ul>
+    </div>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="footer">
+      <div className="container">
+        <div className="content has-text-centered">
+          <p>
+            TODO: License
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
 
 class App extends React.Component<Props, State> {
 
@@ -33,21 +59,12 @@ class App extends React.Component<Props, State> {
 
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <nav>
-          <Link to="/export">Export</Link>
-          <Link to="/login">Login</Link>
-        </nav>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
+      <div>
+        <Nav />
         <Route path="/export" component={Export}/>
         <Route path="/login" component={Login}/>
         <Route path="/tos" component={TOS}/>
+        <Footer />
       </div>
     );
   }

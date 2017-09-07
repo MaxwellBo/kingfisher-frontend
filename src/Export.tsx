@@ -22,10 +22,14 @@ class Export extends React.PureComponent<{}, {}> {
 
   render() {
     return (
-      <div className="Export">
-        <p>Export</p>
-        <button onClick={this.handleWriteUserDataClick}>Write user data</button>
+      <section className="section">
+      <div className="container">
+        <h1 className="title">Section</h1>
+        <h2 className="subtitle">
+          A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
+        </h2>
       </div>
+    </section>
     );
   }
 }

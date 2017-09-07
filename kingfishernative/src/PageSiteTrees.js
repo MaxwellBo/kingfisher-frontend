@@ -37,7 +37,7 @@ export default class PageSiteTrees extends React.Component {
 
   render() {
     const { treeList } = this.state;
-    const treeComponents = Object.keys(treeList) == {} ? <View/> : Object.keys(treeList).map(key =>
+    const treeComponents = (treeList == {} || treeList == null) ? <View/> : Object.keys(treeList).map(key =>
       <AccordionView
         treeName={key}
         key={key}

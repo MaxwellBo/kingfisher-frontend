@@ -58,7 +58,7 @@ export const styles = StyleSheet.create({
   },
 
   pageCont: {
-    flex: 1,
+    flex: 0,
     minHeight: Dimensions.get('window').height - 90, // 90 is the height of the title
     flexDirection: "column",
     justifyContent: "flex-start",
@@ -68,6 +68,7 @@ export const styles = StyleSheet.create({
 
   scroller: {
     minHeight: Dimensions.get('window').height - 90, // 90 is the height of the title
+    flex: 1,
     //maxHeight: Dimensions.get('window').height - 90, // 90 is the height of the title
   },
 

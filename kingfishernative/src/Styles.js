@@ -208,6 +208,18 @@ export const styles = StyleSheet.create({
     backgroundColor: "#FFF000"
   },
 
+  siteButton: {
+    backgroundColor: PAGE_BG,
+    padding: 5,
+    marginBottom: 5,
+    borderRadius: 3,
+  },
+
+  siteButtonText: {
+    fontSize: 18,
+    color: TEXT_GREY,
+  },
+
   siteHomeButtonCont: {
     width: "100%",
     flexDirection: "column",
@@ -266,6 +278,7 @@ export const styles = StyleSheet.create({
 
   treeDropdown: {
     paddingLeft: 20,
+    paddingRight: 20,
     paddingVertical: 10,
     marginHorizontal: 5,
     borderBottomRightRadius: 5,

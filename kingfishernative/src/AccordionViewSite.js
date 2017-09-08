@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { styles } from "./Styles"
 import Collapsible from 'react-native-collapsible';
+import { Link } from 'react-router-native';
 import LinkButton from "./LinkButton"
 import { fbi } from "./Global"
 
@@ -42,11 +43,15 @@ export default class AccordionViewSite extends Component {
   render() {
     const { siteRecords } = this.state;
     const siteRecordComponents = (siteRecords == null) ? <View/> : Object.keys(siteRecords).map(date => 
-      <LinkButton
+      <Link
         to={this.props.to + "/" + date}
-        buttonText={this.props.to + "/" + date}
+        style={styles.siteButton}
         key={this.props.to + "/" + date}
-        />
+        >
+        <Text style={styles.siteButtonText}>
+          {this.props.to + "/" + date}
+        </Text>
+      </Link>
     );
     const now = new Date();
     const nowString = now.getFullYear() + "-" + now.getMonth() + "-" + now.getDay() + "::" +

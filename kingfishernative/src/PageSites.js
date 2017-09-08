@@ -16,16 +16,6 @@ import AccordionViewSite from "./AccordionViewSite"
  * This page is the main menu once a site has been selected.
  */
 
-function SiteRecord(props) {
-  const { date } = props;
-  const { code } = props;
-  return (
-    <LinkButton
-      to={"/sites/" + code + "/" + "date"}
-      buttonText={date}
-      />
-  );
-}
 
 function Site(props) {
   const { code } = props;

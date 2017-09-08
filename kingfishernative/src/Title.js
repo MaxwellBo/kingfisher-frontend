@@ -7,7 +7,7 @@ export default class Title extends React.Component {
     return (
       <View style={styles.title}>
         <View style={styles.titleLeft}>
-          <TouchableHighlight onPress={() => this.props.goBack()}>
+          <TouchableHighlight onPress={this.props.goBack}>
             <Image
               style={styles.titleBack}
               source={require("./img/icon_back.png")} 
@@ -18,7 +18,7 @@ export default class Title extends React.Component {
           <Text style={styles.titleText}>{this.props.titleInfo}</Text>
         </View>
         <View style={styles.titleRight}>
-          <TouchableHighlight onPress={() => this.props.goBack()}>
+          <TouchableHighlight onPress={this.props.goBack}>
             <Image
               style={styles.titleBack}
               source={require("./img/icon_home.png")} 

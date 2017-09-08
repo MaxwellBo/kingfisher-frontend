@@ -9,8 +9,6 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native';
 //const KINGFISHER_GREEN = '#0BA900'
 const KINGFISHER_GREEN = "#48B040"
 
-const ERROR_COLOR = "#ff2222";
-
 const KINGFISHER_RED = '#DD4649';
 const FILLED_FIELD = '#96DD90';
 const ACTIVE_FIELD = '#E5E0E5';
@@ -34,10 +32,6 @@ export const styles = StyleSheet.create({
     backgroundColor: PAGE_BG,
   },
 
-  error: {
-    backgroundColor: ERROR_COLOR,
-  },
-
   h2: {
     color: TEXT_GREY,
     textAlign: "center",
@@ -58,8 +52,8 @@ export const styles = StyleSheet.create({
   },
 
   pageCont: {
-    flex: 1,
-    minHeight: Dimensions.get('window').height,
+    flex: 0,
+    minHeight: Dimensions.get('window').height - 90, // 90 is the height of the title
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "stretch",
@@ -68,6 +62,8 @@ export const styles = StyleSheet.create({
 
   scroller: {
     minHeight: Dimensions.get('window').height - 90, // 90 is the height of the title
+    flex: 1,
+    //maxHeight: Dimensions.get('window').height - 90, // 90 is the height of the title
   },
 
   centerItemsCont: {
@@ -83,6 +79,10 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 2,
+  },
+
+  verticallyStackedButton: {
+    marginBottom: 20,
   },
 
   buttonText: {
@@ -198,16 +198,47 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  siteAddCont: {
+    flexDirection: "row",
+  },
+
+  siteAddField: {
+    flex: 4,
+  },
+
+  siteAddButton: {
+    flex: 0,
+    backgroundColor: KINGFISHER_GREEN,
+    borderRadius: 5,
+    width: 40,
+    marginTop: 20,
+    marginBottom: 10,
+    marginLeft: 10,
+    padding: 5,
+  },
+
+  site: {
+    backgroundColor: "#FFF000"
+  },
+
+  siteButton: {
+    backgroundColor: PAGE_BG,
+    padding: 5,
+    marginBottom: 5,
+    borderRadius: 3,
+  },
+
+  siteButtonText: {
+    fontSize: 18,
+    color: TEXT_GREY,
+  },
+
   siteHomeButtonCont: {
     width: "100%",
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "stretch",
     paddingTop: 30,
-  },
-
-  siteHomeButton: {
-    marginBottom: 20,
   },
 
   /***** SITE TREES *****/
@@ -260,6 +291,7 @@ export const styles = StyleSheet.create({
 
   treeDropdown: {
     paddingLeft: 20,
+    paddingRight: 20,
     paddingVertical: 10,
     marginHorizontal: 5,
     borderBottomRightRadius: 5,

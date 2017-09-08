@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { styles } from "./Styles"
 import Title from "./Title"
-import GreenButton from "./GreenButton"
 import Field from "./Field"
 
 /*
@@ -38,10 +37,6 @@ export default class PageSiteSpec extends React.Component {
   render() {
     return (
       <View>
-        <Title
-          titleInfo={this.props.titleInfo}
-          goBack={() => this.props.goBack()}
-        />
         <View style={[styles.pageCont, styles.siteSpec]}>
           <View style={styles.centerItemsCont}>
             <Text style={styles.pageHeadTitle}>Site Specifications</Text>
@@ -65,16 +60,6 @@ export default class PageSiteSpec extends React.Component {
           <Field label="Date" name="date" // TODO: Change to date selector
               onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
           <View style={styles.horizontalFlexCont}>
-            <GreenButton
-              buttonText="Cancel"
-              pageName="siteHome"
-              changePage={(pageName) => this.props.changePage(pageName)}
-            />
-            <GreenButton // Confirm button should not be a "GreenButton",
-              buttonText="Confirm" // it should be a special button which posts
-              pageName="siteTrees" // data up to App and also changes the page.
-              changePage={(pageName) => this.props.changePage(pageName)}
-            />
           </View>
         </View>
       </View>

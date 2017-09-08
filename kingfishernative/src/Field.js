@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { styles } from "./Styles"
 
-/*
+/**
  * An input field with label.
  * Ensure it is passed props:
  *  - label
@@ -28,6 +28,9 @@ export default class Field extends React.Component {
             underlineColorAndroid={"transparent"}
             style={[styles.fieldInput].concat(this.props.inputStyles)}
             onChangeText={(value) => this.props.onChangeText(this.props.name, value)}
+            onEndEditing={this.props.onEndEditing ?
+                          (text) => this.props.onEndEditing(this.props.name, text) :
+                          (text) => {}}
           />
         </View>
       </View>

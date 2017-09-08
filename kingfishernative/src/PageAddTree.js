@@ -156,8 +156,20 @@ export default class PageAddTree extends React.Component {
             extraStyles={[styles.indexButton]}
             buttonText="Add"
             onClick={() => {
-                  // this.push();
-                  // this.props.history.goBack();
+                if(this.state.speciesValid === 1 && this.state.heightValid === 1) {
+                  if(this.state.dbhs.length === 0) {
+                    return false;
+                  }
+                  for(let i=0; i<this.state.dbhsValid.length; i++) {
+                    if(this.state.dbhsValid[i] === 0) {
+                      return false;
+                    }
+                  }
+                  this.push();
+                  this.props.history.goBack();
+                } else {
+                  return false;
+                }
               }
             }
           />

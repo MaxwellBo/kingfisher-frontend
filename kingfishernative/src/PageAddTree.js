@@ -6,12 +6,12 @@ import Title from "./Title"
 import Field from "./Field"
 import { fbi } from "./Global"
 
-/*
+/**
  * All classes beginning with "Page" are different representations of pages
  * to be rendered by AppScreen. 
  * 
  * This page is for creating a new tree measurement for a particular site.
-        <View style={{height: Dimensions.get('window').height}}>
+ * <View style={{height: Dimensions.get('window').height}}>
  */
 export default class PageAddTree extends React.Component {
   constructor() {
@@ -20,6 +20,9 @@ export default class PageAddTree extends React.Component {
       species: "",
       height: 0,
       dbhs: [],
+      speciesValid: -1,
+      heightValid: -1,
+      dbhsValid:[],
     }
 
   }
@@ -39,6 +42,14 @@ export default class PageAddTree extends React.Component {
     ref.keepSynced(true);
   }
 
+  /**
+   * Sets the state of this object with the key "specName", to the value "value"
+   *
+   * @param specName
+   *    The key for this object
+   * @param value
+   *    The value to set for the key
+   */
   changeSpec(specName, value) {
     obj = {};
     obj[specName] = value;
@@ -46,17 +57,57 @@ export default class PageAddTree extends React.Component {
   }
 
   DBHChangeText(dbhIndex, value) {
-    console.log(dbhIndex);
-    console.log(value);
     newDbhs = this.state.dbhs;
+    newDbhsIndex = this.state.dbhsValid;
     if (dbhIndex == newDbhs.length - 1 && value == "") { 
       // If it is the last DBH and it's been deleted
       newDbhs.pop(dbhIndex); // Remove it from the list
+      newDbhsIndex.pop(dbhIndex);
     } else if (dbhIndex <= newDbhs.length) { // Otherwise, as long as its a valid index
       newDbhs[dbhIndex] = value; // TODO: Validate inputs
+      newDbhsIndex[dbhIndex] = -1;
     }
-    this.setState({dbhs: newDbhs});
-    console.log(this.state.dbhs)
+    this.setState({dbhs: newDbhs, dbhsIndex: newDbhsIndex});
+  }
+
+  validInput(fieldName) {
+    if (fieldName === "species") {
+      this.checkSpecies();
+    } else if (fieldName === "height") {
+      this.checkHeight();
+    } else {
+      this.checkDbhs();
+    }
+  }
+
+  checkDbhs() {
+    for(let i=0; i<this.state.dbhs.length; i++) {
+      if(isNaN(Number(this.state.dbhs[i])) || this.state.dbhs[i] < 5) {
+        newDbhs = this.state.dbhsValid;
+        newDbhs[i] = 0;
+        this.setState({dbhsValid: newDbhs});
+      } else {
+        newDbhs = this.state.dbhsValid;
+        newDbhs[i] = 1;
+        this.setState({dbhsValid: newDbhs});
+      }
+    }
+  }
+
+  checkSpecies() {
+    if(this.state.species === "") {
+      this.setState({speciesValid: 0});
+    } else {
+      this.setState({speciesValid: 1});
+    }
+  }
+
+  checkHeight() {
+    if(this.state.height < 2 || isNaN(Number(this.state.height))) {
+      this.setState({heightValid: 0});
+    } else {
+      this.setState({heightValid: 1});
+    }
   }
 
   render() {
@@ -64,7 +115,11 @@ export default class PageAddTree extends React.Component {
     for (let i = 0; i <= this.state.dbhs.length; i++) {
       dbhList.push(
         <Field label={"B" + (i+1)} name={i} key={"DBH " + i}
-          onChangeText={(dbhIndex, value) => this.DBHChangeText(dbhIndex, value)}/>
+          onChangeText={(dbhIndex, value) => this.DBHChangeText(dbhIndex, value)}
+               onEndEditing={(fieldName, text) => this.validInput(fieldName, text)}
+               inputStyles={(this.state.dbhsValid[i] == 0) && {backgroundColor: '#DD4649'}
+               || (this.state.dbhsValid[i] == 1) && {backgroundColor: '#96DD90'}
+               || (this.state.dbhsValid[i] == -1) && {backgroundColor: '#898689'}}/>
       )
     }
     return (
@@ -79,13 +134,21 @@ export default class PageAddTree extends React.Component {
           </View>
           <View style={styles.verticalFlexCont}>
             <Field label="Species" name="species"
-              onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
+              onChangeText={(specName, value) => this.changeSpec(specName, value)}
+                   inputStyles={(this.state.speciesValid === 0) && {backgroundColor: '#DD4649'}
+                   || (this.state.speciesValid === 1) && {backgroundColor: '#96DD90'}
+                   || (this.state.speciesValid === -1) && {backgroundColor: '#898689'}}
+                   onEndEditing={(fieldName, text) => this.validInput(fieldName, text)}/>
             <Field label="Tree Height" name="height"
-              onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
+              onChangeText={(specName, value) => this.changeSpec(specName, value)}
+                   inputStyles={(this.state.heightValid === 0) && {backgroundColor: '#DD4649'}
+                   || (this.state.heightValid === 1) && {backgroundColor: '#96DD90'}
+                   || (this.state.heightValid === -1) && {backgroundColor: '#898689'}}
+                   onEndEditing={(fieldName, text) => this.validInput(fieldName, text)}/>
           </View>
           <View style={styles.dbhCont}>
             <Text style={styles.h2}>
-              DIAMETER AT BREAST HEIGHT
+              Diameter At Breast Height
             </Text>
             {dbhList}
           </View>
@@ -93,8 +156,8 @@ export default class PageAddTree extends React.Component {
             extraStyles={[styles.indexButton]}
             buttonText="Add"
             onClick={() => {
-                this.push();
-                this.props.history.goBack();
+                  // this.push();
+                  // this.props.history.goBack();
               }
             }
           />

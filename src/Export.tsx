@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as firebase from 'firebase';
-import './App.css';
 
 function writeUserData() {
   const user = firebase.auth().currentUser;
@@ -14,7 +13,33 @@ function writeUserData() {
   }
 }
 
-class Export extends React.PureComponent<{}, {}> {
+interface Props {}
+interface State {
+  sites: {};
+  sitesRef: firebase.database.Reference;
+}
+
+class Export extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      sites: {},
+      sitesRef: firebase.database().ref('/sites')
+    };
+  }
+
+  componentDidMount() {
+    this.state.sitesRef.on('value', (sites) => {
+      if (sites) {
+        this.setState({sites: sites.val()});
+      }
+    });
+  }
+
+  componentDidUnmount() {
+    this.state.sitesRef.off();
+  }
 
   handleWriteUserDataClick = () => {
     writeUserData();
@@ -22,10 +47,15 @@ class Export extends React.PureComponent<{}, {}> {
 
   render() {
     return (
-      <div className="Export">
-        <p>Export</p>
-        <button onClick={this.handleWriteUserDataClick}>Write user data</button>
-      </div>
+      <section className="section">
+        <div className="container">
+          <h1 className="title">Section</h1>
+          <h2 className="subtitle">
+            A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
+        </h2>
+        <p>{JSON.stringify(this.state.sites)}</p>
+        </div>
+      </section>
     );
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { Link, Route } from 'react-router-native'
 import { styles } from "./Styles"
 import Title from "./Title"
@@ -7,6 +7,7 @@ import LinkButton from "./LinkButton"
 import { fbi } from "./Global"
 import PageSiteTrees from "./PageSiteTrees"
 import PageAddTree from "./PageAddTree"
+import AccordionViewSite from "./AccordionViewSite"
 
 /*
  * All classes beginning with "Page" are different representations of pages
@@ -15,29 +16,49 @@ import PageAddTree from "./PageAddTree"
  * This page is the main menu once a site has been selected.
  */
 
+function SiteRecord(props) {
+  const { date } = props;
+  const { code } = props;
+  return (
+    <LinkButton
+      to={"/sites/" + code + "/" + "date"}
+      buttonText={date}
+      />
+  );
+}
+
 function Site(props) {
   const { code } = props;
 
   return (
-    <LinkButton to={"/sites/" + code} buttonText={code} key={code} />
+    <AccordionViewSite
+      to={"/sites/" + code} 
+      siteCode={code}
+      buttonText={"Site " + code} 
+      key={code} 
+    />
   );
 }
 
 function Sites(props) {
   const { sites } = props;
-  const sitesComponents = Object.keys(sites).map(key =>
+  const sitesComponents = (sites == null) ? <View/> : Object.keys(sites).map(key =>
     <Site code={key} key={key} />
   );
 
   return (
-    <View style={[styles.pageCont, styles.siteHome]}>
-      <View>
-        <Text style={styles.pageHeadTitle}>Sites</Text>
-        <Text style={styles.pageHeadDesc}>Add a new site record to get started.</Text>
-      </View>
-      <View style={styles.sites}>
-        {sitesComponents}
-      </View>
+    <View style={styles.scroller}>
+      <ScrollView 
+        contentContainerStyle={[styles.pageCont]}
+        >
+        <View>
+          <Text style={styles.pageHeadTitle}>Sites</Text>
+          <Text style={styles.pageHeadDesc}>Add a new site record to get started.</Text>
+        </View>
+        <View style={styles.sites}>
+          {sitesComponents}
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -83,8 +104,8 @@ export default class PageSites extends React.Component {
     return (
       <View>
         <Route path="/sites" render={TitleComponent} />
-        <Route exact path="/sites/:siteCode" component={PageSiteTrees} />
-        <Route exact path="/sites/:siteCode/add" component={PageAddTree} />
+        <Route exact path="/sites/:siteCode/:date" component={PageSiteTrees} />
+        <Route exact path="/sites/:siteCode/:date/add" component={PageAddTree} />
         <Route exact path="/sites" render={SitesComponent} />
       </View>
     );

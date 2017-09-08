@@ -26,8 +26,9 @@ export default class PageAddTree extends React.Component {
 
   push = () => {
     const siteCode = this.props.match.params.siteCode
+    const date = this.props.match.params.date
 
-    const ref = fbi.database().ref("sites").child(siteCode).child('trees').push();
+    const ref = fbi.database().ref("sites").child(siteCode).child(date).child('trees').push();
     ref.set({
       species: this.state.species,
       height: this.state.height,
@@ -69,7 +70,7 @@ export default class PageAddTree extends React.Component {
           contentContainerStyle={[styles.pageCont]}
           style={styles.scroller}
           showsVerticalScrollIndicator={true}
-        >
+          >
           <View>
             <Text style={styles.pageHeadTitle}>Add Tree Record</Text>
           </View>

@@ -19,11 +19,12 @@ export default class PageSiteTrees extends React.Component {
 
     // Fuckin hell
     const siteCode = this.props.match.params.siteCode
+    const date = this.props.match.params.date
 
     this.state = {
       trees: {},
       // TODO: v rename v 
-      treesRef: fbi.database().ref("sites").child(siteCode).child('trees')
+      treesRef: fbi.database().ref("sites").child(siteCode).child(date).child('trees')
     };
 
     this.state.treesRef.keepSynced(true);
@@ -44,7 +45,7 @@ export default class PageSiteTrees extends React.Component {
 
   render() {
     const { trees } = this.state;
-    const treesComponents = Object.keys(trees).map(key =>
+    const treesComponents = (trees == null) ? <View/> : Object.keys(trees).map(key =>
       <AccordionViewTree
         treeName={key}
         key={key}
@@ -55,6 +56,7 @@ export default class PageSiteTrees extends React.Component {
     );
 
     const siteCode = this.props.match.params.siteCode
+    const date = this.props.match.params.date
 
     return (
       <View>
@@ -66,7 +68,7 @@ export default class PageSiteTrees extends React.Component {
           <View style={[styles.horizontalFlexCont]}>
             <LinkButton
               buttonText="Add"
-              to={"/sites/" + siteCode + "/add"} 
+              to={"/sites/" + siteCode + "/" + date + "/add"} 
             />
           </View>
           <View style={styles.trees}>

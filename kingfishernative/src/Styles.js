@@ -9,8 +9,6 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native';
 //const KINGFISHER_GREEN = '#0BA900'
 const KINGFISHER_GREEN = "#48B040"
 
-const ERROR_COLOR = "#ff2222";
-
 const KINGFISHER_RED = '#DD4649';
 const FILLED_FIELD = '#96DD90';
 const ACTIVE_FIELD = '#E5E0E5';
@@ -32,10 +30,6 @@ export const styles = StyleSheet.create({
   app: {
     flex: 1,
     backgroundColor: PAGE_BG,
-  },
-
-  error: {
-    backgroundColor: ERROR_COLOR,
   },
 
   h2: {
@@ -204,8 +198,39 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  siteAddCont: {
+    flexDirection: "row",
+  },
+
+  siteAddField: {
+    flex: 4,
+  },
+
+  siteAddButton: {
+    flex: 0,
+    backgroundColor: KINGFISHER_GREEN,
+    borderRadius: 5,
+    width: 40,
+    marginTop: 20,
+    marginBottom: 10,
+    marginLeft: 10,
+    padding: 5,
+  },
+
   site: {
     backgroundColor: "#FFF000"
+  },
+
+  siteButton: {
+    backgroundColor: PAGE_BG,
+    padding: 5,
+    marginBottom: 5,
+    borderRadius: 3,
+  },
+
+  siteButtonText: {
+    fontSize: 18,
+    color: TEXT_GREY,
   },
 
   siteHomeButtonCont: {
@@ -266,6 +291,7 @@ export const styles = StyleSheet.create({
 
   treeDropdown: {
     paddingLeft: 20,
+    paddingRight: 20,
     paddingVertical: 10,
     marginHorizontal: 5,
     borderBottomRightRadius: 5,

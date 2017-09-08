@@ -48,7 +48,7 @@ function Sites(props) {
 
   // Construct a button for every single site on record
   const sitesComponents = (sites == null) ? <View/> : Object.keys(sites).map(key =>
-    <Site code={key} key={key} />
+    <Site code={key} key={key} /> //TODO: make site background different if empty i.e no key
   );
 
   return (
@@ -88,7 +88,6 @@ class AddSite extends React.Component {
   
   addNewSite() {
     // ref is a handler for a data entry in firebase
-    console.warn(this.state.newSiteCode);
 
     const ref = fbi.database().ref("sites").child(this.state.newSiteCode);
     // Absolutely disgusting hack. Setting the new site entry to an empty string
@@ -102,16 +101,18 @@ class AddSite extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.siteAddCont}>
         <Field
           name="newSiteCode"
+          extraStyles={styles.siteAddField}
           onChangeText={(spec, code) => this.changeNewSiteCode(spec, code)}
           />
         <TouchableHighlight
           onPress={this.addNewSite}
           accessibilityLabel="Add New Site"
+          style={styles.siteAddButton}
           >
-          <Text>+</Text>
+          <Text style={{fontSize: 20, textAlign: "center"}}>+</Text>
         </TouchableHighlight>
       </View>
     )

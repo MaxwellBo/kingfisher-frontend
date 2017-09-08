@@ -28,6 +28,7 @@ export default class PageAddTree extends React.Component {
     const siteCode = this.props.match.params.siteCode
     const date = this.props.match.params.date
 
+    // ref is a handler for a data entry in firebase
     const ref = fbi.database().ref("sites").child(siteCode).child(date).child('trees').push();
     ref.set({
       species: this.state.species,
@@ -43,6 +44,7 @@ export default class PageAddTree extends React.Component {
     obj[specName] = value;
     this.setState(obj);
   }
+
   DBHChangeText(dbhIndex, value) {
     console.log(dbhIndex);
     console.log(value);
@@ -55,7 +57,8 @@ export default class PageAddTree extends React.Component {
     }
     this.setState({dbhs: newDbhs});
     console.log(this.state.dbhs)
-  } 
+  }
+
   render() {
     dbhList = [];
     for (let i = 0; i <= this.state.dbhs.length; i++) {

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as firebase from 'firebase';
-import './App.css';
 
 function writeUserData() {
   const user = firebase.auth().currentUser;

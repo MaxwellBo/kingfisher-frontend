@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight } from 'react-native';
 import { Link, Route } from 'react-router-native'
 import { styles } from "./Styles"
 import Title from "./Title"
@@ -8,6 +8,7 @@ import { fbi } from "./Global"
 import PageSiteTrees from "./PageSiteTrees"
 import PageAddTree from "./PageAddTree"
 import AccordionViewSite from "./AccordionViewSite"
+import Field from "./Field"
 
 /**
  * Returns a single "site" button.
@@ -58,13 +59,63 @@ function Sites(props) {
         <View>
           <Text style={styles.pageHeadTitle}>Sites</Text>
           <Text style={styles.pageHeadDesc}>Add a new site record to get started.</Text>
+          <AddSite/>
         </View>
         <View style={styles.sites}>
+          
           {sitesComponents}
         </View>
       </ScrollView>
     </View>
   );
+}
+
+class AddSite extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      newSiteCode: "nocode"
+    }
+    this.changeNewSiteCode = this.changeNewSiteCode.bind(this);
+    this.addNewSite = this.addNewSite.bind(this);
+  }
+
+  changeNewSiteCode(spec, code) {
+    obj = {}
+    obj[spec] = code
+    this.setState(obj);
+  }
+  
+  addNewSite() {
+    // ref is a handler for a data entry in firebase
+    console.warn(this.state.newSiteCode);
+
+    const ref = fbi.database().ref("sites").child(this.state.newSiteCode);
+    // Absolutely disgusting hack. Setting the new site entry to an empty string
+    // prevents any database entries appearing as tree records, while still pushing
+    // "enough" stuff that it creates a new entry. It's the only way.
+    // - Hugo
+    ref.set("");
+
+    ref.keepSynced(true);
+  }
+
+  render() {
+    return (
+      <View>
+        <Field
+          name="newSiteCode"
+          onChangeText={(spec, code) => this.changeNewSiteCode(spec, code)}
+          />
+        <TouchableHighlight
+          onPress={this.addNewSite}
+          accessibilityLabel="Add New Site"
+          >
+          <Text>+</Text>
+        </TouchableHighlight>
+      </View>
+    )
+  }
 }
 
 export default class PageSites extends React.Component {

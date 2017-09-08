@@ -9,13 +9,12 @@ import PageSiteTrees from "./PageSiteTrees"
 import PageAddTree from "./PageAddTree"
 import AccordionViewSite from "./AccordionViewSite"
 
-/*
+/**
  * All classes beginning with "Page" are different representations of pages
  * to be rendered by AppScreen. 
  * 
  * This page is the main menu once a site has been selected.
  */
-
 function SiteRecord(props) {
   const { date } = props;
   const { code } = props;
@@ -27,6 +26,17 @@ function SiteRecord(props) {
   );
 }
 
+/**
+ * Returns a single "site" button.
+ *
+ * @param props
+ *    The values passed in from the XML tag that creates this object
+ *
+ *    Fields
+ *    code - The value for the name of this button
+ *
+ * @returns {XML}
+ */
 function Site(props) {
   const { code } = props;
 
@@ -40,8 +50,19 @@ function Site(props) {
   );
 }
 
+/**
+ * Builds the XML will will contain the header and all the buttons
+ *
+ * @param props
+ *  Fields:
+ *    sites - A dictionary with the XML for the sites
+ * @returns {XML}
+ * @constructor
+ */
 function Sites(props) {
   const { sites } = props;
+
+  // Construct a button for every single site on record
   const sitesComponents = (sites == null) ? <View/> : Object.keys(sites).map(key =>
     <Site code={key} key={key} />
   );
@@ -72,7 +93,6 @@ export default class PageSites extends React.Component {
       // TODO: find out if we can retrieve a JSON one layer deep
       sitesRef: fbi.database().ref("sites")
     }
-
     this.state.sitesRef.keepSynced(true);
   }
 

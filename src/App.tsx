@@ -20,6 +20,7 @@ firebase.initializeApp(firebaseConfig);
 import Export from './Export';
 import Login from './Login';
 import TOS from './TOS';
+import Data from './Data';
 
 function Home() {
   return (
@@ -97,6 +98,7 @@ function Nav() {
     <div className="tabs">
       <ul>
         <Link to="/app/export"><li><a>Export</a></li></Link>
+        <Link to="/app/data"><li><a>Data</a></li></Link>
         {/* <Link to="/export"><li className="is-active"><a>Export</a></li></Link> */}
       </ul>
     </div>
@@ -127,6 +129,7 @@ class App extends React.Component<Props, State> {
         <Route exact={true} path="/" component={Home}/>
         <Route path="/app" component={Nav}/>
         <Route exact={true} path="/app/export" component={Export}/>
+        <Route exact={true} path="/app/data" component={Data}/>
         <Route exact={true} path="/login" component={Login}/>
         <Route exact={true} path="/tos" component={TOS}/>
         <Route path="/app" component={Footer}/>

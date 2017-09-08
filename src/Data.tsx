@@ -1,18 +1,5 @@
 import * as React from 'react';
 import * as firebase from 'firebase';
-import './App.css';
-
-function writeUserData() {
-  const user = firebase.auth().currentUser;
-
-  if (user) {
-    firebase.database().ref('users/' + user.uid).set({
-      uid: user.uid,
-      displayName: user.displayName,
-      email: user.email
-    });
-  }
-}
 
 interface Props {}
 interface State {
@@ -20,7 +7,7 @@ interface State {
   sitesRef: firebase.database.Reference;
 }
 
-class Export extends React.Component<Props, State> {
+class Data extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
@@ -42,15 +29,11 @@ class Export extends React.Component<Props, State> {
     this.state.sitesRef.off();
   }
 
-  handleWriteUserDataClick = () => {
-    writeUserData();
-  }
-
   render() {
     return (
       <section className="section">
         <div className="container">
-          <h1 className="title">Export</h1>
+          <h1 className="title">Data</h1>
           <h2 className="subtitle">
             A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
         </h2>
@@ -61,4 +44,4 @@ class Export extends React.Component<Props, State> {
   }
 }
 
-export default Export;
+export default Data;

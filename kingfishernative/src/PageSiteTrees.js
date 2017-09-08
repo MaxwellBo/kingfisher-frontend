@@ -23,7 +23,6 @@ export default class PageSiteTrees extends React.Component {
 
     this.state = {
       trees: {},
-      // TODO: v rename v 
       treesRef: fbi.database().ref("sites").child(siteCode).child(date).child('trees')
     };
 

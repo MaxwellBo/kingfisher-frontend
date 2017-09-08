@@ -112,6 +112,7 @@ export default class PageAddTree extends React.Component {
 
   render() {
     dbhList = [];
+    // FIXME: Use for .. in rather than indexed iterations
     for (let i = 0; i <= this.state.dbhs.length; i++) {
       dbhList.push(
         <Field label={"B" + (i+1)} name={i} key={"DBH " + i}
@@ -160,6 +161,7 @@ export default class PageAddTree extends React.Component {
                   if(this.state.dbhs.length === 0) {
                     return false;
                   }
+                  // FIXME: Use for .. in rather than indexed iterations
                   for(let i=0; i<this.state.dbhsValid.length; i++) {
                     if(this.state.dbhsValid[i] === 0) {
                       return false;

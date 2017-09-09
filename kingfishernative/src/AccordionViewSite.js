@@ -49,7 +49,10 @@ export default class AccordionViewSite extends Component {
         key={this.props.to + "/" + date}
         >
         <Text style={styles.siteButtonText}>
-          {this.props.to + "/" + date}
+          {
+            // Just get the "date" part of `date` (not the time part)
+            date.split("::")[0]
+          }
         </Text>
       </Link>
     );

@@ -101,19 +101,21 @@ class AddSite extends React.Component {
 
   render() {
     return (
-      <View style={styles.siteAddCont}>
-        <Field
-          name="newSiteCode"
-          extraStyles={styles.siteAddField}
-          onChangeText={(spec, code) => this.changeNewSiteCode(spec, code)}
-          />
-        <TouchableHighlight
-          onPress={this.addNewSite}
-          accessibilityLabel="Add New Site"
-          style={styles.siteAddButton}
-          >
-          <Text style={{fontSize: 20, textAlign: "center"}}>+</Text>
-        </TouchableHighlight>
+      <View>
+        <View style={styles.siteAddCont}>
+          <Field
+            name="newSiteCode"
+            extraStyles={styles.siteAddField}
+            onChangeText={(spec, code) => this.changeNewSiteCode(spec, code)}
+            />
+          <TouchableHighlight
+            onPress={this.addNewSite}
+            accessibilityLabel="Add New Site"
+            style={styles.siteAddButton}
+            >
+            <Text style={{fontSize: 20, textAlign: "center"}}>+</Text>
+          </TouchableHighlight>
+        </View>
       </View>
     )
   }

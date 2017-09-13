@@ -21,6 +21,43 @@ import Export from './Export';
 import Login from './Login';
 import TOS from './TOS';
 
+interface CardProps { 
+  title: string;
+  subtitle: string;
+  content: string;
+}
+
+function Card(cardProps: CardProps) {
+  return (
+    <div className="card">
+    <div className="card-image">
+      <figure className="image is-4by3">
+        <img src="http://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image" />
+      </figure>
+    </div>
+    <div className="card-content">
+      <div className="media">
+        <div className="media-left">
+          <figure className="image is-48x48">
+            <img src="http://bulma.io/images/placeholders/96x96.png" alt="Placeholder image" />
+          </figure>
+        </div>
+        <div className="media-content">
+          <p className="title is-4">{cardProps.title}</p>
+          <p className="subtitle is-6">{cardProps.subtitle}</p>
+        </div>
+      </div>
+  
+      <div className="content">
+        {cardProps.content}<a>@bulmaio</a>.
+        <a href="#">#css</a> <a href="#">#responsive</a>
+        <br />
+      </div>
+    </div>
+  </div>
+  );
+}
+
 function Home() {
   return (
     <section className="hero is-info is-medium">

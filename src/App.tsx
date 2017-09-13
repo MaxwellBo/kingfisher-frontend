@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Link, Route } from 'react-router-dom';
 import * as firebase from 'firebase';
 
-import './App.css';
 import './Bulma.css';
+import './App.css';
 
 var firebaseConfig = {
   apiKey: 'AIzaSyA2orh7KUcjyaVp44lm59Wq_nSkydEPK3c',
@@ -23,7 +23,7 @@ import TOS from './TOS';
 
 function Home() {
   return (
-    <section className="hero is-primary is-medium">
+    <section className="hero is-info is-medium">
     <div className="hero-head">
       <header className="nav">
         <div className="container">
@@ -66,28 +66,14 @@ function Home() {
     <div className="hero-body">
       <div className="container has-text-centered">
         <h1 className="title">
-          Title
+          Kingfisher
         </h1>
         <h2 className="subtitle">
-          Subtitle
+          Accessible data collection software.
         </h2>
       </div>
     </div>
   
-    <div className="hero-foot">
-      <nav className="tabs">
-        <div className="container">
-          <ul>
-            <li className="is-active"><a>Overview</a></li>
-            <li><a>Modifiers</a></li>
-            <li><a>Grid</a></li>
-            <li><a>Elements</a></li>
-            <li><a>Components</a></li>
-            <li><a>Layout</a></li>
-          </ul>
-        </div>
-      </nav>
-    </div>
   </section>
   );
 }

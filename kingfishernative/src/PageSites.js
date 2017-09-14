@@ -74,7 +74,9 @@ class AddSite extends React.Component {
   constructor() {
     super();
     this.state = {
-      newSiteCode: "nocode"
+      newSiteCode: "nocode",
+      latitude: null,
+      longitude: null,
     }
     this.changeNewSiteCode = this.changeNewSiteCode.bind(this);
     this.addNewSite = this.addNewSite.bind(this);
@@ -88,15 +90,21 @@ class AddSite extends React.Component {
   
   addNewSite() {
     // ref is a handler for a data entry in firebase
-
     const ref = fbi.database().ref("sites").child(this.state.newSiteCode);
-    // Absolutely disgusting hack. Setting the new site entry to an empty string
-    // prevents any database entries appearing as tree records, while still pushing
-    // "enough" stuff that it creates a new entry. It's the only way.
-    // - Hugo
-    ref.set("");
-
     ref.keepSynced(true);
+
+    navigator.geolocation.requestAuthorization();
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        ref.set({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+        })
+      },
+      (error) => {},
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
   }
 
   render() {

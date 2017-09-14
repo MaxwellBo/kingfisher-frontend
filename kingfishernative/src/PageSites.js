@@ -75,8 +75,6 @@ class AddSite extends React.Component {
     super();
     this.state = {
       newSiteCode: "nocode",
-      latitude: null,
-      longitude: null,
     }
   }
 
@@ -94,12 +92,7 @@ class AddSite extends React.Component {
     navigator.geolocation.requestAuthorization();
 
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        ref.set({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-        })
-      },
+      (position) => ref.set(position.coords),
       (error) => {},
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );

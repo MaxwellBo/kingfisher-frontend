@@ -78,17 +78,15 @@ class AddSite extends React.Component {
       latitude: null,
       longitude: null,
     }
-    this.changeNewSiteCode = this.changeNewSiteCode.bind(this);
-    this.addNewSite = this.addNewSite.bind(this);
   }
 
-  changeNewSiteCode(spec, code) {
+  changeNewSiteCode = (spec, code) => {
     obj = {}
     obj[spec] = code
     this.setState(obj);
   }
   
-  addNewSite() {
+  addNewSite = () => {
     // ref is a handler for a data entry in firebase
     const ref = fbi.database().ref("sites").child(this.state.newSiteCode);
     ref.keepSynced(true);
@@ -114,7 +112,7 @@ class AddSite extends React.Component {
           <Field
             name="newSiteCode"
             extraStyles={styles.siteAddField}
-            onChangeText={(spec, code) => this.changeNewSiteCode(spec, code)}
+            onChangeText={this.changeNewSiteCode}
             />
           <TouchableHighlight
             onPress={this.addNewSite}

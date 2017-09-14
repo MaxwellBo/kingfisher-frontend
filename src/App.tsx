@@ -37,11 +37,6 @@ function Card(cardProps: CardProps) {
     </div>
     <div className="card-content">
       <div className="media">
-        <div className="media-left">
-          <figure className="image is-48x48">
-            <img src="http://bulma.io/images/placeholders/96x96.png" alt="Placeholder image" />
-          </figure>
-        </div>
         <div className="media-content">
           <p className="title is-4">{cardProps.title}</p>
           <p className="subtitle is-6">{cardProps.subtitle}</p>
@@ -49,9 +44,7 @@ function Card(cardProps: CardProps) {
       </div>
   
       <div className="content">
-        {cardProps.content}<a>@bulmaio</a>.
-        <a href="#">#css</a> <a href="#">#responsive</a>
-        <br />
+        {cardProps.content}
       </div>
     </div>
   </div>
@@ -60,58 +53,94 @@ function Card(cardProps: CardProps) {
 
 function Home() {
   return (
-    <section className="hero is-info is-medium">
-    <div className="hero-head">
-      <header className="nav">
-        <div className="container">
-          <div className="nav-left">
-            <a className="nav-item">
-              <img src="images/bulma-type-white.png" alt="Logo" />
-            </a>
-          </div>
-          <span className="nav-toggle">
-            {/* <span></span>
-            <span></span>
-            <span></span> */}
-          </span>
-          <div className="nav-right nav-menu">
-            {/* <a className="nav-item is-active"> */}
-            <a className="nav-item is-active">
-              Home
-            </a>
-            <a className="nav-item">
-              Examples
-            </a>
-            <a className="nav-item">
-              Documentation
-            </a>
-            <span className="nav-item">
-              <Link to="/login">
-                <a className="button is-primary is-inverted">
-                  <span className="icon">
-                    <i className="fa fa-lock" />
-                  </span>
-                  <span>Login</span>
+    <div>
+      <section className="hero is-info is-medium">
+        <div className="hero-head">
+          <header className="nav">
+            <div className="container">
+              <div className="nav-left">
+                <a className="nav-item">
+                  <img src="images/bulma-type-white.png" alt="Logo" />
                 </a>
-              </Link>
-            </span>
+              </div>
+              <span className="nav-toggle">
+                {/* <span></span>
+                <span></span>
+                <span></span> */}
+              </span>
+              <div className="nav-right nav-menu">
+                {/* <a className="nav-item is-active"> */}
+                <a className="nav-item is-active">
+                  Home
+                </a>
+                <a className="nav-item">
+                  Examples
+                </a>
+                <a className="nav-item">
+                  Documentation
+                </a>
+                <span className="nav-item">
+                  <Link to="/login">
+                    <a className="button is-primary is-inverted">
+                      <span className="icon">
+                        <i className="fa fa-lock" />
+                      </span>
+                      <span>Login</span>
+                    </a>
+                  </Link>
+                </span>
+              </div>
+            </div>
+          </header>
+        </div>
+      
+        <div className="hero-body">
+          <div className="container has-text-centered">
+            <h1 className="title title-underlined">
+              Kingfisher
+            </h1>
+            <h2 className="subtitle subtitle-underlined">
+              Accessible data collection software.
+            </h2>
           </div>
         </div>
-      </header>
+    
+      </section>
+      <section className="section">
+        <div className="columns">
+          <div className="column">
+            <Card 
+              title="Instant Backups." 
+              subtitle=""
+              content={
+                "Kingfisher will automatically sync all your data to the database as soon as you get online. " +
+                "We make sure to never get in the way of your data. Seamless. Easy."
+              }
+            />
+          </div>
+          <div className="column">
+            <Card
+              title="Go Paperless."
+              subtitle=""
+              content={
+                "Kingfisher gives you the freedom of paper forms, with the convenience and power of " +
+                "electronic data collection. Transitioning to Kingfisher is a breeze."
+              }
+            />
+          </div>
+          <div className="column">
+            <Card
+              title="Visualise Data. Anywhere."
+              subtitle=""
+              content={
+                "Our software allows you to store historic data right on your phone, so you can " +
+                "keep tabs on your past data and compare measurements without an internet connection."
+              }
+            />
+          </div>
+        </div>
+      </section>
     </div>
-  
-    <div className="hero-body">
-      <div className="container has-text-centered">
-        <h1 className="title">
-          Kingfisher
-        </h1>
-        <h2 className="subtitle">
-          Accessible data collection software.
-        </h2>
-      </div>
-    </div>
-  
-  </section>
   );
 }
 

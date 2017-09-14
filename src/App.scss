@@ -1,0 +1,13 @@
+@import "./Bulma";
+
+.title-underlined {
+  margin: auto;
+  max-width: 400px;
+  padding-bottom: 0.5em;
+  border-bottom: 2px solid $primary;
+  margin-bottom: 1em;
+}
+
+.subtitle-underlined {
+  padding-top: 1em;
+}

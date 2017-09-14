@@ -25,29 +25,31 @@ interface CardProps {
   title: string;
   subtitle: string;
   content: string;
+  imgSrc: string;
+  imgAlt: string;
 }
 
 function Card(cardProps: CardProps) {
   return (
     <div className="card">
-    <div className="card-image">
-      <figure className="image is-4by3">
-        <img src="http://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image" />
-      </figure>
-    </div>
-    <div className="card-content">
-      <div className="media">
-        <div className="media-content">
-          <p className="title is-4">{cardProps.title}</p>
-          <p className="subtitle is-6">{cardProps.subtitle}</p>
+      <div className="card-image">
+        <figure className="image is-4by3">
+          <img src={cardProps.imgSrc} alt={cardProps.imgAlt} />
+        </figure>
+      </div>
+      <div className="card-content">
+        <div className="media">
+          <div className="media-content">
+            <p className="title is-4">{cardProps.title}</p>
+            <p className="subtitle is-6">{cardProps.subtitle}</p>
+          </div>
+        </div>
+    
+        <div className="content">
+          {cardProps.content}
         </div>
       </div>
-  
-      <div className="content">
-        {cardProps.content}
-      </div>
     </div>
-  </div>
   );
 }
 
@@ -116,6 +118,8 @@ function Home() {
                 "Kingfisher will automatically sync all your data to the database as soon as you get online. " +
                 "We make sure to never get in the way of your data. Seamless. Easy."
               }
+              imgSrc="images/titleCard1.png"
+              imgAlt="Instant Backups"
             />
           </div>
           <div className="column">
@@ -126,6 +130,8 @@ function Home() {
                 "Kingfisher gives you the freedom of paper forms, with the convenience and power of " +
                 "electronic data collection. Transitioning to Kingfisher is a breeze."
               }
+              imgSrc="images/titleCard2.png"
+              imgAlt="Go Paperless"
             />
           </div>
           <div className="column">
@@ -136,6 +142,8 @@ function Home() {
                 "Our software allows you to store historic data right on your phone, so you can " +
                 "keep tabs on your past data and compare measurements without an internet connection."
               }
+              imgSrc="http://bulma.io/images/placeholders/1280x960.png"
+              imgAlt="Placeholder"
             />
           </div>
         </div>

@@ -12,7 +12,10 @@
   padding-top: 1em;
 }
 
+.column {
+  display: flex;
+  align-items: stretch;
+}
 .card-image {
   border: 2px solid #888;
-  
 }

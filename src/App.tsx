@@ -72,6 +72,16 @@ function Home() {
               </span>
               <div className="nav-right nav-menu">
                 {/* <a className="nav-item is-active"> */}
+                <a className="nav-item" href="https://www.facebook.com/Kingfisher-127569781308370/">
+                  <i className="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+                <a className="nav-item" href="https://twitter.com/KingfisherData">
+                  <i className="fa fa-twitter-square" aria-hidden="true"></i>
+                </a>
+                <a className="nav-item" href="https://www.instagram.com/kingfisherdata/">
+                  <i className="fa fa-instagram" aria-hidden="true"></i>
+                </a>
+
                 <a className="nav-item">
                   Purchase
                 </a>

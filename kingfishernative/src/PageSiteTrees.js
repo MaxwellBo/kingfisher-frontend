@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { styles } from "./Styles"
 import Title from "./Title"
 import LinkButton from "./LinkButton"
@@ -58,8 +58,8 @@ export default class PageSiteTrees extends React.Component {
     const date = this.props.match.params.date
 
     return (
-      <View>
-        <View style={[styles.pageCont, styles.siteTrees]}>
+      <View style={styles.scroller}>
+        <ScrollView contentContainerStyle={[styles.pageCont, styles.siteTrees]}>
           <View>
             <Text style={styles.pageHeadTitle}>Site Tree Records</Text>
             <Text style={styles.pageHeadDesc}>Add new trees, view trees input this session, and save data input session.</Text>
@@ -73,7 +73,7 @@ export default class PageSiteTrees extends React.Component {
           <View style={styles.trees}>
             {treesComponents}
           </View>
-        </View>
+        </ScrollView>
       </View>
     )
   }

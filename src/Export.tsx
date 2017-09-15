@@ -27,7 +27,7 @@ class Export extends React.Component<Props, State> {
 
     this.state = {
       sites: {},
-      sitesRef: firebase.database().ref('/sites')
+      sitesRef: firebase.database().ref('sites')
     };
   }
 
@@ -39,7 +39,7 @@ class Export extends React.Component<Props, State> {
     });
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     this.state.sitesRef.off();
   }
 

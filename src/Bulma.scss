@@ -1,1 +1,10 @@
-@import "../node_modules/bulma/bulma"
+@import "../node_modules/bulma/sass/utilities/initial-variables";
+
+$dark: #252B38;
+$green: #48B040;
+
+$primary: $green;
+$info: $dark;
+
+
+@import "../node_modules/bulma/bulma";

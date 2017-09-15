@@ -115,7 +115,7 @@ export default class PageAddTree extends React.Component {
     // FIXME: Use for .. in rather than indexed iterations
     for (let i = 0; i <= this.state.dbhs.length; i++) {
       dbhList.push(
-        <Field label={"B" + (i+1)} name={i} key={"DBH " + i}
+        <Field label={"DBH " + (i+1)} name={i} key={"DBH " + i}
           onChangeText={(dbhIndex, value) => this.DBHChangeText(dbhIndex, value)}
                onEndEditing={(fieldName, text) => this.validInput(fieldName, text)}
                inputStyles={(this.state.dbhsValid[i] == 0) && {backgroundColor: '#DD4649'}

@@ -74,7 +74,7 @@ class AddSite extends React.Component {
   constructor() {
     super();
     this.state = {
-      newSiteCode: "nocode",
+      newSiteCode: "",
     }
   }
 
@@ -85,17 +85,21 @@ class AddSite extends React.Component {
   }
   
   addNewSite = () => {
-    // ref is a handler for a data entry in firebase
-    const ref = fbi.database().ref("sites").child(this.state.newSiteCode);
-    ref.keepSynced(true);
+    if (this.state.newSiteCode !== "") {
+      const ref = fbi.database().ref("sites").child(this.state.newSiteCode);
+      ref.keepSynced(true);
 
-    navigator.geolocation.requestAuthorization();
+      navigator.geolocation.requestAuthorization();
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => ref.set(position.coords),
-      (error) => {},
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-    );
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          ref.set(position.coords);
+          this.state.newSiteCode = ""; // only reset field when ref is set
+        },
+        (error) => {},
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+      );
+    }
   }
 
   render() {

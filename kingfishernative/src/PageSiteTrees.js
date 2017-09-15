@@ -69,6 +69,10 @@ export default class PageSiteTrees extends React.Component {
               buttonText="Add"
               to={"/sites/" + siteCode + "/" + date + "/add"} 
             />
+            <LinkButton
+              buttonText="Visualize"
+              to={"/sites/" + siteCode + "/" + date + "/visualize"}
+            />
           </View>
           <View style={styles.trees}>
             {treesComponents}

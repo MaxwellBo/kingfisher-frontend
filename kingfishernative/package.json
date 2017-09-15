@@ -18,8 +18,11 @@
   "dependencies": {
     "react": "^16.0.0-alpha.12",
     "react-native": "^0.46.1",
+    "react-native-collapsible": "^0.9.0",
     "react-native-firebase": "^2.1.4",
+    "react-native-svg": "^5.4.1",
     "react-router-native": "^4.2.0",
-    "react-native-collapsible": "^0.9.0"
+    "victory": "^0.22.2",
+    "victory-native": "^0.15.0"
   }
 }

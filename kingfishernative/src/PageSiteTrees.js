@@ -23,7 +23,7 @@ export default class PageSiteTrees extends React.Component {
 
     this.state = {
       trees: {},
-      treesRef: fbi.database().ref("sites").child(siteCode).child(date).child('trees')
+      treesRef: fbi.database().ref("sites").child(siteCode).child("measurements").child(date).child('trees')
     };
 
     this.state.treesRef.keepSynced(true);

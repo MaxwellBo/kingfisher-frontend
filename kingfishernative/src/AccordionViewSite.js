@@ -19,8 +19,10 @@ export default class AccordionViewSite extends Component {
       activeSection: false,
       collapsed: true,
       siteRecords: {},
-      siteRecordsRef: fbi.database().ref("sites").child(props.siteCode),
+      siteRecordsRef: fbi.database().ref("sites").child(props.siteCode).child("measurements")
     };
+
+    this.state.siteRecordsRef.keepSynced(true);
   }
 
   componentDidMount() {

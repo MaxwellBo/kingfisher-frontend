@@ -31,8 +31,8 @@ export default class PageAddTree extends React.Component {
     const siteCode = this.props.match.params.siteCode
     const date = this.props.match.params.date
 
-    // ref is a handler for a data entry in firebase
-    const ref = fbi.database().ref("sites").child(siteCode).child(date).child('trees').push();
+    // FIXME: this should probably be passed down a prop from `SiteTrees`
+    const ref = fbi.database().ref("sites").child(siteCode).child("measurements").child(date).child('trees').push();
     ref.set({
       species: this.state.species,
       height: this.state.height,

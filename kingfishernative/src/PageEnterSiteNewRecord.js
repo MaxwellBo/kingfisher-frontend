@@ -18,10 +18,9 @@ export default class PageAddTree extends React.Component {
     this.state = {
       pendingSiteCode: "no code"
     }
-    this.changeSpec = this.changeSpec.bind(this)
   }
 
-  changeSpec(specName, value) {
+  changeSpec = (specName, value) => {
     const newState = {};
     newState[specName] = value
     this.setState(newState);
@@ -37,7 +36,7 @@ export default class PageAddTree extends React.Component {
           </View>
           <View>
             <Field label="Site Code" name="pendingSiteCode"
-              onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
+              onChangeText={this.changeSpec}/>
             
             <LinkButton
               buttonText="Begin Record"

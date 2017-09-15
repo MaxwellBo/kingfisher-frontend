@@ -74,29 +74,32 @@ class AddSite extends React.Component {
   constructor() {
     super();
     this.state = {
-      newSiteCode: "nocode"
+      newSiteCode: "",
     }
-    this.changeNewSiteCode = this.changeNewSiteCode.bind(this);
-    this.addNewSite = this.addNewSite.bind(this);
   }
 
-  changeNewSiteCode(spec, code) {
+  changeNewSiteCode = (spec, code) => {
     obj = {}
     obj[spec] = code
     this.setState(obj);
   }
   
-  addNewSite() {
-    // ref is a handler for a data entry in firebase
+  addNewSite = () => {
+    if (this.state.newSiteCode !== "") {
+      const ref = fbi.database().ref("sites").child(this.state.newSiteCode);
+      ref.keepSynced(true);
 
-    const ref = fbi.database().ref("sites").child(this.state.newSiteCode);
-    // Absolutely disgusting hack. Setting the new site entry to an empty string
-    // prevents any database entries appearing as tree records, while still pushing
-    // "enough" stuff that it creates a new entry. It's the only way.
-    // - Hugo
-    ref.set("");
+      navigator.geolocation.requestAuthorization();
 
-    ref.keepSynced(true);
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          ref.set(position.coords);
+          this.state.newSiteCode = ""; // only reset field when ref is set
+        },
+        (error) => {},
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+      );
+    }
   }
 
   render() {
@@ -106,7 +109,7 @@ class AddSite extends React.Component {
           <Field
             name="newSiteCode"
             extraStyles={styles.siteAddField}
-            onChangeText={(spec, code) => this.changeNewSiteCode(spec, code)}
+            onChangeText={this.changeNewSiteCode}
             />
           <TouchableHighlight
             onPress={this.addNewSite}

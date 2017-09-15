@@ -20,6 +20,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# compiled css
+src/App.css
+src/App.css.map
+src/Bulma.css
+
+
 # native
 kingfishernative/node_modules/
 kingfishernative/.expo

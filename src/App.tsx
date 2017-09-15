@@ -115,8 +115,8 @@ function Home() {
               title="Instant Backups." 
               subtitle=""
               content={
-                "Kingfisher will automatically sync all your data to the database as soon as you get online. " +
-                "We make sure to never get in the way of your data. Seamless. Easy."
+                'Kingfisher will automatically sync all your data to the database as soon as you get online. ' +
+                'We make sure to never get in the way of your data. Seamless. Easy.'
               }
               imgSrc="images/titleCard1.png"
               imgAlt="Instant Backups"
@@ -127,8 +127,8 @@ function Home() {
               title="Go Paperless."
               subtitle=""
               content={
-                "Kingfisher gives you the freedom of paper forms, with the convenience and power of " +
-                "electronic data collection. Transitioning to Kingfisher is a breeze."
+                'Kingfisher gives you the freedom of paper forms, with the convenience and power of ' +
+                'electronic data collection. Transitioning to Kingfisher is a breeze.'
               }
               imgSrc="images/titleCard2.png"
               imgAlt="Go Paperless"
@@ -139,8 +139,8 @@ function Home() {
               title="Visualise Data. Anywhere."
               subtitle=""
               content={
-                "Our software allows you to store historic data right on your phone, so you can " +
-                "keep tabs on your past data and compare measurements without an internet connection."
+                'Our software allows you to store historic data right on your phone, so you can ' +
+                'keep tabs on your past data and compare measurements without an internet connection.'
               }
               imgSrc="http://bulma.io/images/placeholders/1280x960.png"
               imgAlt="Placeholder"

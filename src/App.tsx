@@ -62,7 +62,7 @@ function Home() {
             <div className="container">
               <div className="nav-left">
                 <a className="nav-item">
-                  <img src="images/bulma-type-white.png" alt="Logo" />
+                  <img src="images/bulma-type-white.png" alt="Kingfisher" />
                 </a>
               </div>
               <span className="nav-toggle">
@@ -72,11 +72,11 @@ function Home() {
               </span>
               <div className="nav-right nav-menu">
                 {/* <a className="nav-item is-active"> */}
-                <a className="nav-item is-active">
-                  Home
+                <a className="nav-item">
+                  Purchase
                 </a>
                 <a className="nav-item">
-                  Examples
+                  Statistics
                 </a>
                 <a className="nav-item">
                   Documentation

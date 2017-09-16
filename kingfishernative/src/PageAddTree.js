@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, View, Image, ScrollView, Dimensions } from 'react-native';
+import { Container, Content, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import { styles } from "./Styles"
 import SpecialButton from "./SpecialButton"
 import Title from "./Title"
@@ -124,59 +125,53 @@ export default class PageAddTree extends React.Component {
       )
     }
     return (
-      <View>
-        <ScrollView
-          contentContainerStyle={[styles.pageCont]}
-          style={styles.scroller}
-          showsVerticalScrollIndicator={true}
-          >
-          <View>
-            <Text style={styles.pageHeadTitle}>Add Tree Record</Text>
-          </View>
-          <View style={styles.verticalFlexCont}>
-            <Field label="Species" name="species"
-              onChangeText={(specName, value) => this.changeSpec(specName, value)}
-                   inputStyles={(this.state.speciesValid === 0) && {backgroundColor: '#DD4649'}
-                   || (this.state.speciesValid === 1) && {backgroundColor: '#96DD90'}
-                   || (this.state.speciesValid === -1) && {backgroundColor: '#898689'}}
-                   onEndEditing={(fieldName, text) => this.validInput(fieldName, text)}/>
-            <Field label="Tree Height" name="height"
-              onChangeText={(specName, value) => this.changeSpec(specName, value)}
-                   inputStyles={(this.state.heightValid === 0) && {backgroundColor: '#DD4649'}
-                   || (this.state.heightValid === 1) && {backgroundColor: '#96DD90'}
-                   || (this.state.heightValid === -1) && {backgroundColor: '#898689'}}
-                   onEndEditing={(fieldName, text) => this.validInput(fieldName, text)}/>
-          </View>
-          <View style={styles.dbhCont}>
-            <Text style={styles.h2}>
-              Diameter At Breast Height
-            </Text>
-            {dbhList}
-          </View>
-          <SpecialButton 
-            extraStyles={[styles.indexButton]}
-            buttonText="Add"
-            onClick={() => {
-                if(this.state.speciesValid === 1 && this.state.heightValid === 1) {
-                  if(this.state.dbhs.length === 0) {
-                    return false;
-                  }
-                  // FIXME: Use for .. in rather than indexed iterations
-                  for(let i=0; i<this.state.dbhsValid.length; i++) {
-                    if(this.state.dbhsValid[i] === 0) {
-                      return false;
-                    }
-                  }
-                  this.push();
-                  this.props.history.goBack();
-                } else {
+      <Content contentContainerStyle={styles.pageCont}>
+        <View>
+          <Text style={styles.pageHeadTitle}>Add Tree Record</Text>
+        </View>
+        <View style={styles.verticalFlexCont}>
+          <Field label="Species" name="species"
+            onChangeText={(specName, value) => this.changeSpec(specName, value)}
+                  inputStyles={(this.state.speciesValid === 0) && {backgroundColor: '#DD4649'}
+                  || (this.state.speciesValid === 1) && {backgroundColor: '#96DD90'}
+                  || (this.state.speciesValid === -1) && {backgroundColor: '#898689'}}
+                  onEndEditing={(fieldName, text) => this.validInput(fieldName, text)}/>
+          <Field label="Tree Height" name="height"
+            onChangeText={(specName, value) => this.changeSpec(specName, value)}
+                  inputStyles={(this.state.heightValid === 0) && {backgroundColor: '#DD4649'}
+                  || (this.state.heightValid === 1) && {backgroundColor: '#96DD90'}
+                  || (this.state.heightValid === -1) && {backgroundColor: '#898689'}}
+                  onEndEditing={(fieldName, text) => this.validInput(fieldName, text)}/>
+        </View>
+        <View style={styles.dbhCont}>
+          <Text style={styles.h2}>
+            Diameter At Breast Height
+          </Text>
+          {dbhList}
+        </View>
+        <SpecialButton 
+          extraStyles={[styles.indexButton]}
+          buttonText="Add"
+          onClick={() => {
+              if(this.state.speciesValid === 1 && this.state.heightValid === 1) {
+                if(this.state.dbhs.length === 0) {
                   return false;
                 }
+                // FIXME: Use for .. in rather than indexed iterations
+                for(let i=0; i<this.state.dbhsValid.length; i++) {
+                  if(this.state.dbhsValid[i] === 0) {
+                    return false;
+                  }
+                }
+                this.push();
+                this.props.history.goBack();
+              } else {
+                return false;
               }
             }
-          />
-        </ScrollView>
-      </View>
+          }
+        />
+      </Content>
     )
   }
 }

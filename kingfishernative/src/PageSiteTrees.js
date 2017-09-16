@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
+import { Container, Content, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import { styles } from "./Styles"
 import Title from "./Title"
 import LinkButton from "./LinkButton"
@@ -58,23 +59,21 @@ export default class PageSiteTrees extends React.Component {
     const date = this.props.match.params.date
 
     return (
-      <View style={styles.scroller}>
-        <ScrollView contentContainerStyle={[styles.pageCont, styles.siteTrees]}>
-          <View>
-            <Text style={styles.pageHeadTitle}>Site Tree Records</Text>
-            <Text style={styles.pageHeadDesc}>Add new trees, view trees input this session, and save data input session.</Text>
-          </View>
-          <View style={[styles.horizontalFlexCont]}>
-            <LinkButton
-              buttonText="Add"
-              to={"/sites/" + siteCode + "/" + date + "/add"} 
-            />
-          </View>
-          <View style={styles.trees}>
-            {treesComponents}
-          </View>
-        </ScrollView>
-      </View>
+      <Content contentContainerStyle={[styles.pageCont, styles.siteTrees]}>
+        <View>
+          <Text style={styles.pageHeadTitle}>Site Tree Records</Text>
+          <Text style={styles.pageHeadDesc}>Add new trees, view trees input this session, and save data input session.</Text>
+        </View>
+        <View style={[styles.horizontalFlexCont]}>
+          <LinkButton
+            buttonText="Add"
+            to={"/sites/" + siteCode + "/" + date + "/add"} 
+          />
+        </View>
+        <View style={styles.trees}>
+          {treesComponents}
+        </View>
+      </Content>
     )
   }
 }

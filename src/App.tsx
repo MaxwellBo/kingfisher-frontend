@@ -73,13 +73,13 @@ function Home() {
               <div className="nav-right nav-menu">
                 {/* <a className="nav-item is-active"> */}
                 <a className="nav-item" href="https://www.facebook.com/Kingfisher-127569781308370/">
-                  <i className="fa fa-facebook-official" aria-hidden="true"></i>
+                  <i className="fa fa-facebook-official" aria-hidden="true"/>
                 </a>
                 <a className="nav-item" href="https://twitter.com/KingfisherData">
-                  <i className="fa fa-twitter-square" aria-hidden="true"></i>
+                  <i className="fa fa-twitter-square" aria-hidden="true"/>
                 </a>
                 <a className="nav-item" href="https://www.instagram.com/kingfisherdata/">
-                  <i className="fa fa-instagram" aria-hidden="true"></i>
+                  <i className="fa fa-instagram" aria-hidden="true"/>
                 </a>
 
                 <a className="nav-item">
@@ -152,11 +152,18 @@ function Home() {
                 'Our software allows you to store historic data right on your phone, so you can ' +
                 'keep tabs on your past data and compare measurements without an internet connection.'
               }
-              imgSrc="http://bulma.io/images/placeholders/1280x960.png"
-              imgAlt="Placeholder"
+              imgSrc="images/titleCard3.png"
+              imgAlt="Visualise Data Anywhere"
             />
           </div>
         </div>
+      </section>
+      <section className="section">
+        <h1 className="title">
+          Product Video
+        </h1>
+        <iframe width="420" height="315" src="https://www.youtube.com/watch?v=oZc_jrutGrk">
+        </iframe>
       </section>
     </div>
   );

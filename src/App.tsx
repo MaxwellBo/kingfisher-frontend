@@ -20,6 +20,7 @@ firebase.initializeApp(firebaseConfig);
 import Export from './Export';
 import Login from './Login';
 import TOS from './TOS';
+import Stats from './Stats';
 
 interface CardProps { 
   title: string;

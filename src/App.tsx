@@ -162,9 +162,42 @@ function Home() {
         <h1 className="title">
           Product Video
         </h1>
-        <iframe width="420" height="315" src="https://www.youtube.com/watch?v=oZc_jrutGrk">
-        </iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/oZc_jrutGrk"></iframe>
       </section>
+      <section className="section">
+        <h1 className="title">
+          Features
+        </h1>
+        <p>
+          <ul>
+            <li>Automatically sync data with a centralised database of all tree measurements.</li>
+            <li>Visualise and compare data, online or offline.</li>
+            <li>Easy to use collection interfact.</li>
+            <li>Automatic geolocation when creating sites or tree measurements.</li>
+            <li>Get notified when the data you've collected is statistically significant enough to stop.</li>
+          </ul>
+        </p>
+      </section>
+      <section className="section">
+        <h1 className="title">
+          Why Use Kingfisher?
+        </h1>
+        <p>Kingfisher's many features can help streamline the data collection process for your organisation. The 
+          app removes the need to manually transfer data into a spreadsheet or database, and will save you tons 
+          of time doing collection or data entry alike. Not only that, but it's super safe, and you have no need
+          to worry about losing your data between the site and the office. Everything is backed up on your phone 
+          until you get internet, and then it syncs with the database!
+        </p>
+      </section>
+      <footer className="footer">
+        <div className="container">
+          <div className="content has-text-centered">
+            <p>
+              <strong>Kingfisher</strong> by Hugo Kawamata, Max Bo, Haziq Nordin, Sanika Naik, and Yuji Takahashi.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

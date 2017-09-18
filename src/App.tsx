@@ -84,7 +84,7 @@ function Home() {
                   <i className="fa fa-instagram" aria-hidden="true"/>
                 </a>
 
-                <a className="nav-item">
+                <a href="/purchase" className="nav-item">
                   Purchase
                 </a>
                 <a href="https://api.uqcloud.net/login/http://deco3801-jquery-only.uqcloud.net/stats" className="nav-item">

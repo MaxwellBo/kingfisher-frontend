@@ -87,7 +87,7 @@ function Home() {
                 <a className="nav-item">
                   Purchase
                 </a>
-                <a href="https://api.uqcloud.net/login/http://deco3801-jquery-only.uqcloud.net/" className="nav-item">
+                <a href="https://api.uqcloud.net/login/http://deco3801-jquery-only.uqcloud.net/stats" className="nav-item">
                   Statistics
                 </a>
                 <a className="nav-item">

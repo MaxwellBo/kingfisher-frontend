@@ -86,7 +86,7 @@ function Home() {
                 <a className="nav-item">
                   Purchase
                 </a>
-                <a className="nav-item">
+                <a href="https://api.uqcloud.net/login/http://deco3801-jquery-only.uqcloud.net/" className="nav-item">
                   Statistics
                 </a>
                 <a className="nav-item">
@@ -153,7 +153,7 @@ function Home() {
         <h1 className="title">
           Product Video
         </h1>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/oZc_jrutGrk"></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/oZc_jrutGrk" />
       </section>
       <section className="section">
         <h1 className="title">
@@ -230,6 +230,7 @@ class App extends React.Component<Props, State> {
         <Route exact={true} path="/app/export" component={Export}/>
         <Route exact={true} path="/login" component={Login}/>
         <Route exact={true} path="/tos" component={TOS}/>
+        <Route exact={true} path="/stats" component={Stats}/>
         <Route path="/app" component={Footer}/>
       </div>
     );

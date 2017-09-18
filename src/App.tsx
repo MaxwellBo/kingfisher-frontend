@@ -21,6 +21,7 @@ import Export from './Export';
 import Login from './Login';
 import TOS from './TOS';
 import Stats from './Stats';
+import PurchaseForm from "./PurchaseForm";
 
 interface CardProps { 
   title: string;
@@ -231,6 +232,7 @@ class App extends React.Component<Props, State> {
         <Route exact={true} path="/login" component={Login}/>
         <Route exact={true} path="/tos" component={TOS}/>
         <Route exact={true} path="/stats" component={Stats}/>
+        <Route exact={true} path="/purchase" component={PurchaseForm}/>
         <Route path="/app" component={Footer}/>
       </div>
     );

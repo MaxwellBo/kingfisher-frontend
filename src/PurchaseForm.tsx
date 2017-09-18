@@ -2,24 +2,22 @@ import * as React from 'react';
 import { Link, Route } from 'react-router-dom';
 import * as firebase from 'firebase';
 
-function writeVisitorData() {
-  // TODO: get cookie data
-  firebase.database().ref('visitors/').child('TODO').set({});
-}
-
 interface State {
   name: string;
   email: string;
   occupation: string;
 }
-export default class PurchaseForm extends React.Component<State> {
+
+interface Props {}
+
+export default class PurchaseForm extends React.Component<Props, State> {
   constructor() {
     super();
     this.state = {
-      name: "",
-      email: "",
-      occupation: "",
-    }
+      name: '',
+      email: '',
+      occupation: '',
+    };
   }
 
   writeFormData() {
@@ -27,10 +25,10 @@ export default class PurchaseForm extends React.Component<State> {
       name: this.state.name,
       email: this.state.email,
       occupation: this.state.occupation,
-    }
-    firebase.database().ref('visitors/').push().set(visitor)
-  }
+    };
 
+    firebase.database().ref('visitors').push().set(visitor);
+  }
 
   render() {
     return (
@@ -52,6 +50,6 @@ export default class PurchaseForm extends React.Component<State> {
         </div>
         
       </div>
-    )
+    );
   }
 }

@@ -21,7 +21,7 @@ import Export from './Export';
 import Login from './Login';
 import TOS from './TOS';
 import Stats from './Stats';
-import PurchaseForm from "./PurchaseForm";
+import PurchaseForm from './PurchaseForm';
 
 interface CardProps { 
   title: string;

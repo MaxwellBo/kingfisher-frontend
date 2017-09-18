@@ -2,8 +2,13 @@ import * as React from 'react';
 import * as firebase from 'firebase';
 
 function writeVisitorData() {
-  // TODO: get cookie data
-  firebase.database().ref('visitors/').child('TODO').set({});
+
+  const getCookiebyName = (name: String) => {
+    var pair = document.cookie.match(new RegExp(name + '=([^;]+)'));
+    return !!pair ? pair[1] : null;
+  };
+
+  firebase.database().ref('visitors').child('TODO').set({});
 }
 
 interface Props {}

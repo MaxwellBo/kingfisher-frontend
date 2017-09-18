@@ -91,16 +91,6 @@ function Home() {
                 <a className="nav-item">
                   Documentation
                 </a>
-                // <span className="nav-item">
-                //   <Link to="/login">
-                //     <a className="button is-primary is-inverted">
-                //       <span className="icon">
-                //         <i className="fa fa-lock" />
-                //       </span>
-                //       <span>Login</span>
-                //     </a>
-                //   </Link>
-                // </span>
               </div>
             </div>
           </header>

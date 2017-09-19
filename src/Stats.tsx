@@ -130,15 +130,15 @@ class Stats extends React.Component<Props, State> {
             </h2>
             <div className="columns">
               <div className="column is-half centered">
-                <p className="centered">Interest by Occupation</p>
+                <div className="centered"><strong>EOIs Today</strong></div>
               </div>
               <div className="column is-half centered">
-                <p className="centered">EOIs Today</p>
                 <div>
                   <PieChart
                       labels
                       data={pieData}
                   />
+                <div className="centered"><strong>Interest by Occupation</strong></div>
                 </div>
               </div>
             </div>

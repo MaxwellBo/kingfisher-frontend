@@ -42,7 +42,7 @@ class Stats extends React.Component<Props, State> {
   render() {
     const { visitors } = this.state;
     let recentEOIs = (visitors == null) ? <div/> : Object.keys(visitors).map(key =>
-      (<div className="rowRecent">
+      (<div className="rowRecent" key={key}>
         <div className="columns">
           <div className="column">
             {visitors[key]['name']}
@@ -56,7 +56,6 @@ class Stats extends React.Component<Props, State> {
         </div>
       </div>)
     )
-
 
     return (
       <div className="stats">

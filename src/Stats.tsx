@@ -90,6 +90,26 @@ class Stats extends React.Component<Props, State> {
       return parsable_data
   }
 
+  getEoiToday(visitors:any) {
+      var today = new Date();
+
+      let dates:Array<String> = [];
+      let count = 0;
+      for(let key in visitors) {
+          let date = visitors[key]['date'];
+          var arr = date.split("-");
+          let todayDate = "" + today.getDate();
+          let todayMonth = "" + today.getMonth();
+          let todayYear = "" + today.getFullYear();
+
+          if(arr[0] === todayDate && arr[1] === todayMonth && arr[2] === todayYear) {
+              count += 1;
+          }
+      }
+
+      return count;
+  }
+
   render() {
     const { visitors } = this.state;
   let recentEOIs = (visitors == null) ? [<div key="1"/>] : Object.keys(visitors).map(key =>
@@ -116,6 +136,8 @@ class Stats extends React.Component<Props, State> {
 
       let pieData = this.getPieData(visitors)
       let lineData = this.getTimelineData(visitors)
+      this.getEoiToday(visitors);
+      let count = this.getEoiToday(visitors);
 
     return (
       <div className="stats">
@@ -130,6 +152,7 @@ class Stats extends React.Component<Props, State> {
             </h2>
             <div className="columns">
               <div className="column is-half centered">
+                  <div className="big-number">{count}</div>
                 <div className="centered"><strong>EOIs Today</strong></div>
               </div>
               <div className="column is-half centered">

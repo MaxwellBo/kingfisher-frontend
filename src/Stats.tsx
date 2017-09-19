@@ -23,7 +23,7 @@ class Stats extends React.Component<Props, State> {
 
     this.state = {
       visitors: {},
-      visitorsRef: firebase.database().ref('sites')
+      visitorsRef: firebase.database().ref('visitors')
     };
   }
 
@@ -40,15 +40,68 @@ class Stats extends React.Component<Props, State> {
   }
 
   render() {
-    return (
-      <section className="section">
-        <div className="container">
-          <h1 className="title">Section</h1>
-          <h2 className="subtitle">
-            A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
-        </h2>
+    const { visitors } = this.state;
+    let recentEOIs = (visitors == null) ? <div/> : Object.keys(visitors).map(key =>
+      (<div className="rowRecent">
+        <div className="columns">
+          <div className="column">
+            {visitors[key]['name']}
+          </div>
+          <div className="column">
+            {visitors[key]['email']}
+          </div>
+          <div className="column">
+            {visitors[key]['occupation']}
+          </div>
         </div>
-      </section>
+      </div>)
+    )
+
+
+    return (
+      <div className="stats">
+        <section className="section">
+          <div className="container">
+            <h1 className="title">Statistics</h1>
+            <h2 className="subtitle">
+              Details on Expressions of Interest
+            </h2>
+            <div className="columns">
+              <div className="column is-half centered">
+                <p className="centered">Interest by Occupation</p>
+              </div>
+              <div className="column is-half centered">
+                <p className="centered">EOIs Today</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="section">
+          <div className="container">
+            <h1 className="title">Interest Over Time</h1>
+          </div>
+        </section>
+        <section className="section">
+          <div className="container">
+            <h1 className="title">Recent EOIs</h1>
+            <div className="rowRecent">
+              <div className="columns">
+                <div className="column">
+                  Name
+                </div>
+                <div className="column">
+                  Email
+                </div>
+                <div className="column">
+                  Occupation
+                </div>
+              </div>
+            </div>
+            {recentEOIs}
+          </div>
+        </section>
+        
+      </div>
     );
   }
 }

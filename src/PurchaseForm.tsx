@@ -41,7 +41,6 @@ export default class PurchaseForm extends React.Component<Props, State> {
       occupation: this.state.occupation,
       date: new Date(),
     };
-    console.log(visitor);
     firebase.database().ref('visitors').push().set(visitor);
     this.setState({submitted: true});
   }
@@ -152,15 +151,13 @@ export default class PurchaseForm extends React.Component<Props, State> {
               <div className="field">
                 <label className="label">Name</label>
                 <div className="control">
-                  <input className="input" type="text" value={this.state.name} 
-                    onChange={this.handleChangeName.bind(this)} placeholder="Text input"/>
+                  <input className="input" type="text" value={this.state.name} onChange={this.handleChangeName.bind(this)} placeholder="Text input"/>
                 </div>
               </div>
               <div className="field">
                 <label className="label">Email</label>
                 <div className="control">
-                  <input className="input" type="text" value={this.state.email} 
-                    onChange={this.handleChangeEmail.bind(this)} placeholder="Text input"/>
+                  <input className="input" type="text" value={this.state.email} onChange={this.handleChangeEmail.bind(this)} placeholder="Text input"/>
                 </div>
               </div>
               <div className="field">

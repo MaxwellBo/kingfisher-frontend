@@ -152,8 +152,7 @@ class Stats extends React.Component<Props, State> {
             </h2>
             <div className="columns">
               <div className="column is-half centered">
-                  <div className="big-number">{count}</div>
-                <div className="centered"><strong>EOIs Today</strong></div>
+                <div className="centered big-text"><strong>EOIs Today: {count}</strong></div>
               </div>
               <div className="column is-half centered">
                 <div>

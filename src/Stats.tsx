@@ -59,6 +59,7 @@ class Stats extends React.Component<Props, State> {
     )
 
     recentEOIs.reverse();
+    recentEOIs.length = 10 // Chop the most recent 10 EOIs
 
     return (
       <div className="stats">

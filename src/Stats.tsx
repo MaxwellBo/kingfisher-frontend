@@ -54,6 +54,9 @@ class Stats extends React.Component<Props, State> {
           <div className="column">
             {visitors[key]['occupation']}
           </div>
+          <div className="column">
+            {visitors[key]['date']}
+          </div>
         </div>
       </div>)
     )
@@ -93,13 +96,16 @@ class Stats extends React.Component<Props, State> {
             <div className="rowRecent">
               <div className="columns">
                 <div className="column">
-                  Name
+                  <strong>Name</strong>
                 </div>
                 <div className="column">
-                  Email
+                  <strong>Email</strong>
                 </div>
                 <div className="column">
-                  Occupation
+                  <strong>Occupation</strong>
+                </div>
+                <div className="column">
+                  <strong>Date</strong>
                 </div>
               </div>
             </div>

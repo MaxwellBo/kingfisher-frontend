@@ -149,15 +149,7 @@ function Home() {
           until you get internet, and then it syncs with the database!
         </p>
       </section>
-      <footer className="footer">
-        <div className="container">
-          <div className="content has-text-centered">
-            <p>
-              <strong>Kingfisher</strong> by Hugo Kawamata, Max Bo, Haziq Nordin, Sanika Naik, and Yuji Takahashi.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
@@ -181,7 +173,7 @@ function Footer() {
       <div className="container">
         <div className="content has-text-centered">
           <p>
-            TODO: License
+            <strong>Kingfisher</strong> by Hugo Kawamata, Max Bo, Haziq Nordin, Sanika Naik, and Yuji Takahashi.
           </p>
         </div>
       </div>

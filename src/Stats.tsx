@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as firebase from 'firebase';
+import Nav from "./Nav";
 
 function writeVisitorData() {
 
@@ -41,7 +42,7 @@ class Stats extends React.Component<Props, State> {
 
   render() {
     const { visitors } = this.state;
-    let recentEOIs = (visitors == null) ? <div/> : Object.keys(visitors).map(key =>
+  let recentEOIs = (visitors == null) ? [<div key="1"/>] : Object.keys(visitors).map(key =>
       (<div className="rowRecent" key={key}>
         <div className="columns">
           <div className="column">
@@ -57,8 +58,13 @@ class Stats extends React.Component<Props, State> {
       </div>)
     )
 
+    recentEOIs.reverse();
+
     return (
       <div className="stats">
+        <div className="hero-head">
+          <Nav/>
+        </div>
         <section className="section">
           <div className="container">
             <h1 className="title">Statistics</h1>

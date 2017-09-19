@@ -62,6 +62,34 @@ class Stats extends React.Component<Props, State> {
     return parsable_data
   }
 
+  getTimelineData(visitors: any) {
+      let data = {};
+      for(let key in visitors) {
+          let occupation = visitors[key]['date'];
+          if(occupation in data) {
+              data[occupation] += 1;
+          } else {
+              data[occupation] = 1;
+          }
+      }
+      console.log("timelinedata")
+      console.log(data)
+      console.log("timelinedata")
+
+      let parsable_data:any = []
+      for(let key in data) {
+          let log:any = {'x':key, 'y':data[key]}
+          parsable_data.push(log)
+      }
+
+      parsable_data.sort(function(a:any, b:any) {
+          var x = a['x'];
+          var y = b['x'];
+          return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+      });
+      return parsable_data
+  }
+
   render() {
     const { visitors } = this.state;
   let recentEOIs = (visitors == null) ? [<div key="1"/>] : Object.keys(visitors).map(key =>
@@ -87,6 +115,7 @@ class Stats extends React.Component<Props, State> {
     recentEOIs.length = 10 // Chop the most recent 10 EOIs
 
       let pieData = this.getPieData(visitors)
+      let lineData = this.getTimelineData(visitors)
 
     return (
       <div className="stats">
@@ -107,6 +136,7 @@ class Stats extends React.Component<Props, State> {
                 <p className="centered">EOIs Today</p>
                 <div>
                   <PieChart
+                      labels
                       data={pieData}
                   />
                 </div>
@@ -118,28 +148,14 @@ class Stats extends React.Component<Props, State> {
           <div className="container">
             <h1 className="title">Interest Over Time</h1>
             <LineChart
-                xType={'time'}
+                xType={'text'}
                 axes
                 grid
                 verticalGrid
                 interpolate={'cardinal'}
                 width={750}
                 height={250}
-                data={[
-                    [
-                        { x: '1-Jan-15', y: 20 },
-                        { x: '1-Feb-15', y: 10 },
-                        { x: '1-Mar-15', y: 33 },
-                        { x: '1-Apr-15', y: 45 },
-                        { x: '1-May-15', y: 15 }
-                    ], [
-                        { x: '1-Jan-15', y: 10 },
-                        { x: '1-Feb-15', y: 15 },
-                        { x: '1-Mar-15', y: 13 },
-                        { x: '1-Apr-15', y: 15 },
-                        { x: '1-May-15', y: 10 }
-                    ]
-                ]}
+                data={[lineData]}
             />
           </div>
         </section>

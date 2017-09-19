@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as firebase from 'firebase';
-import {PieChart, LineChart} from 'react-easy-chart';
+import Nav from "./Nav";
 import any = jasmine.any;
+import {PieChart, LineChart} from 'react-easy-chart';
 
 function writeVisitorData() {
 
@@ -63,7 +64,7 @@ class Stats extends React.Component<Props, State> {
 
   render() {
     const { visitors } = this.state;
-    let recentEOIs = (visitors == null) ? <div/> : Object.keys(visitors).map(key =>
+  let recentEOIs = (visitors == null) ? [<div key="1"/>] : Object.keys(visitors).map(key =>
       (<div className="rowRecent" key={key}>
         <div className="columns">
           <div className="column">
@@ -75,14 +76,23 @@ class Stats extends React.Component<Props, State> {
           <div className="column">
             {visitors[key]['occupation']}
           </div>
+          <div className="column">
+            {visitors[key]['date']}
+          </div>
         </div>
       </div>)
     )
+
+    recentEOIs.reverse();
+    recentEOIs.length = 10 // Chop the most recent 10 EOIs
 
       let pieData = this.getPieData(visitors)
 
     return (
       <div className="stats">
+        <div className="hero-head">
+          <Nav/>
+        </div>
         <section className="section">
           <div className="container">
             <h1 className="title">Statistics</h1>
@@ -139,13 +149,16 @@ class Stats extends React.Component<Props, State> {
             <div className="rowRecent">
               <div className="columns">
                 <div className="column">
-                  Name
+                  <strong>Name</strong>
                 </div>
                 <div className="column">
-                  Email
+                  <strong>Email</strong>
                 </div>
                 <div className="column">
-                  Occupation
+                  <strong>Occupation</strong>
+                </div>
+                <div className="column">
+                  <strong>Date</strong>
                 </div>
               </div>
             </div>

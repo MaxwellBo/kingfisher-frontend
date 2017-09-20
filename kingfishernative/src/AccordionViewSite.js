@@ -71,7 +71,7 @@ export default class AccordionViewSite extends Component {
         <Collapsible collapsed={this.state.collapsed} align="center">
           <View style={styles.treeDropdown}>
             {siteRecordComponents}
-            <LinkButton to={this.props.to + "/" + nowString} buttonText="Add New Measurement" />
+            <LinkButton to={this.props.to + "/" + nowString} buttonText="Add New Site Record" />
           </View>
         </Collapsible>
       </View>

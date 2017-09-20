@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Image,
   StyleSheet,
   Text,
   View,
@@ -66,6 +67,11 @@ export default class AccordionViewSite extends Component {
         <TouchableHighlight style={styles.treeEntry} onPress={this._toggleExpanded}>
           <View style={styles.treeName}>
             <Text style={styles.siteTreeText}>Site {this.props.siteCode}</Text>
+            <Image style={styles.dropdownArrow} source={
+              this.state.collapsed ?
+              require("./img/dropdownDown.png") :
+              require("./img/dropdownUp.png")
+              } />
           </View>
         </TouchableHighlight>
         <Collapsible collapsed={this.state.collapsed} align="center">

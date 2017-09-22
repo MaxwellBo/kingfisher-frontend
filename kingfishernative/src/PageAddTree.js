@@ -64,11 +64,11 @@ export default class PageAddTree extends React.Component {
       // If it is the last DBH and it's been deleted
       newDbhs.pop(dbhIndex); // Remove it from the list
       newDbhsIndex.pop(dbhIndex);
+      this.DBHChangeText(dbhIndex - 1, this.state.dbhs[dbhIndex - 1])
     } else if (dbhIndex <= newDbhs.length) { // Otherwise, as long as its a valid index
       newDbhs[dbhIndex] = value; // TODO: Validate inputs
-      newDbhsIndex[dbhIndex] = -1;
     }
-    this.setState({dbhs: newDbhs, dbhsIndex: newDbhsIndex});
+    this.setState({dbhs: newDbhs});
   }
 
   validInput(fieldName) {
@@ -83,7 +83,7 @@ export default class PageAddTree extends React.Component {
 
   checkDbhs() {
     for(let i=0; i<this.state.dbhs.length; i++) {
-      if(isNaN(Number(this.state.dbhs[i])) || this.state.dbhs[i] < 0) {
+      if(this.state.dbhs[i] <= 0 || isNaN(Number(this.state.dbhs[i]))) {
         newDbhs = this.state.dbhsValid;
         newDbhs[i] = 0;
         this.setState({dbhsValid: newDbhs});
@@ -111,7 +111,7 @@ export default class PageAddTree extends React.Component {
     }
   }
 
-  errorAlert() {
+  invalidFormAlert() {
     let message = "Submission failed:\n";
     message += (this.state.speciesValid !== 1 ? "✘ Invalid species\n" : "");
     message += (this.state.heightValid !== 1 ? "✘ Invalid height - ensure measurement is in cm\n" : "");
@@ -134,10 +134,11 @@ export default class PageAddTree extends React.Component {
       dbhList.push(
         <Field label={"DBH " + (i+1)} name={i} key={"DBH " + i}
           onChangeText={(dbhIndex, value) => this.DBHChangeText(dbhIndex, value)}
-               onEndEditing={(fieldName, text) => this.validInput(fieldName, text)}
-               inputStyles={(this.state.dbhsValid[i] == 0) && {backgroundColor: '#DD4649'}
+               inputStyles={(i == this.state.dbhs.length) && {backgroundColor: '#898689'}
+               || (this.state.dbhsValid[i] == 0) && {backgroundColor: '#DD4649'}
                || (this.state.dbhsValid[i] == 1) && {backgroundColor: '#96DD90'}
-               || (this.state.dbhsValid[i] == -1) && {backgroundColor: '#898689'}}/>
+               || (this.state.dbhsValid[i] == -1) && {backgroundColor: '#898689'}}
+               onEndEditing={(fieldName, text) => this.validInput(fieldName, text)}/>
       )
     }
     return (
@@ -173,16 +174,16 @@ export default class PageAddTree extends React.Component {
                   this.state.heightValid === 1 && 
                   this.state.dbhs.length > 0) {
                 // FIXME: Use for .. in rather than indexed iterations
-                for(let i=0; i<this.state.dbhsValid.length; i++) {
-                  if(this.state.dbhsValid[i] === 0) {
-                    this.errorAlert();
+                for(dbhValid in this.state.dbhsValid) {
+                  if(dbhValid !== 1) {
+                    this.invalidFormAlert();
                     return false;
                   }
                 }
                 this.push();
                 this.props.history.goBack();
               } else {
-                this.errorAlert();
+                this.invalidFormAlert();
                 return false;
               }
             }

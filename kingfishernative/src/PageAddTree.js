@@ -83,7 +83,7 @@ export default class PageAddTree extends React.Component {
 
   checkDbhs() {
     for(let i=0; i<this.state.dbhs.length; i++) {
-      if(isNaN(Number(this.state.dbhs[i])) || this.state.dbhs[i] < 5) {
+      if(isNaN(Number(this.state.dbhs[i])) || this.state.dbhs[i] < 0) {
         newDbhs = this.state.dbhsValid;
         newDbhs[i] = 0;
         this.setState({dbhsValid: newDbhs});
@@ -104,7 +104,7 @@ export default class PageAddTree extends React.Component {
   }
 
   checkHeight() {
-    if(this.state.height < 2 || isNaN(Number(this.state.height))) {
+    if(this.state.height < 200 || isNaN(Number(this.state.height))) {
       this.setState({heightValid: 0});
     } else {
       this.setState({heightValid: 1});
@@ -136,7 +136,7 @@ export default class PageAddTree extends React.Component {
                   || (this.state.speciesValid === 1) && {backgroundColor: '#96DD90'}
                   || (this.state.speciesValid === -1) && {backgroundColor: '#898689'}}
                   onEndEditing={(fieldName, text) => this.validInput(fieldName, text)}/>
-          <Field label="Tree Height" name="height"
+          <Field label="Tree Height (cm)" name="height"
             onChangeText={(specName, value) => this.changeSpec(specName, value)}
                   inputStyles={(this.state.heightValid === 0) && {backgroundColor: '#DD4649'}
                   || (this.state.heightValid === 1) && {backgroundColor: '#96DD90'}
@@ -145,7 +145,7 @@ export default class PageAddTree extends React.Component {
         </View>
         <View style={styles.dbhCont}>
           <Text style={styles.h2}>
-            Diameter At Breast Height
+            Diameter At Breast Height (mm)
           </Text>
           {dbhList}
         </View>

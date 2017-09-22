@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, View, Image, ScrollView, Dimensions, Alert } from 'react-native';
 import { Container, Content, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import { styles } from "./Styles"
 import SpecialButton from "./SpecialButton"
@@ -111,6 +111,22 @@ export default class PageAddTree extends React.Component {
     }
   }
 
+  errorAlert() {
+    let message = "Submission failed:\n";
+    message += (this.state.speciesValid !== 1 ? "✘ Invalid species\n" : "");
+    message += (this.state.heightValid !== 1 ? "✘ Invalid height - ensure measurement is in cm\n" : "");
+    message += (this.state.dbhs.length < 1 ? "✘ No DBH measurement recorded\n" : "");
+    // We multiply all elements of the list together, if there's even one `0`, the whole thing will be `0`
+    for (let i = 0; i < this.state.dbhsValid.length; i++) {
+      if (this.state.dbhsValid[i] != 1) {
+        message += "✘ Invalid DBH " + (1 + i) + " - ensure measurement is in mm";
+      }
+    }
+    Alert.alert(
+      message
+    )
+  }
+
   render() {
     dbhList = [];
     // FIXME: Use for .. in rather than indexed iterations
@@ -153,19 +169,20 @@ export default class PageAddTree extends React.Component {
           extraStyles={[styles.indexButton]}
           buttonText="Add"
           onClick={() => {
-              if(this.state.speciesValid === 1 && this.state.heightValid === 1) {
-                if(this.state.dbhs.length === 0) {
-                  return false;
-                }
+              if(this.state.speciesValid === 1 && 
+                  this.state.heightValid === 1 && 
+                  this.state.dbhs.length > 0) {
                 // FIXME: Use for .. in rather than indexed iterations
                 for(let i=0; i<this.state.dbhsValid.length; i++) {
                   if(this.state.dbhsValid[i] === 0) {
+                    this.errorAlert();
                     return false;
                   }
                 }
                 this.push();
                 this.props.history.goBack();
               } else {
+                this.errorAlert();
                 return false;
               }
             }

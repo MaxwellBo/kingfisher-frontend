@@ -64,6 +64,7 @@ export default class PageAddTree extends React.Component {
       // If it is the last DBH and it's been deleted
       newDbhs.pop(dbhIndex); // Remove it from the list
       newDbhsIndex.pop(dbhIndex);
+      // Recursively remove previous DBH if it's also empty.
       this.DBHChangeText(dbhIndex - 1, this.state.dbhs[dbhIndex - 1])
     } else if (dbhIndex <= newDbhs.length) { // Otherwise, as long as its a valid index
       newDbhs[dbhIndex] = value; // TODO: Validate inputs
@@ -108,7 +109,17 @@ export default class PageAddTree extends React.Component {
       this.setState({heightValid: 0});
     } else {
       this.setState({heightValid: 1});
+      if(this.state.height > 3000) {
+        // Warn user if height is above 30m
+        this.heightWarningAlert()
+      }
     }
+  }
+
+  heightWarningAlert() {
+    Alert.alert(
+      "You input height as " + this.state.height + "cm. Is this accurate? It seems too high."
+    )
   }
 
   invalidFormAlert() {

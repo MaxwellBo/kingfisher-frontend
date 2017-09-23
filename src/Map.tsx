@@ -8,9 +8,8 @@ import {
   withGoogleMap,
   GoogleMap,
   Marker,
+  MarkerClusterer
 } from 'react-google-maps';
-
-import MarkerClusterer from '../node_modules/react-google-maps/lib/components/addons/MarkerClusterer';
 
 interface Props {
   sites: Site[];

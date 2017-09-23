@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { Link, Route, Redirect } from 'react-router-dom';
-import * as firebase from 'firebase';
 
-export default class Nav extends React.Component {
+export default class Nav extends React.PureComponent {
   render() {
     return (
       <div className="hero-head">
@@ -49,5 +47,3 @@ export default class Nav extends React.Component {
     );
   }
 }
-
-// https://api.uqcloud.net/login/http://deco3801-jquery-only.uqcloud.net/stats

@@ -23,6 +23,8 @@ import Login from './Login';
 import TOS from './TOS';
 import Stats from './Stats';
 import PurchaseForm from './PurchaseForm';
+import Footer from './Footer';
+import Tabs from './Tabs';
 
 interface CardProps { 
   title: string;
@@ -160,35 +162,7 @@ function Home() {
           until you get internet, and then it syncs with the database!
         </p>
       </section>
-      <Footer />
     </div>
-  );
-}
-
-/*
-function Nav() {
-  return (
-    <div className="tabs">
-      <ul>
-        <Link to="/app/export"><li><a>Export</a></li></Link>
-        {/* <Link to="/export"><li className="is-active"><a>Export</a></li></Link> }
-      </ul>
-    </div>
-  );
-}
-*/
-
-function Footer() {
-  return (
-    <footer className="footer">
-      <div className="container">
-        <div className="content has-text-centered">
-          <p>
-            <strong>Kingfisher</strong> by Hugo Kawamata, Max Bo, Haziq Nordin, Sanika Naik, and Yuji Takahashi.
-          </p>
-        </div>
-      </div>
-    </footer>
   );
 }
 
@@ -200,12 +174,13 @@ class App extends React.Component<Props, State> {
     return (
       <div>
         <Route exact={true} path="/" component={Home}/>
+        <Route path="/app" component={Tabs}/>
         <Route exact={true} path="/app/export" component={Export}/>
         <Route exact={true} path="/login" component={Login}/>
         <Route exact={true} path="/tos" component={TOS}/>
         <Route exact={true} path="/stats" component={Stats}/>
         <Route exact={true} path="/purchase" component={PurchaseForm}/>
-        <Route path="/app" component={Footer}/>
+        <Route path="/" component={Footer}/>
       </div>
     );
   }

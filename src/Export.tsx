@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as firebase from 'firebase';
 
+import MapWithAMarkerCluster from './Map';
+
 function writeUserData() {
   const user = firebase.auth().currentUser;
 
@@ -54,6 +56,7 @@ class Export extends React.Component<Props, State> {
             A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
         </h2>
         <p>{JSON.stringify(this.state.sites)}</p>
+        <MapWithAMarkerCluster />
         </div>
       </section>
     );

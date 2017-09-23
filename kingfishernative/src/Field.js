@@ -25,6 +25,7 @@ export default class Field extends React.Component {
         <Text style={styles.fieldLabel}>{this.props.label}</Text>
         <View style={styles.fieldInputCont}>
           <TextInput 
+            defaultValue={this.props.defaultValue ? this.props.defaultValue : ""}
             underlineColorAndroid={"transparent"}
             style={[styles.fieldInput].concat(this.props.inputStyles)}
             onChangeText={(value) => this.props.onChangeText(this.props.name, value)}

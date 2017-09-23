@@ -16,6 +16,30 @@
   display: flex;
   align-items: stretch;
 }
-.card-image {
+.card-image-container {
   border: 2px solid #888;
+}
+
+.card-image {
+}
+
+.card {
+  max-width: 448px;
+}
+
+.centered {
+  margin: auto;
+  text-align: center;
+}
+
+.submit {
+  margin-top: 2rem;
+}
+
+.form {
+  max-width: 25rem;
+}
+
+.big-text {
+  font-size: 3rem;
 }

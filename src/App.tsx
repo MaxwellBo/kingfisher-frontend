@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Link, Route } from 'react-router-dom';
 import * as firebase from 'firebase';
+import Nav from "./Nav";
 
 import './Bulma.css';
 import './App.css';
@@ -20,6 +21,8 @@ firebase.initializeApp(firebaseConfig);
 import Export from './Export';
 import Login from './Login';
 import TOS from './TOS';
+import Stats from './Stats';
+import PurchaseForm from './PurchaseForm';
 
 interface CardProps { 
   title: string;
@@ -31,10 +34,10 @@ interface CardProps {
 
 function Card(cardProps: CardProps) {
   return (
-    <div className="card">
-      <div className="card-image">
+    <div className="card centered">
+      <div className="card-image-container">
         <figure className="image is-4by3">
-          <img src={cardProps.imgSrc} alt={cardProps.imgAlt} />
+          <img className="card-image" src={cardProps.imgSrc} alt={cardProps.imgAlt} />
         </figure>
       </div>
       <div className="card-content">
@@ -58,52 +61,7 @@ function Home() {
     <div>
       <section className="hero is-info is-medium">
         <div className="hero-head">
-          <header className="nav">
-            <div className="container">
-              <div className="nav-left">
-                <a className="nav-item">
-                  <img src="images/bulma-type-white.png" alt="Kingfisher" />
-                </a>
-              </div>
-              <span className="nav-toggle">
-                {/* <span></span>
-                <span></span>
-                <span></span> */}
-              </span>
-              <div className="nav-right nav-menu">
-                {/* <a className="nav-item is-active"> */}
-                <a className="nav-item" href="https://www.facebook.com/Kingfisher-127569781308370/">
-                  <i className="fa fa-facebook-official" aria-hidden="true"/>
-                </a>
-                <a className="nav-item" href="https://twitter.com/KingfisherData">
-                  <i className="fa fa-twitter-square" aria-hidden="true"/>
-                </a>
-                <a className="nav-item" href="https://www.instagram.com/kingfisherdata/">
-                  <i className="fa fa-instagram" aria-hidden="true"/>
-                </a>
-
-                <a className="nav-item">
-                  Purchase
-                </a>
-                <a className="nav-item">
-                  Statistics
-                </a>
-                <a className="nav-item">
-                  Documentation
-                </a>
-                <span className="nav-item">
-                  <Link to="/login">
-                    <a className="button is-primary is-inverted">
-                      <span className="icon">
-                        <i className="fa fa-lock" />
-                      </span>
-                      <span>Login</span>
-                    </a>
-                  </Link>
-                </span>
-              </div>
-            </div>
-          </header>
+          <Nav/>
         </div>
       
         <div className="hero-body">
@@ -119,7 +77,7 @@ function Home() {
     
       </section>
       <section className="section">
-        <div className="columns">
+        <div className="columns is-8">
           <div className="column">
             <Card 
               title="Instant Backups." 
@@ -158,27 +116,56 @@ function Home() {
           </div>
         </div>
       </section>
-      <section className="section">
+      <section className="section centered">
         <h1 className="title">
           Product Video
         </h1>
-        <iframe width="420" height="315" src="https://www.youtube.com/watch?v=oZc_jrutGrk">
-        </iframe>
+        <div className="centered">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/oZc_jrutGrk" />
+        </div>
       </section>
+      <section className="section centered">
+        <h1 className="title">
+          Features
+        </h1>
+        <p>
+          <ul>
+            <li><i className="fa fa-check" aria-hidden="true"/> Automatically sync data with a centralised database of all tree measurements.</li>
+            <li><i className="fa fa-check" aria-hidden="true"/> Visualise and compare data, online or offline.</li>
+            <li><i className="fa fa-check" aria-hidden="true"/> Easy to use collection interface.</li>
+            <li><i className="fa fa-check" aria-hidden="true"/> Automatic geolocation when creating sites or tree measurements.</li>
+            <li><i className="fa fa-check" aria-hidden="true"/> Get notified when the data you've collected is statistically significant enough to stop.</li>
+          </ul>
+        </p>
+      </section>
+      <section className="section centered">
+        <h1 className="title">
+          Why Use Kingfisher?
+        </h1>
+        <p className="column is-three-quarters centered">Kingfisher's many features can help streamline the data collection process for your organisation. The 
+          app removes the need to manually transfer data into a spreadsheet or database, and will save you tons 
+          of time doing collection or data entry alike. Not only that, but it's super safe, and you have no need
+          to worry about losing your data between the site and the office. Everything is backed up on your phone 
+          until you get internet, and then it syncs with the database!
+        </p>
+      </section>
+      <Footer />
     </div>
   );
 }
 
+/*
 function Nav() {
   return (
     <div className="tabs">
       <ul>
         <Link to="/app/export"><li><a>Export</a></li></Link>
-        {/* <Link to="/export"><li className="is-active"><a>Export</a></li></Link> */}
+        {/* <Link to="/export"><li className="is-active"><a>Export</a></li></Link> }
       </ul>
     </div>
   );
 }
+*/
 
 function Footer() {
   return (
@@ -186,7 +173,7 @@ function Footer() {
       <div className="container">
         <div className="content has-text-centered">
           <p>
-            TODO: License
+            <strong>Kingfisher</strong> by Hugo Kawamata, Max Bo, Haziq Nordin, Sanika Naik, and Yuji Takahashi.
           </p>
         </div>
       </div>
@@ -202,10 +189,11 @@ class App extends React.Component<Props, State> {
     return (
       <div>
         <Route exact={true} path="/" component={Home}/>
-        <Route path="/app" component={Nav}/>
         <Route exact={true} path="/app/export" component={Export}/>
         <Route exact={true} path="/login" component={Login}/>
         <Route exact={true} path="/tos" component={TOS}/>
+        <Route exact={true} path="/stats" component={Stats}/>
+        <Route exact={true} path="/purchase" component={PurchaseForm}/>
         <Route path="/app" component={Footer}/>
       </div>
     );

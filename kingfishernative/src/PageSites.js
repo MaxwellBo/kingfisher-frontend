@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableHighlight } from 'react-native';
+import { Container, Header, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import { Link, Route } from 'react-router-native'
 import { styles } from "./Styles"
 import Title from "./Title"
@@ -9,6 +10,7 @@ import PageSiteTrees from "./PageSiteTrees"
 import PageAddTree from "./PageAddTree"
 import AccordionViewSite from "./AccordionViewSite"
 import Field from "./Field"
+import PageVizTree from "./PageVizTree"
 
 /**
  * Returns a single "site" button.
@@ -52,21 +54,17 @@ function Sites(props) {
   );
 
   return (
-    <View style={styles.scroller}>
-      <ScrollView 
-        contentContainerStyle={[styles.pageCont]}
-        >
-        <View>
-          <Text style={styles.pageHeadTitle}>Sites</Text>
-          <Text style={styles.pageHeadDesc}>Add a new site record to get started.</Text>
-          <AddSite/>
-        </View>
-        <View style={styles.sites}>
-          
-          {sitesComponents}
-        </View>
-      </ScrollView>
-    </View>
+    <Content contentContainerStyle={styles.pageCont}>
+      <View>
+        <Text style={styles.pageHeadTitle}>Sites</Text>
+        <Text style={styles.pageHeadDesc}>Add a new site record to get started.</Text>
+        <AddSite/>
+      </View>
+      <View style={styles.sites}>
+        
+        {sitesComponents}
+      </View>
+    </Content>
   );
 }
 
@@ -162,12 +160,14 @@ export default class PageSites extends React.Component {
     )
 
     return (
-      <View>
+      <Container>
         <Route path="/sites" render={TitleComponent} />
         <Route exact path="/sites/:siteCode/:date" component={PageSiteTrees} />
         <Route exact path="/sites/:siteCode/:date/add" component={PageAddTree} />
+        <Route exact path="/sites/:siteCode/:date/viz" component={PageVizTree} />
+        <Route exact path="/sites/:siteCode/:date/edit/:treeName" component={PageAddTree} />
         <Route exact path="/sites" render={SitesComponent} />
-      </View>
+      </Container>
     );
   }
 }

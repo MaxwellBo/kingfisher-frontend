@@ -10,11 +10,11 @@ import AccordionViewTree from "./AccordionViewTree"
 
 /**
  * All classes beginning with "Page" are different representations of pages
- * to be rendered by AppScreen. 
- * 
+ * to be rendered by AppScreen.
+ *
  * This page is a view of all the tree measurements taken for a particular site.
  */
-export default class PageSiteTrees extends React.Component {
+export default class PageVizTree extends React.Component {
   constructor(props) {
     super(props);
 
@@ -44,41 +44,16 @@ export default class PageSiteTrees extends React.Component {
   }
 
   render() {
+    const { trees } = this.state;
+
     const siteCode = this.props.match.params.siteCode
     const date = this.props.match.params.date
-
-    const { trees } = this.state;
-    const treesComponents = (trees == null) ? <View/> : Object.keys(trees).map(key =>
-      <AccordionViewTree
-        treeName={key}
-        key={key}
-        species={trees[key]['species']}
-        height={trees[key]['height']}
-        dbhs={trees[key]['dbhs']}
-        siteCode={siteCode}
-        date={date}
-      />
-    );
-
 
     return (
       <Content contentContainerStyle={[styles.pageCont, styles.siteTrees]}>
         <View>
-          <Text style={styles.pageHeadTitle}>Site Tree Records</Text>
-          <Text style={styles.pageHeadDesc}>Add new trees, view trees input this session, and save data input session.</Text>
-        </View>
-        <View style={[styles.horizontalFlexCont]}>
-          <LinkButton
-            buttonText="Add"
-            to={"/sites/" + siteCode + "/" + date + "/add"} 
-          />
-          <LinkButton
-            buttonText="Visualize"
-            to={"/sites/" + siteCode + "/" + date + "/viz"}
-          />
-        </View>
-        <View style={styles.trees}>
-          {treesComponents}
+          <Text style={styles.pageHeadTitle}>Visualize Site Data</Text>
+          <Text style={styles.pageHeadDesc}>Use this page to view your historical data for this site and analyze your current data.</Text>
         </View>
       </Content>
     )

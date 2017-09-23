@@ -287,6 +287,14 @@ export const styles = StyleSheet.create({
 
   treeName: {
     padding: 3,
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
+  dropdownArrow: {
+    width: 30,
+    height: 30,
   },
 
   treeDropdown: {

@@ -33,7 +33,10 @@ export default class Nav extends React.Component {
               <a href="/purchase" className="nav-item">
                 Purchase
               </a>
-              <a href="https://api.uqcloud.net/login/http://deco3801-jquery-only.uqcloud.net/stats" className="nav-item">
+              <a 
+                href="https://api.uqcloud.net/login/http://deco3801-jquery-only.uqcloud.net/stats" 
+                className="nav-item"
+              >
                 Statistics
               </a>
               <a className="nav-item">
@@ -43,7 +46,7 @@ export default class Nav extends React.Component {
           </div>
         </header>
       </div>
-    )
+    );
   }
 }
 

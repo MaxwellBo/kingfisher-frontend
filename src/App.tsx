@@ -130,11 +130,21 @@ function Home() {
         </h1>
         <p>
           <ul>
-            <li><i className="fa fa-check" aria-hidden="true"/> Automatically sync data with a centralised database of all tree measurements.</li>
-            <li><i className="fa fa-check" aria-hidden="true"/> Visualise and compare data, online or offline.</li>
-            <li><i className="fa fa-check" aria-hidden="true"/> Easy to use collection interface.</li>
-            <li><i className="fa fa-check" aria-hidden="true"/> Automatic geolocation when creating sites or tree measurements.</li>
-            <li><i className="fa fa-check" aria-hidden="true"/> Get notified when the data you've collected is statistically significant enough to stop.</li>
+            <li><i className="fa fa-check" aria-hidden="true"/> 
+              Automatically sync data with a centralised database of all tree measurements.
+            </li>
+            <li><i className="fa fa-check" aria-hidden="true"/> 
+              Visualise and compare data, online or offline.
+            </li>
+            <li><i className="fa fa-check" aria-hidden="true"/> 
+              Easy to use collection interface.
+            </li>
+            <li><i className="fa fa-check" aria-hidden="true"/> 
+              Automatic geolocation when creating sites or tree measurements.
+            </li>
+            <li><i className="fa fa-check" aria-hidden="true"/>
+              Get notified when the data you've collected is statistically significant enough to stop.
+            </li>
           </ul>
         </p>
       </section>
@@ -142,7 +152,8 @@ function Home() {
         <h1 className="title">
           Why Use Kingfisher?
         </h1>
-        <p className="column is-three-quarters centered">Kingfisher's many features can help streamline the data collection process for your organisation. The 
+        <p className="column is-three-quarters centered">
+          Kingfisher's many features can help streamline the data collection process for your organisation. The 
           app removes the need to manually transfer data into a spreadsheet or database, and will save you tons 
           of time doing collection or data entry alike. Not only that, but it's super safe, and you have no need
           to worry about losing your data between the site and the office. Everything is backed up on your phone 

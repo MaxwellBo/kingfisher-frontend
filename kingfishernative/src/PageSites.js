@@ -165,6 +165,7 @@ export default class PageSites extends React.Component {
         <Route exact path="/sites/:siteCode/:date" component={PageSiteTrees} />
         <Route exact path="/sites/:siteCode/:date/add" component={PageAddTree} />
         <Route exact path="/sites/:siteCode/:date/viz" component={PageVizTree} />
+        <Route exact path="/sites/:siteCode/:date/edit/:treeName" component={PageAddTree} />
         <Route exact path="/sites" render={SitesComponent} />
       </Container>
     );

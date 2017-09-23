@@ -9,7 +9,7 @@ import { fbi } from "./Global"
 
 /**
  * All classes beginning with "Page" are different representations of pages
- * to be rendered by AppScreen. 
+ * to be rendered by App. 
  * 
  * This page is for creating a new tree measurement for a particular site.
  * <View style={{height: Dimensions.get('window').height}}>
@@ -17,15 +17,40 @@ import { fbi } from "./Global"
 export default class PageAddTree extends React.Component {
   constructor() {
     super();
+
     this.state = {
       species: "",
-      height: 0,
+      height: "",
       dbhs: [],
       speciesValid: -1,
       heightValid: -1,
       dbhsValid:[],
+      existingTreeName: null
     }
 
+  }
+
+  componentWillMount() {
+    const siteCode = this.props.match.params.siteCode;
+    const date = this.props.match.params.date;
+    const treeName = this.props.match.params.treeName ? this.props.match.params.treeName : null;
+
+    // If treeName is not null, it means
+    if (treeName) {
+      const ref = fbi.database().ref("sites").child(siteCode).child("measurements").child(date).child('trees').child(treeName)
+      ref.once("value", tree => {
+        const fbTree = tree.val();
+        this.setState({
+          species: fbTree.species,
+          height: fbTree.height,
+          dbhs: fbTree.dbhs,
+          speciesValid: 1, // existing data should already be valid
+          heightValid: 1,
+          dbhsValid: fbTree.dbhs.map((x) => {return 1}),
+          existingTreeName: treeName,
+        });
+      })
+    }
   }
 
   push = () => {
@@ -33,7 +58,13 @@ export default class PageAddTree extends React.Component {
     const date = this.props.match.params.date
 
     // FIXME: this should probably be passed down a prop from `SiteTrees`
-    const ref = fbi.database().ref("sites").child(siteCode).child("measurements").child(date).child('trees').push();
+    let ref;
+    if (this.state.existingTreeName) {
+      const treeName = this.props.match.params.treeName;
+      ref = fbi.database().ref("sites").child(siteCode).child("measurements").child(date).child('trees').child(treeName);
+    } else {
+      ref = fbi.database().ref("sites").child(siteCode).child("measurements").child(date).child('trees').push();
+    }
     ref.set({
       species: this.state.species,
       height: this.state.height,
@@ -143,7 +174,8 @@ export default class PageAddTree extends React.Component {
     // FIXME: Use for .. in rather than indexed iterations
     for (let i = 0; i <= this.state.dbhs.length; i++) {
       dbhList.push(
-        <Field label={"DBH " + (i+1)} name={i} key={"DBH " + i}
+        <Field label={"DBH " + (i+1)} name={i} key={"DBH " + i} 
+          defaultValue={i < this.state.dbhs.length ? "" + this.state.dbhs[i] : ""}
           onChangeText={(dbhIndex, value) => this.DBHChangeText(dbhIndex, value)}
                inputStyles={(i == this.state.dbhs.length) && {backgroundColor: '#898689'}
                || (this.state.dbhsValid[i] == 0) && {backgroundColor: '#DD4649'}
@@ -155,16 +187,16 @@ export default class PageAddTree extends React.Component {
     return (
       <Content contentContainerStyle={styles.pageCont}>
         <View>
-          <Text style={styles.pageHeadTitle}>Add Tree Record</Text>
+          <Text style={styles.pageHeadTitle}>{this.state.existingTreeName ? "Edit Tree Record" : "Add Tree Record"}</Text>
         </View>
         <View style={styles.verticalFlexCont}>
-          <Field label="Species" name="species"
+          <Field label="Species" name="species" defaultValue={this.state.species}
             onChangeText={(specName, value) => this.changeSpec(specName, value)}
                   inputStyles={(this.state.speciesValid === 0) && {backgroundColor: '#DD4649'}
                   || (this.state.speciesValid === 1) && {backgroundColor: '#96DD90'}
                   || (this.state.speciesValid === -1) && {backgroundColor: '#898689'}}
                   onEndEditing={(fieldName, text) => this.validInput(fieldName, text)}/>
-          <Field label="Tree Height (cm)" name="height"
+          <Field label="Tree Height (cm)" name="height" defaultValue={"" + this.state.height}
             onChangeText={(specName, value) => this.changeSpec(specName, value)}
                   inputStyles={(this.state.heightValid === 0) && {backgroundColor: '#DD4649'}
                   || (this.state.heightValid === 1) && {backgroundColor: '#96DD90'}
@@ -181,12 +213,14 @@ export default class PageAddTree extends React.Component {
           extraStyles={[styles.indexButton]}
           buttonText="Add"
           onClick={() => {
+              this.checkSpecies();
+              this.checkHeight();
+              this.checkDbhs();
               if(this.state.speciesValid === 1 && 
                   this.state.heightValid === 1 && 
                   this.state.dbhs.length > 0) {
-                // FIXME: Use for .. in rather than indexed iterations
-                for(dbhValid in this.state.dbhsValid) {
-                  if(dbhValid !== 1) {
+                for(let i = 0; i < this.state.dbhsValid.length; i++) {
+                  if(this.state.dbhsValid[i] !== 1) {
                     this.invalidFormAlert();
                     return false;
                   }

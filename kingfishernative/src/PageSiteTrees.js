@@ -44,6 +44,9 @@ export default class PageSiteTrees extends React.Component {
   }
 
   render() {
+    const siteCode = this.props.match.params.siteCode
+    const date = this.props.match.params.date
+
     const { trees } = this.state;
     const treesComponents = (trees == null) ? <View/> : Object.keys(trees).map(key =>
       <AccordionViewTree
@@ -52,11 +55,11 @@ export default class PageSiteTrees extends React.Component {
         species={trees[key]['species']}
         height={trees[key]['height']}
         dbhs={trees[key]['dbhs']}
+        siteCode={siteCode}
+        date={date}
       />
     );
 
-    const siteCode = this.props.match.params.siteCode
-    const date = this.props.match.params.date
 
     return (
       <Content contentContainerStyle={[styles.pageCont, styles.siteTrees]}>

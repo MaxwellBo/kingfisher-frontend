@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link, Route } from 'react-router-dom';
 import * as firebase from 'firebase';
-import Nav from "./Nav";
+import Nav from './Nav';
 
 import './Bulma.css';
 import './App.css';

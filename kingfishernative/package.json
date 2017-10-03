@@ -16,6 +16,9 @@
     "preset": "react-native"
   },
   "dependencies": {
+    "art": "^0.10.1",
+    "d3": "^4.10.2",
+    "d3-shape": "^1.2.0",
     "native-base": "^2.3.2",
     "react": "^16.0.0-alpha.12",
     "react-native": "^0.46.1",

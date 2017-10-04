@@ -167,7 +167,7 @@ for i in range(int(dataCount)):
         dbhs.append(str(randint(int(dbhsValueRange[0]), int(dbhsValueRange[1]))))
     otherTrees[str(i)] = {'species': 'tree ' + str(randint(0, int(numberOfSpecies))),
                           'dbhs': dbhs,
-                          'height': str(randint(int(randomHeightRange[0]), int(randomHeightRange[0])))}
+                          'height': str(randint(int(randomHeightRange[0]), int(randomHeightRange[1])))}
 
 data['sites'][siteName]['measurements'][timeStamp]['trees'] = otherTrees
 

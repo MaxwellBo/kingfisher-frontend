@@ -26,7 +26,8 @@ export default class PageVizTree extends React.Component {
 
     this.state = {
       trees: {},
-      treesRef: fbi.database().ref("sites").child(siteCode).child("measurements").child(date).child('trees')
+      treesRef: fbi.database().ref("sites").child(siteCode).child("measurements").child(date).child('trees'),
+      showHeight: true
     };
 
     this.state.treesRef.keepSynced(true);
@@ -39,6 +40,8 @@ export default class PageVizTree extends React.Component {
           this.setState({ trees: trees.val() });
         }
       });
+
+    console.log(this.state)
   }
 
   componentWillUnmount() {
@@ -101,21 +104,31 @@ export default class PageVizTree extends React.Component {
     return data;
   }
 
+  getData() {
+    let data = []
+
+    if(this.state.showHeight == true) {
+      let heights = this.getHeight(this.state.trees)
+      let fiveNumberSummaries = []
+      let fiveNumberSummary = this.getFiveNumberSummary(heights)
+      fiveNumberSummaries.push(fiveNumberSummary)
+      data = this.formatBoxPlotDataAsArray(fiveNumberSummaries)
+    } else {
+      let heights = this.getDbhs(this.state.trees)
+      let fiveNumberSummaries = []
+      let fiveNumberSummary = this.getFiveNumberSummary(heights)
+      fiveNumberSummaries.push(fiveNumberSummary)
+      data = this.formatBoxPlotDataAsArray(fiveNumberSummaries)
+    }
+
+    return data;
+  }
+
   render() {
     const { trees } = this.state;
 
     const siteCode = this.props.match.params.siteCode;
     const date = this.props.match.params.date;
-
-    let dbhs = this.getDbhs(trees)
-
-    let heights = this.getHeight(trees)
-    let fiveNumberSummaries = []
-    let fiveNumberSummary = this.getFiveNumberSummary(dbhs)
-    console.log(fiveNumberSummary)
-    fiveNumberSummaries.push(fiveNumberSummary)
-    let data = this.formatBoxPlotDataAsArray(fiveNumberSummaries)
-    console.log(data);
 
     return (
       <Content contentContainerStyle={[styles.pageCont, styles.siteTrees]}>
@@ -125,7 +138,7 @@ export default class PageVizTree extends React.Component {
         </View>
         <Picker
           selectedValue={this.state.language}
-          onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}
+          onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue, showHeight: !this.state.showHeight})}
           style={{backgroundColor:"gray"}}>
           <Picker.Item label="Height" value="height" />
           <Picker.Item label="DBHS" value="dbhs" />
@@ -143,7 +156,7 @@ export default class PageVizTree extends React.Component {
             <VictoryAxis
                width={300}
                height={300}
-               domain={[0, data.length + 1]}
+               domain={[0, this.getData.length + 1]}
                standalone={false}
                fixLabelOverlap={false}
                style={{
@@ -173,7 +186,7 @@ export default class PageVizTree extends React.Component {
                tickLabelComponent={<VictoryLabel dx={-3} dy={15}/>}
             />
             <VictoryCandlestick
-              data={data}
+              data={this.getData()}
               dataComponent={<VictoryBoxPlot />}
             />
           </VictoryChart>

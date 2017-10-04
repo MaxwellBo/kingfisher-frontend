@@ -171,7 +171,6 @@ export default class PageVizTree extends React.Component {
             <VictoryAxis
                width={300}
                height={300}
-               domain={[200, 400]}
                standalone={false}
                dependentAxis={true}
                fixLabelOverlap={false}

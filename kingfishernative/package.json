@@ -20,12 +20,15 @@
     "d3": "^4.10.2",
     "d3-shape": "^1.2.0",
     "native-base": "^2.3.2",
+    "prop-types": "^15.6.0",
     "react": "^16.0.0-alpha.12",
     "react-native": "^0.46.1",
     "react-native-collapsible": "^0.9.0",
     "react-native-firebase": "^2.1.4",
     "react-native-svg": "^6.0.0-rc1",
     "react-router-native": "^4.2.0",
+    "summary-statistics": "^1.0.0",
+    "victory-core": "^19.0.2",
     "victory-native": "^0.15.0"
   }
 }

@@ -55,6 +55,19 @@ export default class PageVizTree extends React.Component {
     return heights;
   }
 
+  getDbhs(allData) {
+    let allDbhs = []
+    for (let key in allData) {
+      if (allData.hasOwnProperty(key)) {
+        let dbhsVals = allData[key]['dbhs'];
+        for(let dbhsValKey in allData[key]['dbhs']) {
+          allDbhs.push(dbhsVals[dbhsValKey]);
+        }
+      }
+    }
+    return allDbhs;
+  }
+
   /** {
    *     num: 17,
    *     sum: 731,
@@ -94,9 +107,11 @@ export default class PageVizTree extends React.Component {
     const siteCode = this.props.match.params.siteCode;
     const date = this.props.match.params.date;
 
+    let dbhs = this.getDbhs(trees)
+
     let heights = this.getHeight(trees)
     let fiveNumberSummaries = []
-    let fiveNumberSummary = this.getFiveNumberSummary(heights)
+    let fiveNumberSummary = this.getFiveNumberSummary(dbhs)
     console.log(fiveNumberSummary)
     fiveNumberSummaries.push(fiveNumberSummary)
     let data = this.formatBoxPlotDataAsArray(fiveNumberSummaries)

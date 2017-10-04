@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, Picker } from 'react-native';
 import { Container, Content, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import { styles } from "./Styles"
 import Title from "./Title"
@@ -108,6 +108,13 @@ export default class PageVizTree extends React.Component {
           <Text style={styles.pageHeadTitle}>Visualize Site Data</Text>
           <Text style={styles.pageHeadDesc}>Use this page to view your historical data for this site and analyze your current data.</Text>
         </View>
+        <Picker
+          selectedValue={this.state.language}
+          onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}
+          style={{backgroundColor:"gray"}}>
+          <Picker.Item label="Height" value="height" />
+          <Picker.Item label="DBHS" value="dbhs" />
+        </Picker>
         <View style={{backgroundColor:"white", flex:1, alignItems:'center'}}>
           <VictoryChart
             style={{

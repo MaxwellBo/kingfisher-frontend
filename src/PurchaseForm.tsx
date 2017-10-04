@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link, Route, Redirect } from 'react-router-dom';
 import * as firebase from 'firebase';
-import Nav from "./Nav"
+import Nav from './Nav';
 
 interface State {
   name: string;
@@ -23,24 +23,24 @@ export default class PurchaseForm extends React.Component<Props, State> {
     };
   }
 
-  handleChangeName(event: any) {
+  handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({name: event.target.value});
   }
 
-  handleChangeEmail(event: any) {
+  handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({email: event.target.value});
   }
 
-  handleChangeOccupation(event: any) {
+  handleChangeOccupation = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({occupation: event.target.value});
   }
 
-  writeFormData() {
+  writeFormData = () => {
     const date = new Date();
-    let dateString = ""
-    dateString += date.getDate() + "-"
-    dateString += date.getMonth() + "-"
-    dateString += date.getFullYear()
+    let dateString = '';
+    dateString += date.getDate() + '-';
+    dateString += date.getMonth() + '-';
+    dateString += date.getFullYear();
     const visitor = {
       name: this.state.name,
       email: this.state.email,
@@ -83,20 +83,32 @@ export default class PurchaseForm extends React.Component<Props, State> {
               <div className="field">
                 <label className="label">Name</label>
                 <div className="control">
-                  <input className="input" type="text" value={this.state.name} onChange={this.handleChangeName.bind(this)} placeholder="Text input"/>
+                  <input 
+                    className="input" 
+                    type="text" 
+                    value={this.state.name} 
+                    onChange={this.handleChangeName} 
+                    placeholder="Text input"
+                  />
                 </div>
               </div>
               <div className="field">
                 <label className="label">Email</label>
                 <div className="control">
-                  <input className="input" type="text" value={this.state.email} onChange={this.handleChangeEmail.bind(this)} placeholder="Text input"/>
+                  <input 
+                    className="input" 
+                    type="text" 
+                    value={this.state.email} 
+                    onChange={this.handleChangeEmail} 
+                    placeholder="Text input"
+                  />
                 </div>
               </div>
               <div className="field">
                 <label className="label">Occupation</label>
                 <div className="control centered">
                   <div className="select">
-                    <select onChange={this.handleChangeOccupation.bind(this)}>
+                    <select onChange={this.handleChangeOccupation}>
                       <option>Student</option>
                       <option>Teacher</option>
                       <option>Researcher</option>
@@ -106,7 +118,7 @@ export default class PurchaseForm extends React.Component<Props, State> {
                 </div>
               </div>
               <div className="form-row submit">
-                <div className="button" onClick={this.writeFormData.bind(this)}>
+                <div className="button" onClick={this.writeFormData}>
                   Submit
                 </div>
               </div>

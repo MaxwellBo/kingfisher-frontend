@@ -1,13 +1,86 @@
 import * as React from 'react';
 import * as firebase from 'firebase';
-import Nav from "./Nav";
+import Nav from './Nav';
 import any = jasmine.any;
 import { PieChart, LineChart } from 'react-easy-chart';
 
 interface Props { }
 interface State {
-  visitors: {};
+  visitors: Map<String, Visitor>;
   visitorsRef: firebase.database.Reference;
+}
+
+interface Visitor {
+  date: string;
+  email: string;
+  name: string;
+  occupation: string;
+}
+
+function getPieData(visitors: Map<String, Visitor>) {
+    let data = {};
+    Object.keys(visitors).map(key => {
+      let occupation = visitors[key].occupation;
+      if (occupation in data) {
+        data[occupation] += 1;
+      } else {
+        data[occupation] = 1;
+      }
+    });
+
+    return Object.keys(data).map(key => { 
+      return {'key': key, 'value': data[key] };
+    });
+}
+
+function getTimelineData(visitors: Map<String, Visitor>) {
+  let data = {};
+
+  Object.keys(visitors).map(key => {
+    let date = visitors[key].date;
+    if (date in data) {
+      data[date] += 1;
+    } else {
+      data[date] = 1;
+    }
+  });
+
+  const parsed = Object.keys(data).map(key => { 
+    return { x: key, y: data[key] };
+  });
+
+  interface Data {
+    x: string;
+    y: string;
+  }
+
+  parsed.sort(function (a: Data, b: Data) {
+    var x = a.x;
+    var y = b.y;
+    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+  });
+
+  return parsed;
+}
+
+function getEoiToday(visitors: Map<String, Visitor>) {
+  var today = new Date();
+
+  let dates: Array<String> = [];
+  let count = 0;
+  for (const key of Object.keys(visitors)) {
+    let date = visitors[key].date;
+    var arr = date.split('-');
+    let todayDate = '' + today.getDate();
+    let todayMonth = '' + today.getMonth();
+    let todayYear = '' + today.getFullYear();
+
+    if (arr[0] === todayDate && arr[1] === todayMonth && arr[2] === todayYear) {
+      count += 1;
+    }
+  }
+
+  return count;
 }
 
 class Stats extends React.Component<Props, State> {
@@ -19,7 +92,7 @@ class Stats extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      visitors: {},
+      visitors: {} as Map<String, Visitor>,
       visitorsRef: firebase.database().ref('visitors')
     };
   }
@@ -47,102 +120,35 @@ class Stats extends React.Component<Props, State> {
     this.state.visitorsRef.off();
   }
 
-  getPieData(visitors: any) {
-    let data = {};
-    for (let key in visitors) {
-      let occupation = visitors[key]['occupation'];
-      if (occupation in data) {
-        data[occupation] += 1;
-      } else {
-        data[occupation] = 1;
-      }
-    }
-    console.log(data)
-    let parsable_data: any = []
-    for (let key in data) {
-      let log: any = { 'key': key, 'value': data[key] }
-      parsable_data.push(log)
-    }
-    console.log(parsable_data)
-    return parsable_data
-  }
-
-  getTimelineData(visitors: any) {
-    let data = {};
-    for (let key in visitors) {
-      let occupation = visitors[key]['date'];
-      if (occupation in data) {
-        data[occupation] += 1;
-      } else {
-        data[occupation] = 1;
-      }
-    }
-    console.log("timelinedata")
-    console.log(data)
-    console.log("timelinedata")
-
-    let parsable_data: any = []
-    for (let key in data) {
-      let log: any = { 'x': key, 'y': data[key] }
-      parsable_data.push(log)
-    }
-
-    parsable_data.sort(function (a: any, b: any) {
-      var x = a['x'];
-      var y = b['x'];
-      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-    });
-    return parsable_data
-  }
-
-  getEoiToday(visitors: any) {
-    var today = new Date();
-
-    let dates: Array<String> = [];
-    let count = 0;
-    for (let key in visitors) {
-      let date = visitors[key]['date'];
-      var arr = date.split("-");
-      let todayDate = "" + today.getDate();
-      let todayMonth = "" + today.getMonth();
-      let todayYear = "" + today.getFullYear();
-
-      if (arr[0] === todayDate && arr[1] === todayMonth && arr[2] === todayYear) {
-        count += 1;
-      }
-    }
-
-    return count;
-  }
-
   render() {
     const { visitors } = this.state;
     let recentEOIs = (visitors == null) ? [<div key="1" />] : Object.keys(visitors).map(key =>
-      (<div className="rowRecent" key={key}>
+      (
+      <div className="rowRecent" key={key}>
         <div className="columns">
           <div className="column">
-            {visitors[key]['name']}
+            {visitors[key].name}
           </div>
           <div className="column">
-            {visitors[key]['email']}
+            {visitors[key].email}
           </div>
           <div className="column">
-            {visitors[key]['occupation']}
+            {visitors[key].occupation}
           </div>
           <div className="column">
-            {visitors[key]['date']}
+            {visitors[key].date}
           </div>
         </div>
-      </div>)
-    )
+      </div>
+      )
+    );
 
     recentEOIs.reverse();
-    recentEOIs.length = 10 // Chop the most recent 10 EOIs
+    recentEOIs.length = 10; // Chop the most recent 10 EOIs
 
-    let pieData = this.getPieData(visitors)
-    let lineData = this.getTimelineData(visitors)
-    this.getEoiToday(visitors);
-    let count = this.getEoiToday(visitors);
+    let pieData = getPieData(visitors);
+    let lineData = getTimelineData(visitors);
+    let count = getEoiToday(visitors);
 
     return (
       <div className="stats">
@@ -162,7 +168,7 @@ class Stats extends React.Component<Props, State> {
               <div className="column is-half centered">
                 <div>
                   <PieChart
-                    labels
+                    labels={true}
                     data={pieData}
                   />
                   <div className="centered"><strong>Interest by Occupation</strong></div>
@@ -176,9 +182,9 @@ class Stats extends React.Component<Props, State> {
             <h1 className="title">Interest Over Time</h1>
             <LineChart
               xType={'text'}
-              axes
-              grid
-              verticalGrid
+              axes={true}
+              grid={true}
+              verticalGrid={true}
               interpolate={'cardinal'}
               width={750}
               height={250}

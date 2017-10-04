@@ -34,3 +34,4 @@ declare module "firebaseui" {
 
 // https://github.com/tomchentw/react-google-maps/issues/363
 declare module 'react-google-maps';
+declare module 'react-google-maps/lib/addons/MarkerClusterer';

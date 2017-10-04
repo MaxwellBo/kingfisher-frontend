@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link, Route } from 'react-router-dom';
 import * as firebase from 'firebase';
-import Nav from "./Nav";
+import Nav from './Nav';
 
 import './Bulma.css';
 import './App.css';
@@ -23,6 +23,8 @@ import Login from './Login';
 import TOS from './TOS';
 import Stats from './Stats';
 import PurchaseForm from './PurchaseForm';
+import Footer from './Footer';
+import Tabs from './Tabs';
 
 interface CardProps { 
   title: string;
@@ -130,11 +132,21 @@ function Home() {
         </h1>
         <p>
           <ul>
-            <li><i className="fa fa-check" aria-hidden="true"/> Automatically sync data with a centralised database of all tree measurements.</li>
-            <li><i className="fa fa-check" aria-hidden="true"/> Visualise and compare data, online or offline.</li>
-            <li><i className="fa fa-check" aria-hidden="true"/> Easy to use collection interface.</li>
-            <li><i className="fa fa-check" aria-hidden="true"/> Automatic geolocation when creating sites or tree measurements.</li>
-            <li><i className="fa fa-check" aria-hidden="true"/> Get notified when the data you've collected is statistically significant enough to stop.</li>
+            <li><i className="fa fa-check" aria-hidden="true"/> 
+              Automatically sync data with a centralised database of all tree measurements.
+            </li>
+            <li><i className="fa fa-check" aria-hidden="true"/> 
+              Visualise and compare data, online or offline.
+            </li>
+            <li><i className="fa fa-check" aria-hidden="true"/> 
+              Easy to use collection interface.
+            </li>
+            <li><i className="fa fa-check" aria-hidden="true"/> 
+              Automatic geolocation when creating sites or tree measurements.
+            </li>
+            <li><i className="fa fa-check" aria-hidden="true"/>
+              Get notified when the data you've collected is statistically significant enough to stop.
+            </li>
           </ul>
         </p>
       </section>
@@ -142,42 +154,15 @@ function Home() {
         <h1 className="title">
           Why Use Kingfisher?
         </h1>
-        <p className="column is-three-quarters centered">Kingfisher's many features can help streamline the data collection process for your organisation. The 
+        <p className="column is-three-quarters centered">
+          Kingfisher's many features can help streamline the data collection process for your organisation. The 
           app removes the need to manually transfer data into a spreadsheet or database, and will save you tons 
           of time doing collection or data entry alike. Not only that, but it's super safe, and you have no need
           to worry about losing your data between the site and the office. Everything is backed up on your phone 
           until you get internet, and then it syncs with the database!
         </p>
       </section>
-      <Footer />
     </div>
-  );
-}
-
-/*
-function Nav() {
-  return (
-    <div className="tabs">
-      <ul>
-        <Link to="/app/export"><li><a>Export</a></li></Link>
-        {/* <Link to="/export"><li className="is-active"><a>Export</a></li></Link> }
-      </ul>
-    </div>
-  );
-}
-*/
-
-function Footer() {
-  return (
-    <footer className="footer">
-      <div className="container">
-        <div className="content has-text-centered">
-          <p>
-            <strong>Kingfisher</strong> by Hugo Kawamata, Max Bo, Haziq Nordin, Sanika Naik, and Yuji Takahashi.
-          </p>
-        </div>
-      </div>
-    </footer>
   );
 }
 
@@ -189,12 +174,13 @@ class App extends React.Component<Props, State> {
     return (
       <div>
         <Route exact={true} path="/" component={Home}/>
+        <Route path="/app" component={Tabs}/>
         <Route exact={true} path="/app/export" component={Export}/>
         <Route exact={true} path="/login" component={Login}/>
         <Route exact={true} path="/tos" component={TOS}/>
         <Route exact={true} path="/stats" component={Stats}/>
         <Route exact={true} path="/purchase" component={PurchaseForm}/>
-        <Route path="/app" component={Footer}/>
+        <Route path="/" component={Footer}/>
       </div>
     );
   }

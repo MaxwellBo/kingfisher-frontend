@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { Link, Route, Redirect } from 'react-router-dom';
-import * as firebase from 'firebase';
 
-export default class Nav extends React.Component {
+export default class Nav extends React.PureComponent {
   render() {
     return (
       <div className="hero-head">
@@ -33,7 +31,10 @@ export default class Nav extends React.Component {
               <a href="/purchase" className="nav-item">
                 Purchase
               </a>
-              <a href="https://api.uqcloud.net/login/http://deco3801-jquery-only.uqcloud.net/stats" className="nav-item">
+              <a 
+                href="https://api.uqcloud.net/login/http://deco3801-jquery-only.uqcloud.net/stats" 
+                className="nav-item"
+              >
                 Statistics
               </a>
               <a className="nav-item">
@@ -43,8 +44,6 @@ export default class Nav extends React.Component {
           </div>
         </header>
       </div>
-    )
+    );
   }
 }
-
-// https://api.uqcloud.net/login/http://deco3801-jquery-only.uqcloud.net/stats

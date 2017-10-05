@@ -6,6 +6,8 @@ import { fbi } from "./Global"
 import { VictoryAxis, VictoryChart, VictoryCandlestick, VictoryLabel } from "victory-native";
 import VictoryBoxPlot from "./VictoryBoxPlot"
 import LabelSelect from 'react-native-label-select';
+import SitePickerComponent from "./SitePickerComponent";
+// import SitePickerComponent.js from './SitePickerComponent.js'
 
 /**
  * All classes beginning with "Page" are different representations of pages
@@ -20,14 +22,12 @@ export default class PageVizTree extends React.Component {
     const siteCode = this.props.match.params.siteCode;
     const date = this.props.match.params.date;
 
-    this.siteCode = siteCode.toString();
-    this.date = date.toString().split("::")[0];
-
     this.state = {
       trees: {},
       treesRef: fbi.database().ref("sites").child(siteCode).child("measurements").child(date).child('trees'),
       showHeight: true,
-      textInputValue: ''
+      textInputValue: '',
+      currentSelectedSites: [[this.props.match.params.siteCode, this.props.match.params.date]]
     };
 
     this.state.treesRef.keepSynced(true);
@@ -147,24 +147,9 @@ export default class PageVizTree extends React.Component {
           <Picker.Item label="Height" value="height" />
           <Picker.Item label="DBHS" value="dbhs" />
         </Picker>
-        <LabelSelect
-          ref="labelSelect"
-          title="Make Choices"
-          enable={true}
-          readOnly={false}
-          enableAddBtn={true}
-        >
-
-          <LabelSelect.Label>
-            {this.siteCode} ({this.date})
-          </LabelSelect.Label>
-          <LabelSelect.ModalItem>
-            {this.siteCode} ({this.date})
-          </LabelSelect.ModalItem>
-          <LabelSelect.ModalItem>
-            {this.siteCode} ({this.date})
-          </LabelSelect.ModalItem>
-        </LabelSelect>
+        <SitePickerComponent
+          currentSelectedSites={this.state.currentSelectedSites}
+        />
         <View style={{backgroundColor:"white", flex:1, alignItems:'center'}}>
           <VictoryChart
             style={{

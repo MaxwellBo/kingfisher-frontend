@@ -182,6 +182,8 @@ export default class PageVizTree extends React.Component {
         </Picker>
         <SitePickerComponent
           currentSelectedSites={this.state.currentSelectedSites}
+          onConfirm = {this.addToListOfSelectedData}
+          onCancel = {this.removeFromListOfSelectedData}
         />
         <View style={{backgroundColor:"white", flex:1, alignItems:'center'}}>
           <VictoryChart

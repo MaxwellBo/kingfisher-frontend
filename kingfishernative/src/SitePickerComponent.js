@@ -36,7 +36,25 @@ export default class SitePickerComponent extends React.Component{
         measurementKeys.map((measurementName) => sitesAndDates.push([siteName, measurementName]))
       }
     }
-    return sitesAndDates;
+
+    let uniqueSitesAndDates = [];
+    for(let i=0; i<sitesAndDates.length; i++) {
+      let canAdd = false;
+      for(let j=0; j<this.state.currentSelectedSites.length; j++) {
+        if(this.state.currentSelectedSites[j][0] === sitesAndDates[i][0] &&
+          this.state.currentSelectedSites[j][1] === sitesAndDates[i][1]
+        ) {
+          canAdd = false;
+        } else {
+          canAdd = true;
+        }
+      }
+      if(canAdd) {
+        uniqueSitesAndDates.push(sitesAndDates[i]);
+      }
+    }
+
+    return uniqueSitesAndDates;
   }
 
 
@@ -47,6 +65,9 @@ export default class SitePickerComponent extends React.Component{
       </LabelSelect.Label>)
 
     let sitesAndDates = this.getOtherSelectedSitesAndDates();
+
+    console.log(sitesAndDates);
+    console.log(this.state.currentSelectedSites);
 
     let unselectedLabels = sitesAndDates.map((sitesAndDates) =>
       <LabelSelect.ModalItem>
@@ -61,7 +82,7 @@ export default class SitePickerComponent extends React.Component{
     return(
       <LabelSelect
         ref="labelSelect"
-        title="Make Choices"
+        title="Choose sites"
         enable={true}
         readOnly={false}
         enableAddBtn={true}

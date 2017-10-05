@@ -14,6 +14,10 @@ export default class SitePickerComponent extends React.Component{
     // treesRef: fbi.database().ref("sites").child(siteCode).child("measurements").child(date).child('trees'),
   }
 
+  componentWillReceiveProps(props) {
+    this.setState({currentSelectedSites: props.currentSelectedSites})
+  }
+
   componentDidMount() {
     this.state.treesRef.on('value', (trees) => {
         if (trees) {

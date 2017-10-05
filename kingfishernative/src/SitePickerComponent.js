@@ -94,6 +94,7 @@ export default class SitePickerComponent extends React.Component{
         enable={true}
         readOnly={false}
         enableAddBtn={true}
+        onConfirm={this.props.onConfirm}>
       >
 
         {selectedLabels}

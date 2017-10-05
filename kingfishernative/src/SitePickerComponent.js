@@ -69,7 +69,7 @@ export default class SitePickerComponent extends React.Component{
         key={index}
         data={siteNameAndDate}
       >
-        {siteNameAndDate}
+        {siteNameAndDate[0] + " " + siteNameAndDate[1].split("::")[0] + " " + siteNameAndDate[1].split("::")[1]}
       </LabelSelect.Label>)
 
     let sitesAndDates = this.getOtherSelectedSitesAndDates();

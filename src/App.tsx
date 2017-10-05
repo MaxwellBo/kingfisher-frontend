@@ -26,7 +26,7 @@ import PurchaseForm from './PurchaseForm';
 import Footer from './Footer';
 import Tabs from './Tabs';
 
-interface CardProps { 
+interface CardProps {
   title: string;
   subtitle: string;
   content: string;
@@ -49,7 +49,7 @@ function Card(cardProps: CardProps) {
             <p className="subtitle is-6">{cardProps.subtitle}</p>
           </div>
         </div>
-    
+
         <div className="content">
           {cardProps.content}
         </div>
@@ -63,9 +63,9 @@ function Home() {
     <div>
       <section className="hero is-info is-medium">
         <div className="hero-head">
-          <Nav/>
+          <Nav />
         </div>
-      
+
         <div className="hero-body">
           <div className="container has-text-centered">
             <h1 className="title title-underlined">
@@ -74,15 +74,20 @@ function Home() {
             <h2 className="subtitle subtitle-underlined">
               Accessible data collection software.
             </h2>
+            <Link to="/login">
+              <button className="button is-primary is-large center-login-button">
+                Login
+              </button>
+            </Link>
           </div>
         </div>
-    
+
       </section>
       <section className="section">
         <div className="columns is-8">
           <div className="column">
-            <Card 
-              title="Instant Backups." 
+            <Card
+              title="Instant Backups."
               subtitle=""
               content={
                 'Kingfisher will automatically sync all your data to the database as soon as you get online. ' +
@@ -132,19 +137,19 @@ function Home() {
         </h1>
         <p>
           <ul>
-            <li><i className="fa fa-check" aria-hidden="true"/> 
+            <li><i className="fa fa-check" aria-hidden="true" />
               Automatically sync data with a centralised database of all tree measurements.
             </li>
-            <li><i className="fa fa-check" aria-hidden="true"/> 
+            <li><i className="fa fa-check" aria-hidden="true" />
               Visualise and compare data, online or offline.
             </li>
-            <li><i className="fa fa-check" aria-hidden="true"/> 
+            <li><i className="fa fa-check" aria-hidden="true" />
               Easy to use collection interface.
             </li>
-            <li><i className="fa fa-check" aria-hidden="true"/> 
+            <li><i className="fa fa-check" aria-hidden="true" />
               Automatic geolocation when creating sites or tree measurements.
             </li>
-            <li><i className="fa fa-check" aria-hidden="true"/>
+            <li><i className="fa fa-check" aria-hidden="true" />
               Get notified when the data you've collected is statistically significant enough to stop.
             </li>
           </ul>
@@ -155,10 +160,10 @@ function Home() {
           Why Use Kingfisher?
         </h1>
         <p className="column is-three-quarters centered">
-          Kingfisher's many features can help streamline the data collection process for your organisation. The 
-          app removes the need to manually transfer data into a spreadsheet or database, and will save you tons 
+          Kingfisher's many features can help streamline the data collection process for your organisation. The
+          app removes the need to manually transfer data into a spreadsheet or database, and will save you tons
           of time doing collection or data entry alike. Not only that, but it's super safe, and you have no need
-          to worry about losing your data between the site and the office. Everything is backed up on your phone 
+          to worry about losing your data between the site and the office. Everything is backed up on your phone
           until you get internet, and then it syncs with the database!
         </p>
       </section>
@@ -173,14 +178,14 @@ class App extends React.Component<Props, State> {
   render() {
     return (
       <div>
-        <Route exact={true} path="/" component={Home}/>
-        <Route path="/app" component={Tabs}/>
-        <Route exact={true} path="/app/export" component={Export}/>
-        <Route exact={true} path="/login" component={Login}/>
-        <Route exact={true} path="/tos" component={TOS}/>
-        <Route exact={true} path="/stats" component={Stats}/>
-        <Route exact={true} path="/purchase" component={PurchaseForm}/>
-        <Route path="/" component={Footer}/>
+        <Route exact={true} path="/" component={Home} />
+        <Route path="/app" component={Tabs} />
+        <Route exact={true} path="/app/export" component={Export} />
+        <Route exact={true} path="/login" component={Login} />
+        <Route exact={true} path="/tos" component={TOS} />
+        <Route exact={true} path="/stats" component={Stats} />
+        <Route exact={true} path="/purchase" component={PurchaseForm} />
+        <Route path="/" component={Footer} />
       </div>
     );
   }

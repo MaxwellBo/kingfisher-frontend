@@ -167,12 +167,6 @@ export default class PageVizTree extends React.Component {
 
     return (
       <Content contentContainerStyle={[styles.pageCont, styles.siteTrees]}>
-        <View>
-          <Text style={styles.pageHeadTitle}>Visualize Site Data</Text>
-          <Text style={styles.pageHeadDesc}>
-            Use this page to view your historical data for this site and analyze your current data.
-          </Text>
-        </View>
         <Picker
           selectedValue={this.state.language}
           onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue, showHeight: !this.state.showHeight})}
@@ -187,7 +181,7 @@ export default class PageVizTree extends React.Component {
                 border: "1px solid #ccc"
               }
             }}
-            height={300}
+            height={400}
             width={300}
           >
             <VictoryAxis

@@ -126,6 +126,9 @@ export default class PageVizTree extends React.Component {
 
   removeFromListOfSelectedData(data) {
     let selectedData = this.state.currentSelectedSites;
+    if(selectedData.length === 1) {
+      return;
+    }
     for(let i=0; i<selectedData.length; i++) {
       if(selectedData[i][0] === data[0] && selectedData[i][1] === data[1]) {
         selectedData.splice(i, 1);

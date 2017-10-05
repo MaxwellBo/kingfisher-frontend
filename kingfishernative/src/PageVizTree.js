@@ -31,6 +31,7 @@ export default class PageVizTree extends React.Component {
     };
 
     this.state.treesRef.keepSynced(true);
+    this.removeFromListOfSelectedData = this.removeFromListOfSelectedData.bind(this);
   }
 
   componentDidMount() {

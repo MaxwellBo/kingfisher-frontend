@@ -29,6 +29,8 @@ export default class SitePickerComponent extends React.Component{
   getOtherSelectedSitesAndDates() {
     let sites = Object.keys(this.state.trees);
     let sitesAndDates = [];
+
+    // Populate the sitesAndDates with ALL the site and date combinations in the database
     for(let i=0; i<sites.length; i++) {
       let siteName = sites[i];
       let measurements = this.state.trees[siteName]['measurements'];
@@ -40,16 +42,15 @@ export default class SitePickerComponent extends React.Component{
       }
     }
 
+    // Remove the sitesAndDates that we have loaded into the currentSitesAndDates
     let uniqueSitesAndDates = [];
     for(let i=0; i<sitesAndDates.length; i++) {
-      let canAdd = false;
+      let canAdd = true;
       for(let j=0; j<this.state.currentSelectedSites.length; j++) {
         if(this.state.currentSelectedSites[j][0] === sitesAndDates[i][0] &&
           this.state.currentSelectedSites[j][1] === sitesAndDates[i][1]
         ) {
           canAdd = false;
-        } else {
-          canAdd = true;
         }
       }
       if(canAdd) {
@@ -72,6 +73,8 @@ export default class SitePickerComponent extends React.Component{
       </LabelSelect.Label>)
 
     let sitesAndDates = this.getOtherSelectedSitesAndDates();
+
+    console.log(sitesAndDates);
 
     let unselectedLabels = sitesAndDates.map((sitesAndDates, index) =>
       <LabelSelect.ModalItem

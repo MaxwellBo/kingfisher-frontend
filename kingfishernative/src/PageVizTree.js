@@ -1,13 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import { Container, Content, Button, Left, Right, Body, Icon, Text, Picker } from 'native-base';
+import {Container, Content, Button, Left, Right, Icon, Text, Picker} from 'native-base';
 import { styles } from "./Styles"
-import Title from "./Title"
-import LinkButton from "./LinkButton"
-import SiteTreesItem from "./SiteTreesItem"
 import { fbi } from "./Global"
-import AccordionViewTree from "./AccordionViewTree"
-import { VictoryAxis, VictoryBar, VictoryChart, VictoryTheme, VictoryCandlestick, VictoryLabel, Candle } from "victory-native";
+import { VictoryAxis, VictoryChart, VictoryCandlestick, VictoryLabel } from "victory-native";
 import VictoryBoxPlot from "./VictoryBoxPlot"
 
 
@@ -21,8 +17,8 @@ export default class PageVizTree extends React.Component {
   constructor(props) {
     super(props);
 
-    const siteCode = this.props.match.params.siteCode
-    const date = this.props.match.params.date
+    const siteCode = this.props.match.params.siteCode;
+    const date = this.props.match.params.date;
 
     this.state = {
       trees: {},
@@ -48,8 +44,8 @@ export default class PageVizTree extends React.Component {
     this.state.treesRef.off();
   }
 
-  getHeight(allData) {
-    let heights = []
+  static getHeight(allData) {
+    let heights = [];
     for (let key in allData) {
       if (allData.hasOwnProperty(key)) {
         heights.push(allData[key]['height']);
@@ -58,13 +54,15 @@ export default class PageVizTree extends React.Component {
     return heights;
   }
 
-  getDbhs(allData) {
-    let allDbhs = []
+  static getDbhs(allData) {
+    let allDbhs = [];
     for (let key in allData) {
       if (allData.hasOwnProperty(key)) {
         let dbhsVals = allData[key]['dbhs'];
         for(let dbhsValKey in allData[key]['dbhs']) {
-          allDbhs.push(dbhsVals[dbhsValKey]);
+          if(dbhsVals.hasOwnProperty(dbhsValKey)) {
+            allDbhs.push(dbhsVals[dbhsValKey]);
+          }
         }
       }
     }
@@ -83,14 +81,13 @@ export default class PageVizTree extends React.Component {
    *     max: 92
    * }
    */
-  getFiveNumberSummary(dataAsArray) {
+  static getFiveNumberSummary(dataAsArray) {
     let ss = require('summary-statistics');
-    let summary = ss(dataAsArray);
-    return summary;
+    return ss(dataAsArray);
   }
 
-  formatBoxPlotDataAsArray(arrayOfFiveNumberSummaries) {
-    let data = []
+  static formatBoxPlotDataAsArray(arrayOfFiveNumberSummaries) {
+    let data = [];
     for(let i=0; i<arrayOfFiveNumberSummaries.length; i++) {
       let fiveNumberSummary = arrayOfFiveNumberSummaries[i];
       let dataPoint = {x:i + 1,
@@ -105,36 +102,33 @@ export default class PageVizTree extends React.Component {
   }
 
   getData() {
-    let data = []
+    let data = [];
 
-    if(this.state.showHeight == true) {
-      let heights = this.getHeight(this.state.trees)
-      let fiveNumberSummaries = []
-      let fiveNumberSummary = this.getFiveNumberSummary(heights)
-      fiveNumberSummaries.push(fiveNumberSummary)
-      data = this.formatBoxPlotDataAsArray(fiveNumberSummaries)
+    if(this.state.showHeight === true) {
+      let heights = PageVizTree.getHeight(this.state.trees);
+      let fiveNumberSummaries = [];
+      let fiveNumberSummary = PageVizTree.getFiveNumberSummary(heights);
+      fiveNumberSummaries.push(fiveNumberSummary);
+      data = PageVizTree.formatBoxPlotDataAsArray(fiveNumberSummaries);
     } else {
-      let heights = this.getDbhs(this.state.trees)
-      let fiveNumberSummaries = []
-      let fiveNumberSummary = this.getFiveNumberSummary(heights)
-      fiveNumberSummaries.push(fiveNumberSummary)
-      data = this.formatBoxPlotDataAsArray(fiveNumberSummaries)
+      let heights = PageVizTree.getDbhs(this.state.trees);
+      let fiveNumberSummaries = [];
+      let fiveNumberSummary = PageVizTree.getFiveNumberSummary(heights);
+      fiveNumberSummaries.push(fiveNumberSummary);
+      data = PageVizTree.formatBoxPlotDataAsArray(fiveNumberSummaries)
     }
 
     return data;
   }
 
   render() {
-    const { trees } = this.state;
-
-    const siteCode = this.props.match.params.siteCode;
-    const date = this.props.match.params.date;
-
     return (
       <Content contentContainerStyle={[styles.pageCont, styles.siteTrees]}>
         <View>
           <Text style={styles.pageHeadTitle}>Visualize Site Data</Text>
-          <Text style={styles.pageHeadDesc}>Use this page to view your historical data for this site and analyze your current data.</Text>
+          <Text style={styles.pageHeadDesc}>
+            Use this page to view your historical data for this site and analyze your current data.
+          </Text>
         </View>
         <Picker
           selectedValue={this.state.language}

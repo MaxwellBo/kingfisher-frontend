@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, Picker } from 'react-native';
-import { Container, Content, Button, Left, Right, Body, Icon, Text } from 'native-base';
+import { StyleSheet, View, ScrollView } from 'react-native';
+import { Container, Content, Button, Left, Right, Body, Icon, Text, Picker } from 'native-base';
 import { styles } from "./Styles"
 import Title from "./Title"
 import LinkButton from "./LinkButton"

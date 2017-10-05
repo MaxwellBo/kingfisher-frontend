@@ -180,11 +180,6 @@ export default class PageVizTree extends React.Component {
           <Picker.Item label="Height" value="height" />
           <Picker.Item label="DBHS" value="dbhs" />
         </Picker>
-        <SitePickerComponent
-          currentSelectedSites={this.state.currentSelectedSites}
-          onConfirm = {this.addToListOfSelectedData}
-          onCancel = {this.removeFromListOfSelectedData}
-        />
         <View style={{backgroundColor:"white", flex:1, alignItems:'center'}}>
           <VictoryChart
             style={{
@@ -232,6 +227,11 @@ export default class PageVizTree extends React.Component {
             />
           </VictoryChart>
         </View>
+        <SitePickerComponent
+          currentSelectedSites={this.state.currentSelectedSites}
+          onConfirm = {this.addToListOfSelectedData}
+          onCancel = {this.removeFromListOfSelectedData}
+        />
       </Content>
     )
   }

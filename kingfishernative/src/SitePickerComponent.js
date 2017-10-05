@@ -63,8 +63,12 @@ export default class SitePickerComponent extends React.Component{
 
 
   render() {
-    let selectedLabels = this.state.currentSelectedSites.map((siteNameAndDate) =>
-      <LabelSelect.Label>
+    let selectedLabels = this.state.currentSelectedSites.map((siteNameAndDate, index) =>
+      <LabelSelect.Label
+        onCancel={this.props.onCancel}
+        key={index}
+        data={siteNameAndDate}
+      >
         {siteNameAndDate}
       </LabelSelect.Label>)
 

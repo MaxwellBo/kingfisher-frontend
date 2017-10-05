@@ -74,11 +74,11 @@ export default class SitePickerComponent extends React.Component{
 
     let sitesAndDates = this.getOtherSelectedSitesAndDates();
 
-    console.log(sitesAndDates);
-    console.log(this.state.currentSelectedSites);
-
-    let unselectedLabels = sitesAndDates.map((sitesAndDates) =>
-      <LabelSelect.ModalItem>
+    let unselectedLabels = sitesAndDates.map((sitesAndDates, index) =>
+      <LabelSelect.ModalItem
+        key={index}
+        data={sitesAndDates}
+      >
         <Text>{"Site Name: "+ sitesAndDates[0] +
               "\n" +
               "Date: " + sitesAndDates[1].split("::")[0] +

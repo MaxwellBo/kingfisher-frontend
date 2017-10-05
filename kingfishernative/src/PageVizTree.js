@@ -40,8 +40,6 @@ export default class PageVizTree extends React.Component {
           this.setState({ trees: trees.val() });
         }
       });
-
-    console.log(this.state)
   }
 
   componentWillUnmount() {

@@ -29,10 +29,9 @@ export default class SitePickerComponent extends React.Component{
   getOtherSelectedSitesAndDates() {
     let sites = Object.keys(this.state.trees);
     let sitesAndDates = [];
-    let measurements = []
     for(let i=0; i<sites.length; i++) {
       let siteName = sites[i];
-      measurements = this.state.trees[siteName]['measurements'];
+      let measurements = this.state.trees[siteName]['measurements'];
       if(measurements === undefined) {
         continue;
       } else {

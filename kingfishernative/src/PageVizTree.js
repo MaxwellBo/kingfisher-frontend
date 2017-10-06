@@ -5,9 +5,7 @@ import { styles } from "./Styles"
 import { fbi } from "./Global"
 import { VictoryAxis, VictoryChart, VictoryCandlestick, VictoryLabel } from "victory-native";
 import VictoryBoxPlot from "./VictoryBoxPlot"
-import LabelSelect from 'react-native-label-select';
 import SitePickerComponent from "./SitePickerComponent";
-// import SitePickerComponent.js from './SitePickerComponent.js'
 
 /**
  * All classes beginning with "Page" are different representations of pages

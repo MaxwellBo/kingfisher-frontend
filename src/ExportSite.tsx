@@ -1,10 +1,12 @@
 import * as React from 'react';
 import * as firebase from 'firebase';
-import json2csv from 'json-2-csv';
+//import json2csv from 'json-2-csv';
+var converter = require('json-2-csv');
 
 interface Props {
   code: string;
 }
+
 interface State {
   active: boolean;
   records: {};
@@ -32,18 +34,17 @@ export default class ExportSite extends React.Component<Props, State> {
     this.state.siteRef.off();
   }
 
+  json2csvCallback = function(err:any, csv:string) {
+    if (err) {
+      throw err;
+    }
+    console.log(csv);
+  }
+
   exportData = (date: string) => {
     this.state.siteRef.child(date).once('value', (record) => {
       if (record) {
-        json2csv(record, 
-          (err: any, csv: string) => {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log(csv);
-            }
-          }
-        )
+        converter.json2csv(record.val(), this.json2csvCallback);
       }
     })
   }

@@ -27,7 +27,7 @@ const sitesRef = firebase.database().ref('sites');
 // https://tomchentw.github.io/react-google-maps/#markerclusterer
 const MapWithAMarkerClusterer = compose(
   withProps({
-    googleMapURL: 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places',
+    googleMapURL: 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyA2orh7KUcjyaVp44lm59Wq_nSkydEPK3c',
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `400px` }} />,
     mapElement: <div style={{ height: `100%` }} />,

@@ -57,7 +57,6 @@
 		60BB3D3E71C249139CE245CF /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3A7CAECE02447289863F90C /* SimpleLineIcons.ttf */; };
 		3FCD1591204446438C6A38AD /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 62FA0D9BDCCD4120BE656C9E /* Zocial.ttf */; };
 		8419E8C08FC94D4685208181 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A070935755848BF83075002 /* libRNSVG.a */; };
-		F4A8616DEDE54DE3AA0E8B71 /* libRNSVG-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F622D742998C483392091472 /* libRNSVG-tvOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */

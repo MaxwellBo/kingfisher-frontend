@@ -42,3 +42,9 @@ kingfishernative/android/local.properties
 \.tmp/reactNativeBuild/
 
 \.idea/
+
+kingfishernative/database-populator/kingfisher-ac989-export.json
+
+database-populator/data\.json
+
+database-populator/kingfisher-ac989-export\.json

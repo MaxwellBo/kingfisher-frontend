@@ -41,13 +41,21 @@ class Login extends React.Component<Props, State> {
     if (user) {
       // authUi.reset(); // You might need to do this
       return (
-        <div id="Login-info">
-          <p>You're already logged in!</p>
-          <Link to="/app"><p>Go to app</p></Link>
-        </div>
+        <section className="section">
+          <div className="container">
+            <p>You're already logged in!</p>
+            <Link to="/app"><p>Go to app</p></Link>
+          </div>
+        </section>
       );
     } else {
-      return (<div id="Login-firebaseui-auth-container" />);
+      return (
+        <section className="section">
+          <div className="container">
+            <div id="Login-firebaseui-auth-container" />
+          </div>
+        </section>
+      );
     }
   }
 }

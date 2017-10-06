@@ -6,6 +6,7 @@ import { fbi } from "./Global"
 import { VictoryAxis, VictoryChart, VictoryCandlestick, VictoryLabel } from "victory-native";
 import VictoryBoxPlot from "./VictoryBoxPlot"
 import SitePickerComponent from "./SitePickerComponent";
+import ChartComponent from "./ChartComponent";
 
 /**
  * All classes beginning with "Page" are different representations of pages
@@ -72,17 +73,10 @@ export default class PageVizTree extends React.Component {
     return allDbhs;
   }
 
-  /** {
-   *     num: 17,
-   *     sum: 731,
-   *     avg: 43,
+  /**
+   * Returns a five-number summary of an array of integers. This summary will have the following keys:
    *
-   *     min: 3,
-   *     q1: 23.25,
-   *     median: 38,
-   *     q3: 68.5,
-   *     max: 92
-   * }
+   * { num: 17, sum: 731, avg: 43, min: 3, q1: 23.25, median: 38, q3: 68.5, max: 92}
    */
   static getFiveNumberSummary(dataAsArray) {
     let ss = require('summary-statistics');
@@ -173,51 +167,7 @@ export default class PageVizTree extends React.Component {
           <Picker.Item label="DBHS" value="dbhs" />
         </Picker>
         <View style={{backgroundColor:"white", flex:1, alignItems:'center'}}>
-          <VictoryChart
-            style={{
-              parent: {
-                border: "1px solid #ccc"
-              }
-            }}
-            height={400}
-            width={300}
-          >
-            <VictoryAxis
-               width={300}
-               height={300}
-               domain={[0, this.getData().length + 1]}
-               standalone={false}
-               fixLabelOverlap={false}
-               style={{
-                 axis: {stroke: "#756f6a"},
-                 axisLabel: {fontSize: 20, padding: 30},
-                 grid: {stroke: (t) => "grey"},
-                 ticks: {stroke: "grey", size: 5},
-                 tickLabels: {fontSize: 15, padding: 5}
-               }}
-               tickLabelComponent={<VictoryLabel dy={15}/>}
-            />
-            <VictoryAxis
-               width={300}
-               height={300}
-               standalone={false}
-               dependentAxis={true}
-               fixLabelOverlap={false}
-               style={{
-                 axis: {stroke: "#2c3e50"},
-                 axisLabel: {fontSize: 20, padding: 30},
-                 grid: {stroke: (t) => "grey"},
-                 ticks: {stroke: "grey", size: 5},
-                 tickLabels: {fontSize: 15, padding: 5}
-               }}
-               tickCount={5}
-               tickLabelComponent={<VictoryLabel dx={-3} dy={15}/>}
-            />
-            <VictoryCandlestick
-              data={this.getData()}
-              dataComponent={<VictoryBoxPlot />}
-            />
-          </VictoryChart>
+          <ChartComponent data={this.getData()}/>
         </View>
         <SitePickerComponent
           currentSelectedSites={this.state.currentSelectedSites}

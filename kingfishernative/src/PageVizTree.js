@@ -31,6 +31,9 @@ export default class PageVizTree extends React.Component {
     };
 
     this.state.treesRef.keepSynced(true);
+
+    this.addToListOfSelectedData = this.addToListOfSelectedData.bind(this);
+    this.removeFromListOfSelectedData = this.removeFromListOfSelectedData.bind(this);
   }
 
   componentDidMount() {
@@ -40,8 +43,6 @@ export default class PageVizTree extends React.Component {
           this.setState({ trees: trees.val() });
         }
       });
-
-    console.log(this.state)
   }
 
   componentWillUnmount() {
@@ -125,6 +126,38 @@ export default class PageVizTree extends React.Component {
     return data;
   }
 
+  addToListOfSelectedData(listOfSelectedData) {
+    let wholeList = this.state.currentSelectedSites.concat(listOfSelectedData);
+    let newList = [];
+    for(let i=0; i<wholeList.length; i++) {
+      let canAdd = true;
+
+      for(let j=0; j<newList.length; j++) {
+        if(newList[j][0] === wholeList[i][0] && newList[j][1] === wholeList[i][1]) {
+          canAdd = false;
+        }
+      }
+
+      if(canAdd) {
+        newList.push(wholeList[i]);
+      }
+    }
+    this.setState({currentSelectedSites: newList});
+  }
+
+  removeFromListOfSelectedData(data) {
+    let selectedData = this.state.currentSelectedSites;
+    if(selectedData.length === 1) {
+      return;
+    }
+    for(let i=0; i<selectedData.length; i++) {
+      if(selectedData[i][0] === data[0] && selectedData[i][1] === data[1]) {
+        selectedData.splice(i, 1);
+      }
+    }
+    this.setState({currentSelectedSites: selectedData});
+  }
+
   render() {
 
     let index = 0;
@@ -134,12 +167,6 @@ export default class PageVizTree extends React.Component {
 
     return (
       <Content contentContainerStyle={[styles.pageCont, styles.siteTrees]}>
-        <View>
-          <Text style={styles.pageHeadTitle}>Visualize Site Data</Text>
-          <Text style={styles.pageHeadDesc}>
-            Use this page to view your historical data for this site and analyze your current data.
-          </Text>
-        </View>
         <Picker
           selectedValue={this.state.language}
           onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue, showHeight: !this.state.showHeight})}
@@ -147,9 +174,6 @@ export default class PageVizTree extends React.Component {
           <Picker.Item label="Height" value="height" />
           <Picker.Item label="DBHS" value="dbhs" />
         </Picker>
-        <SitePickerComponent
-          currentSelectedSites={this.state.currentSelectedSites}
-        />
         <View style={{backgroundColor:"white", flex:1, alignItems:'center'}}>
           <VictoryChart
             style={{
@@ -157,7 +181,7 @@ export default class PageVizTree extends React.Component {
                 border: "1px solid #ccc"
               }
             }}
-            height={300}
+            height={400}
             width={300}
           >
             <VictoryAxis
@@ -197,6 +221,11 @@ export default class PageVizTree extends React.Component {
             />
           </VictoryChart>
         </View>
+        <SitePickerComponent
+          currentSelectedSites={this.state.currentSelectedSites}
+          onConfirm = {this.addToListOfSelectedData}
+          onCancel = {this.removeFromListOfSelectedData}
+        />
       </Content>
     )
   }

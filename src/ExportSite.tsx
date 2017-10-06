@@ -39,6 +39,19 @@ export default class ExportSite extends React.Component<Props, State> {
       throw err;
     }
     console.log(csv);
+    var link = document.createElement("a");
+    link.setAttribute("target","_blank");
+    if(Blob !== undefined) {
+        var blob = new Blob([csv], {type: "text/plain"});
+        link.setAttribute("href", URL.createObjectURL(blob));
+    } else {
+        link.setAttribute("href","data:text/plain," + encodeURIComponent(csv));
+    }
+    link.setAttribute("download", "export.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
   }
 
   exportData = (date: string) => {

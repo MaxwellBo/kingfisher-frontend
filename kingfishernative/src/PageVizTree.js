@@ -101,19 +101,17 @@ export default class PageVizTree extends React.Component {
   getData() {
     let data = [];
 
+    let heights = 0;
     if(this.state.showHeight === true) {
-      let heights = PageVizTree.getHeight(this.state.trees);
-      let fiveNumberSummaries = [];
-      let fiveNumberSummary = PageVizTree.getFiveNumberSummary(heights);
-      fiveNumberSummaries.push(fiveNumberSummary);
-      data = PageVizTree.formatBoxPlotDataAsArray(fiveNumberSummaries);
+      heights = PageVizTree.getHeight(this.state.trees);
     } else {
-      let heights = PageVizTree.getDbhs(this.state.trees);
-      let fiveNumberSummaries = [];
-      let fiveNumberSummary = PageVizTree.getFiveNumberSummary(heights);
-      fiveNumberSummaries.push(fiveNumberSummary);
-      data = PageVizTree.formatBoxPlotDataAsArray(fiveNumberSummaries)
+      heights = PageVizTree.getDbhs(this.state.trees);
     }
+
+    let fiveNumberSummaries = [];
+    let fiveNumberSummary = PageVizTree.getFiveNumberSummary(heights);
+    fiveNumberSummaries.push(fiveNumberSummary);
+    data = PageVizTree.formatBoxPlotDataAsArray(fiveNumberSummaries)
 
     return data;
   }

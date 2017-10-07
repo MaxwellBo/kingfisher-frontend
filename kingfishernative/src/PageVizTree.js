@@ -21,14 +21,16 @@ export default class PageVizTree extends React.Component {
 
     this.state = {
       trees: {},
-      dataRef: fbi.database().ref("sites").child(siteCode).child("measurements").child(date).child('trees'),
+      dataRef: fbi.database(),
       showHeight: true,
       textInputValue: '',
       currentSelectedSites: [[siteCode, date]],
       data: []
     };
 
-    this.state.dataRef.keepSynced(true);
+    // TODO FIGURE OUT HOW BEHAVIOUR IS OFFLINE
+
+    // TODO FIGURE OUT WHAT HAPPENS WHEN WE UNMOUNT
 
     this.addToListOfSelectedData = this.addToListOfSelectedData.bind(this);
     this.removeFromListOfSelectedData = this.removeFromListOfSelectedData.bind(this);
@@ -36,18 +38,20 @@ export default class PageVizTree extends React.Component {
 
   componentDidMount() {
 
+    let siteRef = this.state.dataRef.ref("sites");
 
-    this.state.dataRef
-      .on('value', (trees) => {
-        if (trees) {
-          this.setState({ trees: trees.val() });
-          this.setState({ data: this.state.data.push(trees.val())})
-        }
-      });
-  }
-
-  componentWillUnmount() {
-    this.state.dataRef.off();
+    for(let i=0; i<this.state.currentSelectedSites.length; i++) {
+      siteRef.child(this.state.currentSelectedSites[i][0])
+        .child("measurements")
+        .child(this.state.currentSelectedSites[i][1])
+        .child('trees')
+        .on('value', (trees) => {
+          if (trees) {
+            this.setState({ trees: trees.val() });
+            this.setState({ data: this.state.data.push(trees.val())})
+          }
+        });
+    }
   }
 
   static getHeightForObject(allData) {
@@ -89,7 +93,8 @@ export default class PageVizTree extends React.Component {
     let data = [];
     for(let i=0; i<arrayOfFiveNumberSummaries.length; i++) {
       let fiveNumberSummary = arrayOfFiveNumberSummaries[i];
-      let dataPoint = {x:i + 1,
+      let dataPoint = {
+        x:i + 1,
         open:fiveNumberSummary['q1'],
         close:fiveNumberSummary['q3'],
         low: fiveNumberSummary['min'],

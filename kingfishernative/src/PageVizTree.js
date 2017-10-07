@@ -34,10 +34,14 @@ export default class PageVizTree extends React.Component {
 
     this.addToListOfSelectedData = this.addToListOfSelectedData.bind(this);
     this.removeFromListOfSelectedData = this.removeFromListOfSelectedData.bind(this);
+    this.updateData = this.updateData.bind(this);
   }
 
   componentDidMount() {
+    this.updateData();
+  }
 
+  updateData() {
     let siteRef = this.state.dataRef.ref("sites");
 
     for(let i=0; i<this.state.currentSelectedSites.length; i++) {
@@ -48,7 +52,6 @@ export default class PageVizTree extends React.Component {
         .on('value', (trees) => {
           if (trees) {
             this.setState({ trees: trees.val() });
-            this.setState({ data: this.state.data.push(trees.val())})
           }
         });
     }
@@ -140,6 +143,8 @@ export default class PageVizTree extends React.Component {
       }
     }
     this.setState({currentSelectedSites: newList});
+
+    this.updateData()
   }
 
   removeFromListOfSelectedData(data) {
@@ -152,7 +157,10 @@ export default class PageVizTree extends React.Component {
         selectedData.splice(i, 1);
       }
     }
+
     this.setState({currentSelectedSites: selectedData});
+
+    this.updateData()
   }
 
   render() {

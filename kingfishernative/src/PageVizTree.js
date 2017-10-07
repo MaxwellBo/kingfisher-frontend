@@ -23,20 +23,23 @@ export default class PageVizTree extends React.Component {
 
     this.state = {
       trees: {},
-      treesRef: fbi.database().ref("sites").child(siteCode).child("measurements").child(date).child('trees'),
+      dataRef: fbi.database().ref("sites").child(siteCode).child("measurements").child(date).child('trees'),
       showHeight: true,
       textInputValue: '',
-      currentSelectedSites: [[this.props.match.params.siteCode, this.props.match.params.date]]
+      currentSelectedSites: [[siteCode, date]]
     };
 
-    this.state.treesRef.keepSynced(true);
+    this.state.dataRef.keepSynced(true);
 
     this.addToListOfSelectedData = this.addToListOfSelectedData.bind(this);
     this.removeFromListOfSelectedData = this.removeFromListOfSelectedData.bind(this);
   }
 
   componentDidMount() {
-    this.state.treesRef
+    const siteCode = this.props.match.params.siteCode;
+    const date = this.props.match.params.date;
+
+    this.state.dataRef
       .on('value', (trees) => {
         if (trees) {
           this.setState({ trees: trees.val() });
@@ -45,10 +48,10 @@ export default class PageVizTree extends React.Component {
   }
 
   componentWillUnmount() {
-    this.state.treesRef.off();
+    this.state.dataRef.off();
   }
 
-  static getHeight(allData) {
+  static getHeightForObject(allData) {
     let heights = [];
     for (let key in allData) {
       if (allData.hasOwnProperty(key)) {
@@ -58,7 +61,7 @@ export default class PageVizTree extends React.Component {
     return heights;
   }
 
-  static getDbhs(allData) {
+  static getDbhsForObject(allData) {
     let allDbhs = [];
     for (let key in allData) {
       if (allData.hasOwnProperty(key)) {
@@ -98,20 +101,20 @@ export default class PageVizTree extends React.Component {
     return data;
   }
 
-  getData() {
-    let data = [];
 
+
+  getData() {
     let heights = 0;
     if(this.state.showHeight === true) {
-      heights = PageVizTree.getHeight(this.state.trees);
+      heights = PageVizTree.getHeightForObject(this.state.trees);
     } else {
-      heights = PageVizTree.getDbhs(this.state.trees);
+      heights = PageVizTree.getDbhsForObject(this.state.trees);
     }
 
     let fiveNumberSummaries = [];
     let fiveNumberSummary = PageVizTree.getFiveNumberSummary(heights);
     fiveNumberSummaries.push(fiveNumberSummary);
-    data = PageVizTree.formatBoxPlotDataAsArray(fiveNumberSummaries)
+    let data = PageVizTree.formatBoxPlotDataAsArray(fiveNumberSummaries)
 
     return data;
   }

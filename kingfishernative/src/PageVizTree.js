@@ -3,8 +3,6 @@ import { StyleSheet, View, ScrollView } from 'react-native';
 import {Container, Content, Button, Left, Right, Icon, Text, Picker} from 'native-base';
 import { styles } from "./Styles"
 import { fbi } from "./Global"
-import { VictoryAxis, VictoryChart, VictoryCandlestick, VictoryLabel } from "victory-native";
-import VictoryBoxPlot from "./VictoryBoxPlot"
 import SitePickerComponent from "./SitePickerComponent";
 import ChartComponent from "./ChartComponent";
 

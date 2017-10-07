@@ -1,10 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, TouchableHighlight } from 'react-native';
-import { Container, Header, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
-import { Link, Route } from 'react-router-native'
+import { Container, Header, Content, Footer, FooterTab, Button, Left, Right, Icon, Text } from 'native-base';
+import { Route } from 'react-router-native'
 import { styles } from "./Styles"
 import Title from "./Title"
-import LinkButton from "./LinkButton"
 import { fbi } from "./Global"
 import PageSiteTrees from "./PageSiteTrees"
 import PageAddTree from "./PageAddTree"

@@ -3,7 +3,6 @@ import { StyleSheet, View, Image, ScrollView, Dimensions, Alert } from 'react-na
 import { Container, Content, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import { styles } from "./Styles"
 import SpecialButton from "./SpecialButton"
-import Title from "./Title"
 import Field from "./Field"
 import { fbi } from "./Global"
 

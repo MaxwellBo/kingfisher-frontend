@@ -27,6 +27,8 @@ export default class PageVizTree extends React.Component {
       showHeight: true,
       textInputValue: '',
       currentSelectedSites: [[siteCode, date]]
+      currentSelectedSites: [[siteCode, date]],
+      data: []
     };
 
     this.state.dataRef.keepSynced(true);

@@ -57,7 +57,25 @@ export default class ExportSite extends React.Component<Props, State> {
   exportData = (date: string) => {
     this.state.siteRef.child(date).once('value', (record) => {
       if (record) {
-        converter.json2csv(record.val(), this.json2csvCallback);
+        let trees = record.val()["trees"];
+        let csv = "key,dbhs,height,species\n";
+        for (let key in trees) {
+          if (trees.hasOwnProperty(key)) {
+            csv += key + "," + trees[key]["dbhs"] + "," + trees[key]["height"] + "," + trees[key]["species"] + "\n";
+          }
+        }
+        var link = document.createElement("a");
+        link.setAttribute("target","_blank");
+        if(Blob !== undefined) {
+            var blob = new Blob([csv], {type: "text/plain"});
+            link.setAttribute("href", URL.createObjectURL(blob));
+        } else {
+            link.setAttribute("href","data:text/plain," + encodeURIComponent(csv));
+        }
+        link.setAttribute("download", date + "_export.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       }
     })
   }

@@ -26,7 +26,6 @@ export default class PageVizTree extends React.Component {
       dataRef: fbi.database().ref("sites").child(siteCode).child("measurements").child(date).child('trees'),
       showHeight: true,
       textInputValue: '',
-      currentSelectedSites: [[siteCode, date]]
       currentSelectedSites: [[siteCode, date]],
       data: []
     };
@@ -38,13 +37,13 @@ export default class PageVizTree extends React.Component {
   }
 
   componentDidMount() {
-    const siteCode = this.props.match.params.siteCode;
-    const date = this.props.match.params.date;
+
 
     this.state.dataRef
       .on('value', (trees) => {
         if (trees) {
           this.setState({ trees: trees.val() });
+          this.setState({ data: this.state.data.push(trees.val())})
         }
       });
   }
@@ -154,11 +153,6 @@ export default class PageVizTree extends React.Component {
   }
 
   render() {
-
-    let index = 0;
-    const data = [
-      { key: index++, section: true, label: 'Some date' },
-    ];
 
     return (
       <Content contentContainerStyle={[styles.pageCont, styles.siteTrees]}>

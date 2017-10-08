@@ -81,6 +81,10 @@ export const styles = StyleSheet.create({
     borderRadius: 2,
   },
 
+  delete: {
+    backgroundColor: KINGFISHER_RED
+  },
+
   verticallyStackedButton: {
     marginBottom: 20,
   },

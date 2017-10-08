@@ -55,6 +55,12 @@ export default class PageVizTree extends React.Component {
           }
         });
     }
+
+    siteRef.on('value', (trees) => {
+      if(trees) {
+        this.setState({ allData:trees.val() })
+      }
+    });
   }
 
   static getHeightForObject(allData) {
@@ -108,9 +114,7 @@ export default class PageVizTree extends React.Component {
     return data;
   }
 
-
-
-  getData() {
+  handleInitialLoad() {
     let heights = 0;
     if(this.state.showHeight === true) {
       heights = PageVizTree.getHeightForObject(this.state.trees);
@@ -122,6 +126,31 @@ export default class PageVizTree extends React.Component {
     let fiveNumberSummary = PageVizTree.getFiveNumberSummary(heights);
     fiveNumberSummaries.push(fiveNumberSummary);
     let data = PageVizTree.formatBoxPlotDataAsArray(fiveNumberSummaries)
+
+    return data;
+  }
+
+  getData() {
+    if(!this.state.allData) {
+      return this.handleInitialLoad();
+    }
+
+    let fiveNumberSummaries = [];
+    let heights = 0;
+    let data;
+
+    for(let i=0; i<this.state.currentSelectedSites.length; i++) {
+      let siteAndTime = this.state.currentSelectedSites[i];
+      let treeData = this.state.allData[siteAndTime[0]]['measurements'][siteAndTime[1]]['trees'];
+      if(this.state.showHeight === true) {
+        heights = PageVizTree.getHeightForObject(treeData);
+      } else {
+        heights = PageVizTree.getDbhsForObject(treeData);
+      }
+      let fiveNumberSummary = PageVizTree.getFiveNumberSummary(heights);
+      fiveNumberSummaries.push(fiveNumberSummary);
+      data = PageVizTree.formatBoxPlotDataAsArray(fiveNumberSummaries);
+    }
 
     return data;
   }
@@ -143,8 +172,6 @@ export default class PageVizTree extends React.Component {
       }
     }
     this.setState({currentSelectedSites: newList});
-
-    this.updateData()
   }
 
   removeFromListOfSelectedData(data) {
@@ -159,12 +186,9 @@ export default class PageVizTree extends React.Component {
     }
 
     this.setState({currentSelectedSites: selectedData});
-
-    this.updateData()
   }
 
   render() {
-
     return (
       <Content contentContainerStyle={[styles.pageCont, styles.siteTrees]}>
         <Picker

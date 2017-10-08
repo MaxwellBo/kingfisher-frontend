@@ -43,6 +43,10 @@ export default class PageSiteTrees extends React.Component {
     this.state.treesRef.off();
   }
 
+  deleteTree = (treeID) => {
+    this.state.treesRef.child(treeID).remove();
+  }
+
   render() {
     const siteCode = this.props.match.params.siteCode
     const date = this.props.match.params.date
@@ -57,6 +61,7 @@ export default class PageSiteTrees extends React.Component {
         dbhs={trees[key]['dbhs']}
         siteCode={siteCode}
         date={date}
+        deleteTree={this.deleteTree}
       />
     );
 

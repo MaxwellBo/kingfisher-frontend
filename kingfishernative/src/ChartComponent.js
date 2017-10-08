@@ -1,11 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import {Container, Content, Button, Left, Right, Icon, Text, Picker} from 'native-base';
-import { styles } from "./Styles"
-import { fbi } from "./Global"
+import {Container, Content, Button, Left, Right, Icon, Picker} from 'native-base';
 import { VictoryAxis, VictoryChart, VictoryCandlestick, VictoryLabel } from "victory-native";
 import VictoryBoxPlot from "./VictoryBoxPlot"
-import SitePickerComponent from "./SitePickerComponent";
 
 export default class ChartComponent extends React.Component {
 

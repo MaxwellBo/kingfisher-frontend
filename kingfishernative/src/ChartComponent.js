@@ -57,7 +57,7 @@ export default class ChartComponent extends React.Component {
         />
         <VictoryCandlestick
           data={this.props.data}
-          dataComponent={<VictoryBoxPlot />}
+          dataComponent={<VictoryBoxPlot color={"blue"}/>}
         />
       </VictoryChart>
     );

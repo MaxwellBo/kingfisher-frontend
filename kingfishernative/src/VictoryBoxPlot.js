@@ -21,24 +21,24 @@ export default class VictoryBoxPlot extends React.Component {
         y1={this.props.y1}
         x2={this.props.x}
         y2={this.props.y2}
-        stroke="black"
+        stroke={this.props.color}
         strokeWidth="5"/>
       <Line
         x1={this.props.x + this.props.width/30}
         y1={this.props.y1}
         x2={this.props.x - + this.props.width/30}
         y2={this.props.y1}
-        stroke="black"
+        stroke={this.props.color}
         strokeWidth="5"/>
       <Line
         x1={this.props.x + this.props.width/30}
         y1={this.props.y2}
         x2={this.props.x - + this.props.width/30}
         y2={this.props.y2}
-        stroke="black"
+        stroke={this.props.color}
         strokeWidth="5"/>
       <Candle {...this.props}
-              style={{fill:"black"}}
+              style={{fill:this.props.color}}
       />
     </G>
     )

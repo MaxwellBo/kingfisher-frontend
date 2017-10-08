@@ -4,6 +4,7 @@ import {
   Text,
   View,
   TouchableHighlight,
+  Button,
 } from 'react-native';
 import { styles } from "./Styles"
 import Collapsible from 'react-native-collapsible';
@@ -40,9 +41,14 @@ export default class AccordionViewTree extends Component {
             <Text style={styles.siteTreeText}>Height (cm): {this.props.height}</Text>
             <Text style={styles.siteTreeText}>DBHs (mm): {stringifiedDBHS}</Text>
             <LinkButton
-              buttonText="edit"
+              buttonText="Edit"
               to={"/sites/" + this.props.siteCode + "/" + this.props.date + "/edit/" + this.props.treeName}
             />
+            <TouchableHighlight 
+              onPress={() => this.props.deleteTree(this.props.treeName)}
+              style={[styles.button, styles.delete]}>
+              <Text style={[styles.centeredText, styles.buttonText]}>Delete</Text>
+            </TouchableHighlight>
           </View>
         </Collapsible>
       </View>

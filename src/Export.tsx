@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as firebase from 'firebase';
 
+import ExportSite from "./ExportSite";
 import MapWithAMarkerCluster from './Map';
 
 function writeUserData() {
@@ -48,15 +49,18 @@ class Export extends React.Component<Props, State> {
   }
 
   render() {
+    const siteComponents = (this.state.sites == null) ? <div/> : Object.keys(this.state.sites).map(key =>
+      <ExportSite key={key} code={key} /> 
+    );
     return (
       <section className="section">
         <div className="container">
-          <h1 className="title">Section</h1>
+          <h1 className="title">Export Data</h1>
           <h2 className="subtitle">
-            A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
-        </h2>
-        <p>{JSON.stringify(this.state.sites)}</p>
-        <MapWithAMarkerCluster />
+            Click on a site record to download the data as a Comma Separated Value (CSV) file.
+          </h2>
+          {siteComponents}
+          <MapWithAMarkerCluster />
         </div>
       </section>
     );

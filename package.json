@@ -19,6 +19,7 @@
     "d3-time-format": "^2.0.3",
     "firebase": "^4.2.0",
     "firebaseui": "^2.3.0",
+    "json-2-csv": "^2.1.1",
     "node-sass-chokidar": "^0.0.3",
     "npm-run-all": "^4.0.2",
     "react": "^15.6.1",

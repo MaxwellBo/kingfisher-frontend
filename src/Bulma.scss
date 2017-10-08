@@ -5,6 +5,25 @@ $green: #48B040;
 
 $primary: $green;
 $info: $dark;
+$tabs-link-hover-border-bottom-color: $primary;
+$tabs-link-hover-color: $primary;
 
+.export-button-cont {
+  display: flex;
+  width: 25rem;
+  margin-bottom: 0.5rem;
+
+  .export-button {
+    flex-grow: 1;
+  }
+}
+
+.expand-button {
+  margin-left: 1rem;
+}
+
+.export-site {
+  margin-top: 1rem;
+}
 
 @import "../node_modules/bulma/bulma";

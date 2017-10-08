@@ -11,6 +11,7 @@ interface State {
   active: boolean;
   records: {};
   siteRef: firebase.database.Reference;
+  exportsCollapsed: boolean;
 }
 
 export default class ExportSite extends React.Component<Props, State> {
@@ -20,6 +21,7 @@ export default class ExportSite extends React.Component<Props, State> {
       active: false,
       records: {},
       siteRef: firebase.database().ref('sites').child(props.code).child('measurements'),
+      exportsCollapsed: true,
     }
   }
   componentDidMount() {
@@ -80,15 +82,29 @@ export default class ExportSite extends React.Component<Props, State> {
     })
   }
 
+  toggleExports = () => {
+      this.setState({exportsCollapsed: !this.state.exportsCollapsed});
+  }
+
   render() {
-    let siteRecords = (this.state.records == null) ? <div/> : Object.keys(this.state.records).map(date => 
-      <button className="button" key={date} onClick={() => this.exportData(date)}>
-        Export {date} to CSV
-      </button>
+    let siteRecords = (this.state.records == null || this.state.exportsCollapsed) ? <div/> : Object.keys(this.state.records).map(date => 
+      <div className="export-button-cont">
+        <button className="button export-button" key={date} onClick={() => this.exportData(date)}>
+          Export {date} to CSV
+        </button>
+      </div>
     )
     return (
-      <div className='exportSite'>
-        {siteRecords}
+      <div className='export-site'>
+        <h1 className='title'>
+          {this.props.code}
+          <button className="button expand-button" onClick={() => this.toggleExports()}>
+            {this.state.exportsCollapsed ? "+" : "-"}
+          </button>
+        </h1>
+        <div className='collapsable-exports'>
+          {siteRecords}
+        </div>
       </div>
     )
   }

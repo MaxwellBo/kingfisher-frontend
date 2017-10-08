@@ -48,17 +48,6 @@ class Export extends React.Component<Props, State> {
     writeUserData();
   }
 
-  downloadData = () => {
-    const ref = firebase.database().ref('sites');
-    let sites;
-    ref.on('value', (result) => {
-      if (result) {
-        sites = result.val();
-        console.log(JSON.stringify(sites));
-      }
-    });
-  }
-
   render() {
     const siteComponents = (this.state.sites == null) ? <div/> : Object.keys(this.state.sites).map(key =>
       <ExportSite key={key} code={key} /> 
@@ -66,13 +55,10 @@ class Export extends React.Component<Props, State> {
     return (
       <section className="section">
         <div className="container">
-          <h1 className="title">Section</h1>
+          <h1 className="title">Export Data</h1>
           <h2 className="subtitle">
-            A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
+            Click on a site record to download the data as a Comma Separated Value (CSV) file.
           </h2>
-          <button className="button" onClick={() => this.downloadData()}>
-            download
-          </button>
           {siteComponents}
           <MapWithAMarkerCluster />
         </div>

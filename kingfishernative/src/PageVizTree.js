@@ -44,6 +44,8 @@ export default class PageVizTree extends React.Component {
   updateData() {
     let siteRef = this.state.dataRef.ref("sites");
 
+    siteRef.on('value', (trees) => {if(trees) {this.setState({ allData:trees })}});
+
     for(let i=0; i<this.state.currentSelectedSites.length; i++) {
       siteRef.child(this.state.currentSelectedSites[i][0])
         .child("measurements")
@@ -108,9 +110,29 @@ export default class PageVizTree extends React.Component {
     return data;
   }
 
+  handleInitialLoad() {
+    let heights = 0;
+    if(this.state.showHeight === true) {
+      heights = PageVizTree.getHeightForObject(this.state.trees);
+    } else {
+      heights = PageVizTree.getDbhsForObject(this.state.trees);
+    }
 
+    let fiveNumberSummaries = [];
+    let fiveNumberSummary = PageVizTree.getFiveNumberSummary(heights);
+    fiveNumberSummaries.push(fiveNumberSummary);
+    let data = PageVizTree.formatBoxPlotDataAsArray(fiveNumberSummaries)
+
+    return data;
+  }
 
   getData() {
+    if(!this.state.allData) {
+      return this.handleInitialLoad();
+    }
+
+    console.log(this.state.trees);
+
     let heights = 0;
     if(this.state.showHeight === true) {
       heights = PageVizTree.getHeightForObject(this.state.trees);
@@ -143,8 +165,6 @@ export default class PageVizTree extends React.Component {
       }
     }
     this.setState({currentSelectedSites: newList});
-
-    this.updateData()
   }
 
   removeFromListOfSelectedData(data) {
@@ -159,12 +179,9 @@ export default class PageVizTree extends React.Component {
     }
 
     this.setState({currentSelectedSites: selectedData});
-
-    this.updateData()
   }
 
   render() {
-
     return (
       <Content contentContainerStyle={[styles.pageCont, styles.siteTrees]}>
         <Picker

@@ -6,19 +6,19 @@ export default class Tabs extends React.Component {
     return (
       <div className="tabs is-centered is-primary">
         <ul>
-          <Link to="/app/export">
+          <Link to="/app/view">
             <li>
               <span className="icon is-small"><i className="fa fa-area-chart"/></span>
               <span>View Data</span>
             </li>
           </Link>
-          <Link to="/app/export">
+          <Link to="/app/newsite">
             <li>
               <span className="icon is-small"><i className="fa fa-map"/></span>
               <span>New Site</span>
             </li>
           </Link>
-          <Link to="/app/export">
+          <Link to="/app/input">
             <li>
               <span className="icon is-small"><i className="fa fa-edit"/></span>
               <span>Input Data</span>

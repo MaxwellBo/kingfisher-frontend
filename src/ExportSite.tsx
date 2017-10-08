@@ -99,7 +99,9 @@ export default class ExportSite extends React.Component<Props, State> {
         <h1 className='title'>
           {this.props.code}
           <button className="button expand-button" onClick={() => this.toggleExports()}>
-            {this.state.exportsCollapsed ? "+" : "-"}
+            {this.state.exportsCollapsed ? 
+              <i className="fa fa-plus" aria-hidden="true"></i> : 
+              <i className="fa fa-minus" aria-hidden="true"></i>}
           </button>
         </h1>
         <div className='collapsable-exports'>

@@ -3,11 +3,8 @@ import { StyleSheet, View, ScrollView } from 'react-native';
 import {Container, Content, Button, Left, Right, Icon, Text, Picker} from 'native-base';
 import { styles } from "./Styles"
 import { fbi } from "./Global"
-import { VictoryAxis, VictoryChart, VictoryCandlestick, VictoryLabel } from "victory-native";
-import VictoryBoxPlot from "./VictoryBoxPlot"
-import LabelSelect from 'react-native-label-select';
 import SitePickerComponent from "./SitePickerComponent";
-// import SitePickerComponent.js from './SitePickerComponent.js'
+import ChartComponent from "./ChartComponent";
 
 /**
  * All classes beginning with "Page" are different representations of pages
@@ -24,32 +21,43 @@ export default class PageVizTree extends React.Component {
 
     this.state = {
       trees: {},
-      treesRef: fbi.database().ref("sites").child(siteCode).child("measurements").child(date).child('trees'),
+      dataRef: fbi.database(),
       showHeight: true,
       textInputValue: '',
-      currentSelectedSites: [[this.props.match.params.siteCode, this.props.match.params.date]]
+      currentSelectedSites: [[siteCode, date]],
+      data: []
     };
 
-    this.state.treesRef.keepSynced(true);
+    // TODO FIGURE OUT HOW BEHAVIOUR IS OFFLINE
+
+    // TODO FIGURE OUT WHAT HAPPENS WHEN WE UNMOUNT
 
     this.addToListOfSelectedData = this.addToListOfSelectedData.bind(this);
     this.removeFromListOfSelectedData = this.removeFromListOfSelectedData.bind(this);
+    this.updateData = this.updateData.bind(this);
   }
 
   componentDidMount() {
-    this.state.treesRef
-      .on('value', (trees) => {
-        if (trees) {
-          this.setState({ trees: trees.val() });
-        }
-      });
+    this.updateData();
   }
 
-  componentWillUnmount() {
-    this.state.treesRef.off();
+  updateData() {
+    let siteRef = this.state.dataRef.ref("sites");
+
+    for(let i=0; i<this.state.currentSelectedSites.length; i++) {
+      siteRef.child(this.state.currentSelectedSites[i][0])
+        .child("measurements")
+        .child(this.state.currentSelectedSites[i][1])
+        .child('trees')
+        .on('value', (trees) => {
+          if (trees) {
+            this.setState({ trees: trees.val() });
+          }
+        });
+    }
   }
 
-  static getHeight(allData) {
+  static getHeightForObject(allData) {
     let heights = [];
     for (let key in allData) {
       if (allData.hasOwnProperty(key)) {
@@ -59,7 +67,7 @@ export default class PageVizTree extends React.Component {
     return heights;
   }
 
-  static getDbhs(allData) {
+  static getDbhsForObject(allData) {
     let allDbhs = [];
     for (let key in allData) {
       if (allData.hasOwnProperty(key)) {
@@ -74,17 +82,10 @@ export default class PageVizTree extends React.Component {
     return allDbhs;
   }
 
-  /** {
-   *     num: 17,
-   *     sum: 731,
-   *     avg: 43,
+  /**
+   * Returns a five-number summary of an array of integers. This summary will have the following keys:
    *
-   *     min: 3,
-   *     q1: 23.25,
-   *     median: 38,
-   *     q3: 68.5,
-   *     max: 92
-   * }
+   * { num: 17, sum: 731, avg: 43, min: 3, q1: 23.25, median: 38, q3: 68.5, max: 92}
    */
   static getFiveNumberSummary(dataAsArray) {
     let ss = require('summary-statistics');
@@ -95,7 +96,8 @@ export default class PageVizTree extends React.Component {
     let data = [];
     for(let i=0; i<arrayOfFiveNumberSummaries.length; i++) {
       let fiveNumberSummary = arrayOfFiveNumberSummaries[i];
-      let dataPoint = {x:i + 1,
+      let dataPoint = {
+        x:i + 1,
         open:fiveNumberSummary['q1'],
         close:fiveNumberSummary['q3'],
         low: fiveNumberSummary['min'],
@@ -106,22 +108,20 @@ export default class PageVizTree extends React.Component {
     return data;
   }
 
-  getData() {
-    let data = [];
 
+
+  getData() {
+    let heights = 0;
     if(this.state.showHeight === true) {
-      let heights = PageVizTree.getHeight(this.state.trees);
-      let fiveNumberSummaries = [];
-      let fiveNumberSummary = PageVizTree.getFiveNumberSummary(heights);
-      fiveNumberSummaries.push(fiveNumberSummary);
-      data = PageVizTree.formatBoxPlotDataAsArray(fiveNumberSummaries);
+      heights = PageVizTree.getHeightForObject(this.state.trees);
     } else {
-      let heights = PageVizTree.getDbhs(this.state.trees);
-      let fiveNumberSummaries = [];
-      let fiveNumberSummary = PageVizTree.getFiveNumberSummary(heights);
-      fiveNumberSummaries.push(fiveNumberSummary);
-      data = PageVizTree.formatBoxPlotDataAsArray(fiveNumberSummaries)
+      heights = PageVizTree.getDbhsForObject(this.state.trees);
     }
+
+    let fiveNumberSummaries = [];
+    let fiveNumberSummary = PageVizTree.getFiveNumberSummary(heights);
+    fiveNumberSummaries.push(fiveNumberSummary);
+    let data = PageVizTree.formatBoxPlotDataAsArray(fiveNumberSummaries)
 
     return data;
   }
@@ -143,6 +143,8 @@ export default class PageVizTree extends React.Component {
       }
     }
     this.setState({currentSelectedSites: newList});
+
+    this.updateData()
   }
 
   removeFromListOfSelectedData(data) {
@@ -155,15 +157,13 @@ export default class PageVizTree extends React.Component {
         selectedData.splice(i, 1);
       }
     }
+
     this.setState({currentSelectedSites: selectedData});
+
+    this.updateData()
   }
 
   render() {
-
-    let index = 0;
-    const data = [
-      { key: index++, section: true, label: 'Some date' },
-    ];
 
     return (
       <Content contentContainerStyle={[styles.pageCont, styles.siteTrees]}>
@@ -175,51 +175,7 @@ export default class PageVizTree extends React.Component {
           <Picker.Item label="DBHS" value="dbhs" />
         </Picker>
         <View style={{backgroundColor:"white", flex:1, alignItems:'center'}}>
-          <VictoryChart
-            style={{
-              parent: {
-                border: "1px solid #ccc"
-              }
-            }}
-            height={400}
-            width={300}
-          >
-            <VictoryAxis
-               width={300}
-               height={300}
-               domain={[0, this.getData().length + 1]}
-               standalone={false}
-               fixLabelOverlap={false}
-               style={{
-                 axis: {stroke: "#756f6a"},
-                 axisLabel: {fontSize: 20, padding: 30},
-                 grid: {stroke: (t) => "grey"},
-                 ticks: {stroke: "grey", size: 5},
-                 tickLabels: {fontSize: 15, padding: 5}
-               }}
-               tickLabelComponent={<VictoryLabel dy={15}/>}
-            />
-            <VictoryAxis
-               width={300}
-               height={300}
-               standalone={false}
-               dependentAxis={true}
-               fixLabelOverlap={false}
-               style={{
-                 axis: {stroke: "#2c3e50"},
-                 axisLabel: {fontSize: 20, padding: 30},
-                 grid: {stroke: (t) => "grey"},
-                 ticks: {stroke: "grey", size: 5},
-                 tickLabels: {fontSize: 15, padding: 5}
-               }}
-               tickCount={5}
-               tickLabelComponent={<VictoryLabel dx={-3} dy={15}/>}
-            />
-            <VictoryCandlestick
-              data={this.getData()}
-              dataComponent={<VictoryBoxPlot />}
-            />
-          </VictoryChart>
+          <ChartComponent data={this.getData()}/>
         </View>
         <SitePickerComponent
           currentSelectedSites={this.state.currentSelectedSites}

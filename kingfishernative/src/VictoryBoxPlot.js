@@ -1,19 +1,44 @@
 import React from 'react';
-import { Svg, G, Line } from 'react-native-svg'
+import { G, Line } from 'react-native-svg'
 import { StyleSheet, Text, View, TouchableHighlight, ART } from 'react-native';
-import { styles } from "./Styles"
-import { Bar, ErrorBar, Candle } from "victory-native";
-import PropTypes from "prop-types";
-const {
-  Surface,
-  Group,
-  Shape,
-} = ART;
+import { Candle } from "victory-native";
 
 
+PLOT_COLORS = {};
+PLOT_COLORS.names = {
+  darkblue: "#00008b",
+  darkcyan: "#008b8b",
+  darkgreen: "#006400",
+  darkkhaki: "#bdb76b",
+  darkmagenta: "#8b008b",
+  darkolivegreen: "#556b2f",
+  darkorange: "#ff8c00",
+  darkorchid: "#9932cc",
+  darkred: "#8b0000",
+  darksalmon: "#e9967a",
+  darkviolet: "#9400d3",
+  fuchsia: "#ff00ff",
+  gold: "#ffd700",
+  green: "#008000",
+  indigo: "#4b0082",
+  lime: "#00ff00",
+  magenta: "#ff00ff",
+  maroon: "#800000",
+  navy: "#000080",
+  olive: "#808000",
+  orange: "#ffa500",
+  purple: "#800080",
+  violet: "#800080",
+  red: "#ff0000",
+  yellow: "#ffff00"
+};
 
 export default class VictoryBoxPlot extends React.Component {
   render() {
+    let colors = Object.keys(PLOT_COLORS['names']);
+    let colorName = colors[this.props.index];
+    let colorId = PLOT_COLORS['names'][colorName];
+
     return(
     <G>
       <Line
@@ -21,24 +46,24 @@ export default class VictoryBoxPlot extends React.Component {
         y1={this.props.y1}
         x2={this.props.x}
         y2={this.props.y2}
-        stroke={this.props.color}
+        stroke={colorId}
         strokeWidth="5"/>
       <Line
         x1={this.props.x + this.props.width/30}
         y1={this.props.y1}
         x2={this.props.x - + this.props.width/30}
         y2={this.props.y1}
-        stroke={this.props.color}
+        stroke={colorId}
         strokeWidth="5"/>
       <Line
         x1={this.props.x + this.props.width/30}
         y1={this.props.y2}
         x2={this.props.x - + this.props.width/30}
         y2={this.props.y2}
-        stroke={this.props.color}
+        stroke={colorId}
         strokeWidth="5"/>
       <Candle {...this.props}
-              style={{fill:this.props.color}}
+              style={{fill:colorId}}
       />
     </G>
     )

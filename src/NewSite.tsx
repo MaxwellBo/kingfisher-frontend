@@ -1,26 +1,37 @@
 import * as React from 'react';
 import * as firebase from 'firebase';
 
-interface Props{}
-interface State{
+interface Props { }
+interface State {
   code: string;
   latitude: string;
   longitude: string;
+  sites: {};
+  sitesRef: firebase.database.Reference;
 }
 
-class NewSite extends React.Component<Props, State> {
+export default class NewSite extends React.Component<Props, State> {
   constructor() {
     super();
 
     this.state = {
-      code: "",
-      latitude: "",
-      longitude: "",
-    }
+      code: '',
+      latitude: '',
+      longitude: '',
+      sites: {},
+      sitesRef: firebase.database().ref('sites'),
+    };
   }
 
   handleChange = (event) => {
-    this.setState({[event.target.name]: event.target.value})
+    this.setState({[event.target.name]: event.target.value});
+    console.log(this.state)
+  }
+
+  pushNewSite = () => {
+    let ref = this.state.sitesRef.child(this.state.code);
+    ref.set({latitude: this.state.latitude, longitude: this.state.longitude});
+    window.location.reload(); // TODO: Change this to a redirect (to the site's vis page?)
   }
 
   render() {
@@ -35,24 +46,29 @@ class NewSite extends React.Component<Props, State> {
             <div className="field">
               <label className="label">Site Code</label>
               <div className="control">
-                <input className="input" type="text" value={this.state.code} onChange={this.handleChange}/>
+                <input className="input" type="text" name="code" onChange={this.handleChange}/>
               </div>
             </div>
             <div className="field">
               <label className="label">Latitude</label>
               <div className="control">
-                <input className="input" type="text" value={this.state.latitude} onChange={this.handleChange}/>
+                <input className="input" type="text" name="latitude" onChange={this.handleChange}/>
               </div>
             </div>
             <div className="field">
               <label className="label">Longitude</label>
               <div className="control">
-                <input className="input" type="text" value={this.state.longitude} onChange={this.handleChange} />
+                <input className="input" type="text" name="longitude" onChange={this.handleChange} />
+              </div>
+            </div>
+            <div className="field">
+              <div className="control">
+                <button className="button is-primary" onClick={this.pushNewSite}>Submit</button>
               </div>
             </div>
           </div>
         </div>
       </section>
-    )
+    );
   }
 }

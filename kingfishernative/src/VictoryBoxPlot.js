@@ -1,6 +1,6 @@
 import React from 'react';
 import { G, Line } from 'react-native-svg'
-import { StyleSheet, Text, View, TouchableHighlight, ART } from 'react-native';
+import {StyleSheet, Text, View, TouchableHighlight, ART, ButtonsArray as onPress} from 'react-native';
 import { Candle } from "victory-native";
 
 
@@ -34,10 +34,21 @@ PLOT_COLORS.names = {
 };
 
 export default class VictoryBoxPlot extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      propDump: this.props
+    }
+  }
+
   render() {
     let colors = Object.keys(PLOT_COLORS['names']);
     let colorName = colors[this.props.index];
     let colorId = PLOT_COLORS['names'][colorName];
+    let padding = this.props.padding.left || this.props.padding;
+    let wickWidth = 0.5 * (this.props.width - 2 * padding) / this.props.data.length;
 
     return(
     <G>
@@ -47,21 +58,24 @@ export default class VictoryBoxPlot extends React.Component {
         x2={this.props.x}
         y2={this.props.y2}
         stroke={colorId}
-        strokeWidth="5"/>
+        strokeWidth="5"
+      />
       <Line
-        x1={this.props.x + this.props.width/30}
+        x1={this.props.x + wickWidth/2}
         y1={this.props.y1}
-        x2={this.props.x - + this.props.width/30}
+        x2={this.props.x - wickWidth/2}
         y2={this.props.y1}
         stroke={colorId}
-        strokeWidth="5"/>
+        strokeWidth="5"
+      />
       <Line
-        x1={this.props.x + this.props.width/30}
+        x1={this.props.x + wickWidth/2}
         y1={this.props.y2}
-        x2={this.props.x - + this.props.width/30}
+        x2={this.props.x - wickWidth/2}
         y2={this.props.y2}
         stroke={colorId}
-        strokeWidth="5"/>
+        strokeWidth="5"
+      />
       <Candle {...this.props}
               style={{fill:colorId}}
       />

@@ -96,7 +96,10 @@ class Plot extends React.Component<Props, State> {
   createPlot() {
     let dataGenerator:DataGenerator = new DataGenerator(this.state.data);
     let data:Array<Object> = dataGenerator.getDataBySiteAndTime();
-    dataGenerator.getMaximumHeightValue();
+    let xMax:number = dataGenerator.getMaximumHeightValue();
+    let yMax:number = data.length;
+    let height:number = 300;
+    let width:number = 300;
 
     const node = this.node;
 
@@ -107,7 +110,32 @@ class Plot extends React.Component<Props, State> {
       .attr('height', 300)
       .append('g');
 
+    let xScale = d3.scaleLinear()
+      .domain([0, xMax])
+      .range([0, width]);
+    let yScale = d3.scaleLinear()
+      .domain([0, yMax])
+      .range([height, 0]);
 
+    let xAxis = d3.axisBottom()
+      .scale(xScale)
+    let yAxis = d3.axisLeft()
+      .scale(yScale)
+
+    let xMap = (dataPoint) => xScale(dataPoint[0]);
+    let yMap = (dataPoint) => yScale(dataPoint[1]);
+
+    // Create and render x-axis
+    svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + (height) + ")")
+      .call(xAxis)
+
+    // Create and render y-axis
+    svg.append("g")
+      .attr("class", "y axis")
+      .attr("transform", "translate(" + 0 + ", 0)")
+      .call(yAxis)
   }
 
   render() {

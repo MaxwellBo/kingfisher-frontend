@@ -5,6 +5,11 @@ import { withFauxDOM, ReactFauxDOM } from 'react-faux-dom';
 import ViewSiteCard from './ViewSiteCard';
 import { isNumber } from 'util';
 import * as d3 from 'd3';
+import {withFauxDOM, ReactFauxDOM} from 'react-faux-dom';
+import ViewSiteCard from "./ViewSiteCard";
+import {isNumber} from "util";
+import * as d3 from 'd3'
+import Plot from "./Plot";
 
 interface Props {}
 
@@ -28,6 +33,20 @@ class VisMenu extends React.Component<Props, State> {
 
   // add your listeners into here
   // use this function to set states once the
+  componentWillMount() {
+    // Pulls JSON from the firebase
+    this.state.sitesRef.on('value', (snap) => {
+      if (snap) {
+        this.setState({
+          data: snap.val(),
+        });
+        this.setState({mounted: true});
+      }
+    });
+  }
+
+  // add your listeners into here
+  // use this function to set states once the
   componentDidMount() {
     // Pulls JSON from the firebase
     this.state.sitesRef.on('value', (snap) => {
@@ -37,6 +56,7 @@ class VisMenu extends React.Component<Props, State> {
             sites: Array(Object.keys(snap.val()).length),
             mounted: true,
           });
+          this.setState({mounted: true});
       }
     });
   }
@@ -98,6 +118,11 @@ class VisMenu extends React.Component<Props, State> {
   render() {
     // let placeHolder = "{1,1,2,3,5,8,13,21,34,55,89,100,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}";
     let allData = this.state.data;
+<<<<<<< HEAD
+=======
+    //data={this.getSiteData(siteName)}
+
+>>>>>>> 793c967ad07f6a89d2a7791afc461c767f5194e0
     if (this.state.mounted) {
       let siteCards = (this.state.data == null) ? <div/> :
         Object.keys(this.state.data).map((siteName) =>
@@ -119,6 +144,7 @@ class VisMenu extends React.Component<Props, State> {
               {siteCards}
             </div>
           </div>
+          <Plot data={this.state.data}/>
         </section>
       );
     } else {

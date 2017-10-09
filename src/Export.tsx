@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as firebase from 'firebase';
 
-import ExportSite from "./ExportSite";
+import ExportSite from './ExportSite';
 import MapWithAMarkerCluster from './Map';
 
 function writeUserData() {

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as firebase from 'firebase';
-var converter = require('json-2-csv');
 
 interface Props {
   code: string;
@@ -23,6 +22,7 @@ export default class ExportSite extends React.Component<Props, State> {
       exportsCollapsed: true,
     };
   }
+
   componentDidMount() {
     this.state.siteRef.on('value', (siteRecords) => {
       if (siteRecords) {
@@ -47,6 +47,7 @@ export default class ExportSite extends React.Component<Props, State> {
         }
         var link = document.createElement('a');
         link.setAttribute('target', '_blank');
+
         if (Blob !== undefined) {
             var blob = new Blob([csv], {type: 'text/plain'});
             link.setAttribute('href', URL.createObjectURL(blob));
@@ -66,7 +67,9 @@ export default class ExportSite extends React.Component<Props, State> {
   }
 
   render() {
-    let siteRecords = (this.state.records == null || this.state.exportsCollapsed) ? <div/> : Object.keys(this.state.records).map(date => (
+    let siteRecords = (this.state.records == null || this.state.exportsCollapsed) ? 
+        <div/> : 
+        Object.keys(this.state.records).map(date => (
       <div className="export-button-cont">
         <button className="button export-button" key={date} onClick={() => this.exportData(date)}>
           Export {date} to CSV

@@ -3,6 +3,7 @@ import * as React from 'react';
 import * as firebase from 'firebase';
 
 import ViewSiteCard from "./ViewSiteCard";
+import {isNumber} from "util";
 
 interface Props {}
 
@@ -31,7 +32,8 @@ class VisMenu extends React.Component<Props, State> {
     this.state.sitesRef.on('value', (snap) => {
       if (snap) {
           this.setState({
-              data: snap.val(),
+            data: snap.val(),
+            sites: Array(Object.keys(snap.val()).length),
           });
       }
     });
@@ -42,32 +44,66 @@ class VisMenu extends React.Component<Props, State> {
       this.state.sitesRef.off();
   }
 
-  generateSiteCards(allData : Object) {
-    console.log(Object.keys(allData));
-  }
+  /**
+   * Do data processing here
+   * @require: Data in sites have a measurements
+   * with the following structure:
+   *  date {
+   *    trees {
+   *      treeNo {
+   *        dbhs {
+   *          dbhNo
+   *        }
+   *        height
+   *        species
+   *      }
+   *    }
+   *  }
+   */
+  getAverageTreeHeights(siteName, allData) {
+    let returnString = "";
+    let siteData = allData[siteName];
+    let siteVisitDates = siteData['measurements'];
+    let avgHeight = 0;
+    let dateCount = 0;
+    // iterate through all measurement dates
+    console.log(siteName);
+    for (var date in siteVisitDates) {
+      let measurements = siteVisitDates[date]['trees'];
+      let treeCount = 1;
+      let sumHeight = 0;
+      for (var treeNo in measurements) {
+        sumHeight += parseFloat(measurements[treeNo]['height']);
+        treeCount++;
+      }
+      // TODO Clean this up
+      avgHeight = Math.round((sumHeight/treeCount)/10);
+      if (dateCount == 0) {
+        returnString = returnString.concat(avgHeight.toString() + "{");
+      }
+      returnString = returnString.concat(avgHeight.toString() + ",");
+      dateCount++;
+    }
+    returnString = returnString.substring(0, returnString.length-1)
+      + "}" + avgHeight.toString();
+    console.log(returnString);
 
-  boop(siteName: Object) {
-    alert(siteName.toString());
+    return returnString;
   }
-
 
   render() {
+    let placeHolder = "{1,1,2,3,5,8,13,21,34,55,89,100,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}";
+    let allData = this.state.data;
     //data={this.getSiteData(siteName)}
     if (this.state.mounted) {
-      let siteCards = (this.state.data == null) ?
-        <div/> : Object.keys(this.state.data).map(siteName =>
-          <div className="site-card-cont centered">
-            <button className="button" key={siteName}
-                    onClick={() => this.boop(siteName)}>
-              {siteName}
-            </button>
-            <ViewSiteCard
-              title={siteName.toString()}
-              data={"{1,1,2,3,5,8,13,21,34,55,89,100,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}"}
-            />
-          </div>
+
+      let siteCards = (this.state.data == null) ? <div/> :
+        Object.keys(this.state.data).map((siteName) =>
+          <ViewSiteCard
+            title={siteName.toString()}
+            data={this.getAverageTreeHeights(siteName, allData)}
+          />
         )
-      //{this.state.data ? this.generateSiteCards(this.state.data) : "not mounted"}
       return (
         <section className="section has-text-centered">
           <div className="container">
@@ -80,6 +116,7 @@ class VisMenu extends React.Component<Props, State> {
           </div>
         </section>
       );
+
     } else {
       return (
         <div className="has-text-centered">

@@ -5,6 +5,7 @@ import Nav from './Nav';
 
 import './Bulma.css';
 import './App.css';
+import './Web.css';
 
 var firebaseConfig = {
   apiKey: 'AIzaSyA2orh7KUcjyaVp44lm59Wq_nSkydEPK3c',
@@ -182,6 +183,7 @@ class App extends React.Component<Props, State> {
         <Route exact={true} path="/" component={Home} />
         <Route path="/app" component={Tabs} />
         <Route exact={true} path="/app/export" component={Export} />
+        <Route exact={true} path="/app/view" component={View} />
         <Route exact={true} path="/login" component={Login} />
         <Route exact={true} path="/tos" component={TOS} />
         <Route exact={true} path="/stats" component={Stats} />

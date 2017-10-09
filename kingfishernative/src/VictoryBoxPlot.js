@@ -1,7 +1,6 @@
 import React from 'react';
-import { G, Line } from 'react-native-svg'
-import { StyleSheet, Text, View, TouchableHighlight, ART } from 'react-native';
-import { Candle } from "victory-native";
+import { G, Line, Rect } from 'react-native-svg'
+import {StyleSheet, Text, View, TouchableHighlight, ART} from 'react-native';
 
 
 PLOT_COLORS = {};
@@ -34,36 +33,57 @@ PLOT_COLORS.names = {
 };
 
 export default class VictoryBoxPlot extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      propDump: this.props
+    }
+  }
+
   render() {
     let colors = Object.keys(PLOT_COLORS['names']);
     let colorName = colors[this.props.index];
     let colorId = PLOT_COLORS['names'][colorName];
+    let padding = this.props.padding.left || this.props.padding;
+    let wickWidth = 0.5 * (this.props.width - 2 * padding) / this.props.data.length;
+
+    console.log(this.props);
 
     return(
-    <G>
+    <G {...this.props.events}>
       <Line
         x1={this.props.x}
         y1={this.props.y1}
         x2={this.props.x}
         y2={this.props.y2}
         stroke={colorId}
-        strokeWidth="5"/>
+        strokeWidth="5"
+      />
       <Line
-        x1={this.props.x + this.props.width/30}
+        x1={this.props.x + wickWidth/2}
         y1={this.props.y1}
-        x2={this.props.x - + this.props.width/30}
+        x2={this.props.x - wickWidth/2}
         y2={this.props.y1}
         stroke={colorId}
-        strokeWidth="5"/>
+        strokeWidth="5"
+      />
       <Line
-        x1={this.props.x + this.props.width/30}
+        x1={this.props.x + wickWidth/2}
         y1={this.props.y2}
-        x2={this.props.x - + this.props.width/30}
+        x2={this.props.x - wickWidth/2}
         y2={this.props.y2}
         stroke={colorId}
-        strokeWidth="5"/>
-      <Candle {...this.props}
-              style={{fill:colorId}}
+        strokeWidth="5"
+      />
+      <Rect
+        x={this.props.x - wickWidth/2}
+        y={this.props.y}
+        width={wickWidth}
+        height={this.props.candleHeight}
+        fill={colorId}
+        onClick={()=>console.log("Hi")}
       />
     </G>
     )

@@ -1,0 +1,50 @@
+.load-error
+{
+    padding-bottom: 5rem;
+
+}
+
+.site-card-cont
+{
+    display: flex;
+    width: 25rem;
+    margin-bottom: 0.5rem;
+}
+
+.site-card-title
+{
+    margin-bottom: 2em;
+    padding-bottom: 1rem;
+}
+
+.site-card-data
+{
+    margin-bottom: 2em;
+    padding-bottom: 1rem;
+}
+
+/* ATF-Spark Fonts */
+@font-face {
+    font-family: 'spark-bar-medium';
+    src: url("https://cdn.rawgit.com/aftertheflood/spark/ddbbf6f7/Output/Webfonts/Bar%20-%20medium/spark-bar-medium.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal
+}
+
+.atf {
+    -webkit-font-variant-ligatures: contextual;
+    -moz-font-variant-ligatures: contextual;
+    font-variant-ligatures: contextual;
+    -webkit-font-feature-settings: "calt";
+    -moz-font-feature-settings: "calt";
+    font-feature-settings: "calt";
+    font-size: 2rem;
+    letter-spacing: 0;
+    text-indent: 0;
+    line-height: 0;
+}
+
+.spark-bar-medium {
+    font-family: 'spark-bar-medium';
+    color: hsla(150, 100%, 33%, 1);
+}

@@ -110,32 +110,12 @@ class Plot extends React.Component<Props, State> {
       .attr('height', 300)
       .append('g');
 
-    let xScale = d3.scaleLinear()
+    let xScale = d3.scale.linear()
       .domain([0, xMax])
       .range([0, width]);
-    let yScale = d3.scaleLinear()
+    let yScale = d3.scale.linear()
       .domain([0, yMax])
       .range([height, 0]);
-
-    let xAxis = d3.axisBottom()
-      .scale(xScale)
-    let yAxis = d3.axisLeft()
-      .scale(yScale)
-
-    let xMap = (dataPoint) => xScale(dataPoint[0]);
-    let yMap = (dataPoint) => yScale(dataPoint[1]);
-
-    // Create and render x-axis
-    svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + (height) + ")")
-      .call(xAxis)
-
-    // Create and render y-axis
-    svg.append("g")
-      .attr("class", "y axis")
-      .attr("transform", "translate(" + 0 + ", 0)")
-      .call(yAxis)
   }
 
   render() {

@@ -49,10 +49,10 @@ export default class VictoryBoxPlot extends React.Component {
     let padding = this.props.padding.left || this.props.padding;
     let wickWidth = 0.5 * (this.props.width - 2 * padding) / this.props.data.length;
 
-    console.log(this.props)
+    console.log(this.props);
 
     return(
-    <G>
+    <G {...this.props.events}>
       <Line
         x1={this.props.x}
         y1={this.props.y1}
@@ -83,6 +83,7 @@ export default class VictoryBoxPlot extends React.Component {
         width={wickWidth}
         height={this.props.candleHeight}
         fill={colorId}
+        onClick={()=>console.log("Hi")}
       />
     </G>
     )

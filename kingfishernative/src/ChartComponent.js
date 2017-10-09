@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import {Container, Content, Button, Left, Right, Icon, Picker} from 'native-base';
-import { VictoryAxis, VictoryChart, VictoryCandlestick, VictoryLabel } from "victory-native";
+import { VictoryAxis, VictoryChart, VictoryCandlestick, VictoryLabel, VictoryTooltip, VictoryVoronoiContainer } from "victory-native";
 import VictoryBoxPlot from "./VictoryBoxPlot"
-import { G, Line, Rect } from 'react-native-svg'
+import { G, Line, Rect, Svg } from 'react-native-svg'
 
 export default class ChartComponent extends React.Component {
 
@@ -56,6 +56,10 @@ export default class ChartComponent extends React.Component {
         <VictoryCandlestick
           data={this.props.data}
           dataComponent={<VictoryBoxPlot color={"blue"}/>}
+          name={"plot"}
+          labelComponent={<VictoryTooltip/>}
+          labels={(d) => d['open'] ? d['open'] : "Hi"}
+          standalone={false}
         />
       </VictoryChart>
     );

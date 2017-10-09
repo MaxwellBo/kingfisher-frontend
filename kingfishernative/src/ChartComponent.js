@@ -13,20 +13,19 @@ export default class ChartComponent extends React.Component {
 
   render() {
     return(
-      <VictoryChart
+      <Svg
         style={{
           parent: {
             border: "1px solid #ccc"
           }
         }}
         height={400}
-        width={300}
+        width={400}
       >
         <VictoryAxis
-          width={300}
-          height={300}
+          width={400}
+          height={400}
           domain={[0, this.props.data.length + 1]}
-          standalone={false}
           fixLabelOverlap={false}
           style={{
             axis: {stroke: "#756f6a"},
@@ -38,9 +37,8 @@ export default class ChartComponent extends React.Component {
           tickLabelComponent={<G/>}
         />
         <VictoryAxis
-          width={300}
-          height={300}
-          standalone={false}
+          width={400}
+          height={400}
           dependentAxis={true}
           fixLabelOverlap={false}
           style={{
@@ -60,8 +58,10 @@ export default class ChartComponent extends React.Component {
           labelComponent={<VictoryTooltip/>}
           labels={(d) => d['open'] ? d['open'] : "Hi"}
           standalone={false}
+          height={300}
+          width={300}
         />
-      </VictoryChart>
+      </Svg>
     );
   }
 }

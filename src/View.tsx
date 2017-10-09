@@ -1,12 +1,8 @@
 ///<reference path="../node_modules/@types/react/index.d.ts"/>
 import * as React from 'react';
 import * as firebase from 'firebase';
-import { withFauxDOM, ReactFauxDOM } from 'react-faux-dom';
 import ViewSiteCard from './ViewSiteCard';
-import { isNumber } from 'util';
-import * as d3 from 'd3';
 import {withFauxDOM, ReactFauxDOM} from 'react-faux-dom';
-import ViewSiteCard from "./ViewSiteCard";
 import {isNumber} from "util";
 import * as d3 from 'd3'
 import Plot from "./Plot";
@@ -118,11 +114,8 @@ class VisMenu extends React.Component<Props, State> {
   render() {
     // let placeHolder = "{1,1,2,3,5,8,13,21,34,55,89,100,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}";
     let allData = this.state.data;
-<<<<<<< HEAD
-=======
     //data={this.getSiteData(siteName)}
 
->>>>>>> 793c967ad07f6a89d2a7791afc461c767f5194e0
     if (this.state.mounted) {
       let siteCards = (this.state.data == null) ? <div/> :
         Object.keys(this.state.data).map((siteName) =>

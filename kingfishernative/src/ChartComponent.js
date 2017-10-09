@@ -3,7 +3,7 @@ import { StyleSheet, View, ScrollView } from 'react-native';
 import {Container, Content, Button, Left, Right, Icon, Picker} from 'native-base';
 import { VictoryAxis, VictoryChart, VictoryCandlestick, VictoryLabel, VictoryTooltip, VictoryVoronoiContainer } from "victory-native";
 import VictoryBoxPlot from "./VictoryBoxPlot"
-import { G, Line, Rect, Svg } from 'react-native-svg'
+import { G } from 'react-native-svg'
 
 export default class ChartComponent extends React.Component {
 

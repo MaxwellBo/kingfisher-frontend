@@ -26,4 +26,8 @@ $tabs-link-hover-color: $primary;
   margin-top: 1rem;
 }
 
+.active-tab {
+  color: $primary;
+}
+
 @import "../node_modules/bulma/bulma";

@@ -20,6 +20,7 @@ firebase.initializeApp(firebaseConfig);
 
 // XXX: Login must be imported after firebase has been init'd
 import Export from './Export';
+import NewSite from './NewSite';
 import Login from './Login';
 import TOS from './TOS';
 import Stats from './Stats';
@@ -176,7 +177,7 @@ function Home() {
 interface Props { }
 interface State { }
 
-class App extends React.Component<Props, State> {
+class App extends React.Component {
   render() {
     return (
       <div>
@@ -184,6 +185,7 @@ class App extends React.Component<Props, State> {
         <Route path="/app" component={Tabs} />
         <Route exact={true} path="/app/export" component={Export} />
         <Route exact={true} path="/app/view" component={View} />
+        <Route exact={true} path="/app/newsite" component={NewSite} />
         <Route exact={true} path="/login" component={Login} />
         <Route exact={true} path="/tos" component={TOS} />
         <Route exact={true} path="/stats" component={Stats} />

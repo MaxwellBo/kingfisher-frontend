@@ -12,6 +12,12 @@ interface State {
   exportsCollapsed: boolean;
 }
 
+interface Tree {
+  dbhs: string[];
+  height: string;
+  species: string;
+} // both dbhsand height should be an array of numbers and a number, respectively
+
 export default class ExportSite extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -38,11 +44,11 @@ export default class ExportSite extends React.Component<Props, State> {
   exportData = (date: string) => {
     this.state.siteRef.child(date).once('value', (record) => {
       if (record) {
-        let trees = record.val()['trees'];
+        let trees = record.val().trees;
         let csv = 'key,dbhs,height,species\n';
         for (let key in trees) {
           if (trees.hasOwnProperty(key)) {
-            csv += key + ',' + trees[key]['dbhs'] + ',' + trees[key]['height'] + ',' + trees[key]['species'] + '\n';
+            csv += key + ',' + trees[key].dbhs + ',' + trees[key].height + ',' + trees[key].species + '\n';
           }
         }
         var link = document.createElement('a');

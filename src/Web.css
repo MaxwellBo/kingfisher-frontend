@@ -1,14 +1,17 @@
 .load-error
 {
     padding-bottom: 5rem;
+}
 
+.site-card-hidden
+{
+    display: none;
 }
 
 .site-card-cont
 {
     display: flex;
-    width: 25rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 2rem;
 }
 
 .site-card-title
@@ -19,6 +22,8 @@
 
 .site-card-data
 {
+    padding-top: 2rem;
+    margin-top: 2em;
     margin-bottom: 2em;
     padding-bottom: 1rem;
 }

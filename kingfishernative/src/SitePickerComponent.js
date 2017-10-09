@@ -2,6 +2,36 @@ import LabelSelect from 'react-native-label-select';
 import React from 'react';
 import { fbi } from "./Global";
 import {Container, Content, Button, Left, Right, Icon, Text, Picker} from 'native-base';
+const {width, height, scale} = window;
+
+PLOT_COLORS = {};
+PLOT_COLORS.names = {
+  darkblue: "#00008b",
+  darkcyan: "#008b8b",
+  darkgreen: "#006400",
+  darkkhaki: "#bdb76b",
+  darkmagenta: "#8b008b",
+  darkolivegreen: "#556b2f",
+  darkorange: "#ff8c00",
+  darkorchid: "#9932cc",
+  darkred: "#8b0000",
+  darksalmon: "#e9967a",
+  darkviolet: "#9400d3",
+  fuchsia: "#ff00ff",
+  gold: "#ffd700",
+  green: "#008000",
+  indigo: "#4b0082",
+  lime: "#00ff00",
+  magenta: "#ff00ff",
+  maroon: "#800000",
+  navy: "#000080",
+  olive: "#808000",
+  orange: "#ffa500",
+  purple: "#800080",
+  violet: "#800080",
+  red: "#ff0000",
+  yellow: "#ffff00"
+};
 
 export default class SitePickerComponent extends React.Component{
   constructor(props) {
@@ -63,14 +93,29 @@ export default class SitePickerComponent extends React.Component{
 
 
   render() {
-    let selectedLabels = this.state.currentSelectedSites.map((siteNameAndDate, index) =>
-      <LabelSelect.Label
-        onCancel={this.props.onCancel}
-        key={index}
-        data={siteNameAndDate}
-      >
-        {siteNameAndDate[0] + " " + siteNameAndDate[1].split("::")[0] + " " + siteNameAndDate[1].split("::")[1]}
-      </LabelSelect.Label>)
+    let selectedLabels = this.state.currentSelectedSites.map((siteNameAndDate, index) => {
+
+      let colors = Object.keys(PLOT_COLORS['names']);
+      let colorName = colors[index];
+      let colorId = PLOT_COLORS['names'][colorName];
+
+      return (
+        <LabelSelect.Label
+          onCancel={this.props.onCancel}
+          key={index}
+          data={siteNameAndDate}
+          closeStyle={{
+            backgroundColor: colorId,
+            padding: 8,
+            borderLeftWidth: 2 / scale,
+            borderLeftColor: colorId
+          }}
+          labelStyle={{backgroundColor: colorId}}
+        >
+          {siteNameAndDate[0] + " " + siteNameAndDate[1].split("::")[0] + " " + siteNameAndDate[1].split("::")[1]}
+        </LabelSelect.Label>)
+    }
+  )
 
     let sitesAndDates = this.getOtherSelectedSitesAndDates();
     

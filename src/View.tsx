@@ -1,8 +1,9 @@
 ///<reference path="../node_modules/@types/react/index.d.ts"/>
 import * as React from 'react';
 import * as firebase from 'firebase';
-
+import {withFauxDOM, ReactFauxDOM} from 'react-faux-dom';
 import ViewSiteCard from "./ViewSiteCard";
+import * as d3 from 'd3'
 
 interface Props {}
 
@@ -50,7 +51,6 @@ class VisMenu extends React.Component<Props, State> {
     alert(siteName.toString());
   }
 
-
   render() {
     //data={this.getSiteData(siteName)}
     if (this.state.mounted) {
@@ -67,7 +67,6 @@ class VisMenu extends React.Component<Props, State> {
             />
           </div>
         )
-      //{this.state.data ? this.generateSiteCards(this.state.data) : "not mounted"}
       return (
         <section className="section has-text-centered">
           <div className="container">

@@ -4,6 +4,7 @@ import * as firebase from 'firebase';
 import {withFauxDOM, ReactFauxDOM} from 'react-faux-dom';
 import ViewSiteCard from "./ViewSiteCard";
 import * as d3 from 'd3'
+import Plot from "./Plot";
 
 interface Props {}
 
@@ -27,6 +28,20 @@ class VisMenu extends React.Component<Props, State> {
 
   // add your listeners into here
   // use this function to set states once the
+  componentWillMount() {
+    // Pulls JSON from the firebase
+    this.state.sitesRef.on('value', (snap) => {
+      if (snap) {
+        this.setState({
+          data: snap.val(),
+        });
+        this.setState({mounted: true});
+      }
+    });
+  }
+
+  // add your listeners into here
+  // use this function to set states once the
   componentDidMount() {
     // Pulls JSON from the firebase
     this.state.sitesRef.on('value', (snap) => {
@@ -34,9 +49,9 @@ class VisMenu extends React.Component<Props, State> {
           this.setState({
               data: snap.val(),
           });
+          this.setState({mounted: true});
       }
     });
-    this.setState({mounted: true});
   }
 
   componentWillUnmount() {
@@ -53,6 +68,7 @@ class VisMenu extends React.Component<Props, State> {
 
   render() {
     //data={this.getSiteData(siteName)}
+
     if (this.state.mounted) {
       let siteCards = (this.state.data == null) ?
         <div/> : Object.keys(this.state.data).map(siteName =>
@@ -66,7 +82,8 @@ class VisMenu extends React.Component<Props, State> {
               data={"{1,1,2,3,5,8,13,21,34,55,89,100,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}"}
             />
           </div>
-        )
+        );
+
       return (
         <section className="section has-text-centered">
           <div className="container">
@@ -77,6 +94,7 @@ class VisMenu extends React.Component<Props, State> {
               {siteCards}
             </div>
           </div>
+          <Plot data={this.state.data}/>
         </section>
       );
     } else {

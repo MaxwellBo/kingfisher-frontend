@@ -1,7 +1,6 @@
 import React from 'react';
-import { G, Line } from 'react-native-svg'
-import {StyleSheet, Text, View, TouchableHighlight, ART, ButtonsArray as onPress} from 'react-native';
-import { Candle } from "victory-native";
+import { G, Line, Rect } from 'react-native-svg'
+import {StyleSheet, Text, View, TouchableHighlight, ART} from 'react-native';
 
 
 PLOT_COLORS = {};
@@ -50,6 +49,8 @@ export default class VictoryBoxPlot extends React.Component {
     let padding = this.props.padding.left || this.props.padding;
     let wickWidth = 0.5 * (this.props.width - 2 * padding) / this.props.data.length;
 
+    console.log(this.props)
+
     return(
     <G>
       <Line
@@ -76,8 +77,12 @@ export default class VictoryBoxPlot extends React.Component {
         stroke={colorId}
         strokeWidth="5"
       />
-      <Candle {...this.props}
-              style={{fill:colorId}}
+      <Rect
+        x={this.props.x - wickWidth/2}
+        y={this.props.y}
+        width={wickWidth}
+        height={this.props.candleHeight}
+        fill={colorId}
       />
     </G>
     )

@@ -3,6 +3,7 @@ import { StyleSheet, View, ScrollView } from 'react-native';
 import {Container, Content, Button, Left, Right, Icon, Picker} from 'native-base';
 import { VictoryAxis, VictoryChart, VictoryCandlestick, VictoryLabel } from "victory-native";
 import VictoryBoxPlot from "./VictoryBoxPlot"
+import { G, Line, Rect } from 'react-native-svg'
 
 export default class ChartComponent extends React.Component {
 
@@ -34,7 +35,7 @@ export default class ChartComponent extends React.Component {
             ticks: {stroke: "grey", size: 5},
             tickLabels: {fontSize: 15, padding: 5}
           }}
-          tickLabelComponent={<VictoryLabel dy={15}/>}
+          tickLabelComponent={<G/>}
         />
         <VictoryAxis
           width={300}

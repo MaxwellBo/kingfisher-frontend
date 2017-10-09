@@ -25,7 +25,7 @@ export default class NewSite extends React.Component<Props, State> {
 
   handleChange = (event) => {
     this.setState({[event.target.name]: event.target.value});
-    console.log(this.state)
+    console.log(this.state);
   }
 
   pushNewSite = () => {

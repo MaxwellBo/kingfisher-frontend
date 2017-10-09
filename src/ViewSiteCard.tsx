@@ -4,10 +4,10 @@ import * as firebase from 'firebase';
 interface Props {
   title: string;
   data: string;
-};
+}
 
 interface State {
-  shouldRender: boolean,
+  shouldRender: boolean;
 }
 
 export default class ViewSiteCard extends React.Component<Props, State> {
@@ -15,13 +15,13 @@ export default class ViewSiteCard extends React.Component<Props, State> {
     super(props);
     this.state = {
       shouldRender: false,
-    }
+    };
   }
 
-  onClick(){
+  onClick() {
     this.setState(
       {shouldRender: !this.state.shouldRender}
-    )
+    );
   }
 
   render() {
@@ -29,8 +29,11 @@ export default class ViewSiteCard extends React.Component<Props, State> {
       return (
         <div className="site-card-cont">
           <div>
-            <button className="button centered" key={this.props.title}
-                    onClick={() => this.onClick()}>
+            <button
+              className="button centered"
+              key={this.props.title}
+              onClick={() => this.onClick()}
+            >
               <div className="subtitle is-4 site-card-title">
                 {this.props.title}
               </div>
@@ -46,8 +49,11 @@ export default class ViewSiteCard extends React.Component<Props, State> {
     } else {
       return (
         <div className="site-card-cont centered">
-          <button className="button centered" key={this.props.title}
-                  onClick={() => this.onClick()}>
+          <button
+            className="button centered"
+            key={this.props.title}
+            onClick={() => this.onClick()}
+          >
             <div className="subtitle is-4 site-card-title">
               {this.props.title}
             </div>
@@ -57,4 +63,3 @@ export default class ViewSiteCard extends React.Component<Props, State> {
     }
   }
 }
-

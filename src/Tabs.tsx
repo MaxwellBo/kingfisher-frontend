@@ -1,7 +1,13 @@
 import * as React from 'react';
 import { Link, Route } from 'react-router-dom';
 
-export default class Tabs extends React.Component {
+interface Props {
+  activeTab: string;
+}
+
+interface State { }
+
+export default class Tabs extends React.Component<Props, State> {
   render() {
     return (
       <div className="tabs is-centered is-primary">
@@ -25,7 +31,7 @@ export default class Tabs extends React.Component {
             </li>
           </Link>
           <Link to="/app/export">
-            <li>
+            <li className={this.props.activeTab === 'export' ? 'active-tab' : ''}>
               <span className="icon is-small"><i className="fa fa-download"/></span>
               <span>Export</span>
             </li>

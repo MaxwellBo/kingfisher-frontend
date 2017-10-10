@@ -65,7 +65,8 @@ class DataGenerator {
                 species: species,
                 dbhs: dbhs[m],
                 allDbhs: dbhs,
-                siteAndTime: site + time
+                siteAndTime: site + time,
+                treeId: treeIds[k]
               }
             )
           }
@@ -103,6 +104,64 @@ class DataGenerator {
 
     return largestHeight;
   }
+
+  getFiveNumberSummaryFromArray(values:Array<number>) {
+    var ss = require('summary-statistics');
+    var summary = ss(values);
+    return summary;
+  }
+
+  seperateAllDataAsArrayBySiteAndTime(values: Array<Object>) {
+    let tmp = {}
+    for(let i=0; i<values.length; i++) {
+      let dataPoint = values[i];
+      let siteAndTime = dataPoint['siteAndTime'];
+      if(tmp[siteAndTime]) {
+        tmp[siteAndTime]['data'].push(dataPoint);
+      } else {
+        tmp[siteAndTime] = {data:[dataPoint]}
+      }
+    }
+    let data:Array<Array<Object>> = [];
+    let siteAndTimes = Object.keys(tmp);
+    for(let i=0; i<siteAndTimes.length; i++) {
+      data.push(tmp[siteAndTimes[i]]['data']);
+    }
+    return data;
+  }
+
+  getBoxPlotInfoForArray(key:string, data:Array<Object>) {
+    // Remove duplicate treeIds TODO just for height
+    let seenKeys:Object = {};
+    let uniqueValues:Array<number> = [];
+    for(let i=0; i<data.length; i++) {
+      if(seenKeys[data[i]['treeId']]) {
+        continue;
+      }
+      seenKeys[data[i]['treeId']] = 1;
+      uniqueValues.push(data[i]['height']);
+    }
+    let fiveNumberSummary = this.getFiveNumberSummaryFromArray(uniqueValues);
+    let IQR = fiveNumberSummary['q3'] - fiveNumberSummary['q1'];
+    let theoreticalLowerBound = fiveNumberSummary['median'] - (IQR * 1.5);
+    let theoreticalUpperBound = fiveNumberSummary['median'] + (IQR * 1.5);
+
+    let outliers:Array<number> = [];
+    let boxValues:Array<number> = []
+    uniqueValues.sort();
+    for(let i=0; i<uniqueValues.length; i++) {
+      if(uniqueValues[i] < theoreticalLowerBound || uniqueValues[i] > theoreticalUpperBound) {
+        outliers.push(uniqueValues[i]);
+      } else {
+        boxValues.push(uniqueValues[i]);
+      }
+    }
+    fiveNumberSummary['outliers'] = outliers;
+    fiveNumberSummary['bottomWhisker'] = boxValues[0];
+    fiveNumberSummary['topWhisker'] = boxValues[boxValues.length - 1];
+    fiveNumberSummary['siteAndTime'] = data[0]['siteAndTime'];
+    return fiveNumberSummary;
+  }
 }
 
 class Plot extends React.Component<Props, State> {
@@ -136,6 +195,7 @@ class Plot extends React.Component<Props, State> {
    *
    */
   createPlot() {
+    // Organize data
     let dataGenerator:DataGenerator = new DataGenerator(this.state.data);
     let data:Array<Object> = dataGenerator.getAllDataAsArray();
 
@@ -152,6 +212,13 @@ class Plot extends React.Component<Props, State> {
     siteAndTimes = siteAndTimes.concat(Object.keys(siteAndTimesAsObject));
     siteAndTimes.push(" ");
 
+    let seperatedData = dataGenerator.seperateAllDataAsArrayBySiteAndTime(data);
+    let boxData:Array<Object> = []
+    for(let i=0; i<seperatedData.length; i++) {
+      boxData.push(dataGenerator.getBoxPlotInfoForArray('height', seperatedData[i]));
+    }
+
+    // Begin plotting
     let yMax:number = dataGenerator.getMaximumHeightValue();
     let xMax:number = data.length;
 

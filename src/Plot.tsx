@@ -35,14 +35,14 @@ class DataGenerator {
 
   /**
    *
-   * @param {Object} treeValue
+   * @param {Object} singleSiteAndDateObject
    * An object full of objects containing height, dbhs (as array) and species
    */
-  getHeightValues(treeValue:Object) {
-    let objectIndices = Object.keys(treeValue);
+  getHeightValues(singleSiteAndDateObject:Object) {
+    let objectIndices = Object.keys(singleSiteAndDateObject);
     let heightValues:Array<number> = [];
     for(let i:number=0; i<objectIndices.length; i++) {
-      heightValues.push(parseInt(treeValue[objectIndices[i]]['height']));
+      heightValues.push(parseInt(singleSiteAndDateObject[objectIndices[i]]['height']));
     }
     return heightValues;
   }
@@ -96,27 +96,33 @@ class Plot extends React.Component<Props, State> {
   createPlot() {
     let dataGenerator:DataGenerator = new DataGenerator(this.state.data);
     let data:Array<Object> = dataGenerator.getDataBySiteAndTime();
-    let xMax:number = dataGenerator.getMaximumHeightValue();
-    let yMax:number = data.length;
-    let height:number = 300;
-    let width:number = 300;
+    let yMax:number = dataGenerator.getMaximumHeightValue();
+    let xMax:number = data.length;
+
+    let padding:number = 40;
+
+    let divHeight:number = 500;
+    let divWidth:number = 500;
+
+    let height:number = 500;
+    let width:number = 500;
 
     const node = this.node;
 
     // Build component to place entire graph in
     let svg = d3.select(node)
       .append('svg')
-      .attr('width', 300)
-      .attr('height', 300)
+      .attr('width', divWidth)
+      .attr('height', divHeight)
       .append('g');
 
     // Setup functions to map from a range to the dimensions of the graph
     let xScale = d3.scale.linear()
       .domain([0, xMax])
-      .range([0, width]);
+      .range([padding, divWidth - padding]);
     let yScale = d3.scale.linear()
       .domain([0, yMax])
-      .range([height, 0]);
+      .range([divHeight - padding, padding]);
 
     // Build axis
     let yAxis = d3.svg.axis()
@@ -129,14 +135,22 @@ class Plot extends React.Component<Props, State> {
 
     // draw y axis with labels and move in from the size by the amount of padding
     svg.append("g")
-      .attr("transform", "translate("+50+",0)")
+      .attr("transform", "translate("+padding+"," + 0 + ")")
       .call(yAxis);
 
     // draw x axis with labels and move to the bottom of the chart area
     svg.append("g")
       .attr("class", "xaxis")   // give it a class so it can be used to select only xaxis labels  below
-      .attr("transform", "translate(0," + (height - 50) + ")")
+      .attr("transform", "translate("+ 0 +"," + (height - padding) + ")")
       .call(xAxis);
+
+    let dataKeys = Object.keys(data);
+    for(let i=0; i<dataKeys.length; i++) {
+      let heightVals = dataGenerator.getHeightValues(data[dataKeys[i]]['data']);
+
+    }
+
+    console.log(data);
   }
 
   render() {

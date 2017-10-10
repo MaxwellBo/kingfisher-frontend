@@ -7,40 +7,39 @@ interface Props {
 }
 
 interface State {
-  shouldRender: boolean;
+  render: boolean;
 }
 
 export default class ViewSiteCard extends React.Component<Props, State> {
   constructor(props: Props, state: State) {
     super(props);
     this.state = {
-      shouldRender: false,
+      render: false,
     };
   }
 
   onClick() {
     this.setState(
-      {shouldRender: !this.state.shouldRender}
+      {render: !this.state.render}
     );
   }
 
   render() {
-    if (this.state.shouldRender) {
+    if (this.state.render) {
       return (
         <div className="site-card-cont">
           <div>
-            <button
-              className="button centered"
+            <button className="button centered"
               key={this.props.title}
               onClick={() => this.onClick()}
             >
-              <div className="subtitle is-4 site-card-title">
+              <div className={"site-card-title"}>
                 {this.props.title}
               </div>
             </button>
           </div>
-          <div className="site-card-cont">
-            <div className="atf spark-bar-medium site-card-data">
+          <div className="site-card-data">
+            <div className="atf spark-bar-thin">
               {this.props.data}
             </div>
           </div>
@@ -49,15 +48,17 @@ export default class ViewSiteCard extends React.Component<Props, State> {
     } else {
       return (
         <div className="site-card-cont centered">
-          <button
-            className="button centered"
-            key={this.props.title}
-            onClick={() => this.onClick()}
-          >
-            <div className="subtitle is-4 site-card-title">
-              {this.props.title}
-            </div>
-          </button>
+          <div>
+            <button
+              className="button centered"
+              key={this.props.title}
+              onClick={() => this.onClick()}
+            >
+              <div className="site-card-title">
+                {this.props.title}
+              </div>
+            </button>
+          </div>
         </div>
       );
     }

@@ -131,7 +131,7 @@ class VisMenu extends React.Component<Props, State> {
         <section className="section has-text-centered">
           <div className="container">
             <div className="title">
-              {'Let\'s visualise some data'}
+              {'Historical Average Tree Heights'}
             </div>
             <div className="title">
               {siteCards}

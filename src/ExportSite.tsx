@@ -78,7 +78,7 @@ export default class ExportSite extends React.Component<Props, State> {
         Object.keys(this.state.records).map(date => (
       <div className="export-button-cont">
         <button className="button export-button" key={date} onClick={() => this.exportData(date)}>
-          Export {date} to CSV
+          Export {date}
         </button>
       </div>
     ));

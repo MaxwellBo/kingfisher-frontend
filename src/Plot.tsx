@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { withFauxDOM, ReactFauxDOM } from 'react-faux-dom';
 import * as d3 from 'd3';
+import {selectAll} from "d3-selection";
 
 interface Props {
   data: Object;
@@ -32,6 +33,46 @@ class DataGenerator {
       }
     }
     return treeData;
+  }
+
+  getAllDataAsArray() {
+    let sites = Object.keys(this.allData);
+    let allData:Array<Object> = [];
+    for(let i=0; i<sites.length; i++) {
+      let site = sites[i];
+      let dataAtSite = this.allData[site];
+      let latitude = dataAtSite['latitude'];
+      let longitude = dataAtSite['longitude']
+      let measurements = dataAtSite['measurements'];
+      let times = Object.keys(measurements);
+      for(let j=0; j<times.length; j++) {
+        let time = times[j];
+        let trees = measurements[time]['trees'];
+        let treeIds = Object.keys(trees);
+        for(let k=0; k<treeIds.length; k++) {
+          let tree = trees[treeIds[k]];
+          let height = tree['height'];
+          let species = tree['species'];
+          let dbhs = tree['dbhs'];
+          for(let m=0; m<dbhs.length; m++) {
+            allData.push(
+              {
+                site: site,
+                latitude: latitude,
+                longitude: longitude,
+                time: time,
+                height: height,
+                species: species,
+                dbhs: dbhs[m],
+                allDbhs: dbhs,
+                siteAndTime: site + time
+              }
+            )
+          }
+        }
+      }
+    }
+    return allData;
   }
 
   /**
@@ -96,54 +137,46 @@ class Plot extends React.Component<Props, State> {
    */
   createPlot() {
     let dataGenerator:DataGenerator = new DataGenerator(this.state.data);
-    let data:Array<Object> = dataGenerator.getDataBySiteAndTime();
+    let data:Array<Object> = dataGenerator.getAllDataAsArray();
 
-    console.log(data);
-
-    let dataKeys = Object.keys(data);
-    let allData:Array<Array<number>> = [];
-    for(let i=0; i<dataKeys.length; i++) {
-      let heightVals = dataGenerator.getHeightValues(data[dataKeys[i]]['data']);
-      console.log(data[dataKeys[i]]['siteAndTime']);
-      Array.prototype.push.apply(allData,heightVals.map((input:number, index:number) => [data[dataKeys[i]]['siteAndTime'], input]));
+    let siteAndTimesAsObject:Object = {};
+    for(let key in data) {
+      if(data.hasOwnProperty(key)) {
+        siteAndTimesAsObject[data[key]['siteAndTime']] = 1;
+      }
     }
 
-    let siteAndTimes:Array<String> = [""]
-    for(let i=0; i<dataKeys.length; i++) {
-      siteAndTimes.push(data[dataKeys[i]]['siteAndTime']);
-    }
-    siteAndTimes.push(" ")
+    console.log(siteAndTimesAsObject);
 
-    console.log(allData);
+    let siteAndTimes = [""];
+    siteAndTimes = siteAndTimes.concat(Object.keys(siteAndTimesAsObject));
+    siteAndTimes.push(" ");
 
     let yMax:number = dataGenerator.getMaximumHeightValue();
     let xMax:number = data.length;
 
-    let padding:number = 40;
+    let padding:number = 100;
 
-    let divHeight:number = 500;
-    let divWidth:number = 500;
-
-    let height:number = 500;
-    let width:number = 500;
+    let height:number = 700;
+    let width:number = 700;
 
     const node = this.node;
 
     // Build component to place entire graph in
     let svg = d3.select(node)
       .append('svg')
-      .attr('width', divWidth)
-      .attr('height', divHeight)
+      .attr('width', width)
+      .attr('height', height)
       .append('g');
 
     // Build mappings
     let xScale = d3.scale.ordinal()
       .domain(siteAndTimes)
-      .rangePoints([padding, divWidth - padding]);
+      .rangePoints([padding, width - padding]);
 
     let yScale = d3.scale.linear()
       .domain([200, yMax])
-      .range([divHeight - padding, padding]);
+      .range([height - padding, padding]);
 
     // Build axis
     let yAxis = d3.svg.axis()
@@ -154,8 +187,8 @@ class Plot extends React.Component<Props, State> {
       .orient("bottom")
       .scale(xScale);
 
-    let xMap = (dataPoint) => xScale(dataPoint[0]);
-    let yMap = (dataPoint) => yScale(dataPoint[1]);
+    let xMap = (dataPoint) => xScale(dataPoint['siteAndTime']);
+    let yMap = (dataPoint) => yScale(dataPoint['height']);
 
     // draw y axis with labels and move in from the size by the amount of padding
     svg.append("g")
@@ -166,20 +199,55 @@ class Plot extends React.Component<Props, State> {
     svg.append("g")
       .attr("class", "xaxis")   // give it a class so it can be used to select only xaxis labels  below
       .attr("transform", "translate("+ 0 +"," + (height - padding) + ")")
-      .call(xAxis);
+      .call(xAxis)
+      .selectAll("text")
+      .attr("y", 0)
+      .attr("x", 9)
+      .attr("dy", ".35em")
+      .attr("transform", "rotate(20), translate(0, 20)")
+      .style("text-anchor", "start");
+
+    // Creates a tooltip to use within the svg component (it's just a div that floats around)
+    let tooltip = d3.select(node)
+      .append("div")
+      .style("position", "absolute")
+      .style("z-index", "10")
+      .style("visibility", "hidden")
+      .text("a simple tooltip")
+      .style("white-space", "pre")
+      .style("background", "rgba(76, 175, 80, 0.9)")
+      .style("padding", "5px")
+      .style("border-radius", "25px")
 
     // Create a group for every data point
     let dataElements = svg.selectAll("g")
-      .data(allData)
+      .data(data)
       .enter()
       .append("g")
       .attr("class", "shot")
 
+    // Attach a circle to every data point
     dataElements.append("circle")
-      .attr("r", 3.5)
+      .attr("r", 3)
       .attr("cx", xMap)
       .attr("cy", yMap)
       .attr("treeName", (dataPoint) => dataPoint)
+      .on("mouseover", function(dataPoint, index, array){
+        d3.select(array[index]).style("fill", "green").attr("r", 5)
+        tooltip.style("visibility", "visible")
+        tooltip.text("Height: " + dataPoint['height'] +
+          "\n Tree type: " + dataPoint['species'] +
+          "\n Dbhs: " + dataPoint['allDbhs'] +
+          "\n Latitude: " + dataPoint['latitude'] +
+          "\n Longitude: " + dataPoint['longitude'])})
+      .on("mouseout", function(dataPoint, index, array) {
+        d3.select(array[index]).style("fill", "black").attr("r", 3.5)
+        tooltip.style("visibility", "hidden")})
+      .on("mousemove", function(){return tooltip.style("top",
+        (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
+      .transition()
+      .duration(2000)
+      .style("opacity", 1)
   }
 
   render() {

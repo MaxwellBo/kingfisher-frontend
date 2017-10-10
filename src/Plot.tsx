@@ -65,7 +65,8 @@ class DataGenerator {
                 species: species,
                 dbhs: dbhs[m],
                 allDbhs: dbhs,
-                siteAndTime: site + time
+                siteAndTime: site + time,
+                treeId: treeIds[k]
               }
             )
           }
@@ -103,6 +104,64 @@ class DataGenerator {
 
     return largestHeight;
   }
+
+  getFiveNumberSummaryFromArray(values:Array<number>) {
+    var ss = require('summary-statistics');
+    var summary = ss(values);
+    return summary;
+  }
+
+  seperateAllDataAsArrayBySiteAndTime(values: Array<Object>) {
+    let tmp = {}
+    for(let i=0; i<values.length; i++) {
+      let dataPoint = values[i];
+      let siteAndTime = dataPoint['siteAndTime'];
+      if(tmp[siteAndTime]) {
+        tmp[siteAndTime]['data'].push(dataPoint);
+      } else {
+        tmp[siteAndTime] = {data:[dataPoint]}
+      }
+    }
+    let data:Array<Array<Object>> = [];
+    let siteAndTimes = Object.keys(tmp);
+    for(let i=0; i<siteAndTimes.length; i++) {
+      data.push(tmp[siteAndTimes[i]]['data']);
+    }
+    return data;
+  }
+
+  getBoxPlotInfoForArray(key:string, data:Array<Object>) {
+    // Remove duplicate treeIds TODO just for height
+    let seenKeys:Object = {};
+    let uniqueValues:Array<number> = [];
+    for(let i=0; i<data.length; i++) {
+      if(seenKeys[data[i]['treeId']]) {
+        continue;
+      }
+      seenKeys[data[i]['treeId']] = 1;
+      uniqueValues.push(data[i]['height']);
+    }
+    let fiveNumberSummary = this.getFiveNumberSummaryFromArray(uniqueValues);
+    let IQR = fiveNumberSummary['q3'] - fiveNumberSummary['q1'];
+    let theoreticalLowerBound = fiveNumberSummary['median'] - (IQR * 1.5);
+    let theoreticalUpperBound = fiveNumberSummary['median'] + (IQR * 1.5);
+
+    let outliers:Array<number> = [];
+    let boxValues:Array<number> = []
+    uniqueValues.sort();
+    for(let i=0; i<uniqueValues.length; i++) {
+      if(uniqueValues[i] < theoreticalLowerBound || uniqueValues[i] > theoreticalUpperBound) {
+        outliers.push(uniqueValues[i]);
+      } else {
+        boxValues.push(uniqueValues[i]);
+      }
+    }
+    fiveNumberSummary['outliers'] = outliers;
+    fiveNumberSummary['bottomWhisker'] = boxValues[0];
+    fiveNumberSummary['topWhisker'] = boxValues[boxValues.length - 1];
+    fiveNumberSummary['siteAndTime'] = data[0]['siteAndTime'];
+    return fiveNumberSummary;
+  }
 }
 
 class Plot extends React.Component<Props, State> {
@@ -136,6 +195,7 @@ class Plot extends React.Component<Props, State> {
    *
    */
   createPlot() {
+    // Organize data
     let dataGenerator:DataGenerator = new DataGenerator(this.state.data);
     let data:Array<Object> = dataGenerator.getAllDataAsArray();
 
@@ -152,6 +212,13 @@ class Plot extends React.Component<Props, State> {
     siteAndTimes = siteAndTimes.concat(Object.keys(siteAndTimesAsObject));
     siteAndTimes.push(" ");
 
+    let seperatedData = dataGenerator.seperateAllDataAsArrayBySiteAndTime(data);
+    let boxData:Array<Object> = []
+    for(let i=0; i<seperatedData.length; i++) {
+      boxData.push(dataGenerator.getBoxPlotInfoForArray('height', seperatedData[i]));
+    }
+
+    // Begin plotting
     let yMax:number = dataGenerator.getMaximumHeightValue();
     let xMax:number = data.length;
 
@@ -187,8 +254,78 @@ class Plot extends React.Component<Props, State> {
       .orient("bottom")
       .scale(xScale);
 
+    console.log(boxData);
+
     let xMap = (dataPoint) => xScale(dataPoint['siteAndTime']);
+    let x1Map = (dataPoint) => xScale(dataPoint['siteAndTime']) - 25;
+    let x2Map = (dataPoint) => xScale(dataPoint['siteAndTime']) + 25;
     let yMap = (dataPoint) => yScale(dataPoint['height']);
+    let yLow = (dataPoint) => yScale(dataPoint['q3']);
+    let yMedian = (dataPoint) => yScale(dataPoint['median']);
+    let yHeight = (dataPoint) => yScale(dataPoint['q1']) - yScale(dataPoint['q3']);
+    let yq3 = (dataPoint) => yScale(dataPoint['q3']);
+    let yTopWhisker = (dataPoint) => yScale(dataPoint['topWhisker'])
+    let yq1 = (dataPoint) => yScale(dataPoint['q1']);
+    let yBottomWhisker = (dataPoint) => yScale(dataPoint['bottomWhisker'])
+
+
+    // Create a group for every data point
+    let boxElements = svg.selectAll("g")
+      .data(boxData)
+      .enter()
+      .append("g")
+      .attr("class", "boxPlot")
+
+    boxElements.append("rect")
+      .attr("x", xMap)
+      .attr("y", yLow)
+      .attr("width", 50)
+      .attr("height", yHeight)
+      .attr("transform", "translate(-25, 0)")
+      .style("fill", "blue")
+
+    boxElements.append("line")
+      .attr("x1", x1Map)
+      .attr("x2", x2Map)
+      .attr("y1", yMedian)
+      .attr("y2", yMedian)
+      .style("stroke", "black")
+      .style("stroke-width", "2")
+
+    boxElements.append("line")
+      .attr("x1", xMap)
+      .attr("x2", xMap)
+      .attr("y1", yq3)
+      .attr("y2", yTopWhisker)
+      .style("stroke", "black")
+      .style("stroke-width", "2")
+
+    boxElements.append("line")
+      .attr("x1", x1Map)
+      .attr("x2", x2Map)
+      .attr("y1", yTopWhisker)
+      .attr("y2", yTopWhisker)
+      .style("stroke", "black")
+      .style("stroke-width", "2")
+
+    boxElements.append("line")
+      .attr("x1", xMap)
+      .attr("x2", xMap)
+      .attr("y1", yq1)
+      .attr("y2", yBottomWhisker)
+      .style("stroke", "black")
+      .style("stroke-width", "2")
+
+    boxElements.append("line")
+      .attr("x1", x1Map)
+      .attr("x2", x2Map)
+      .attr("y1", yBottomWhisker)
+      .attr("y2", yBottomWhisker)
+      .style("stroke", "black")
+      .style("stroke-width", "2")
+
+    xMap = (dataPoint) => xScale(dataPoint['siteAndTime']);
+    yMap = (dataPoint) => yScale(dataPoint['height']);
 
     // draw y axis with labels and move in from the size by the amount of padding
     svg.append("g")
@@ -245,9 +382,6 @@ class Plot extends React.Component<Props, State> {
         tooltip.style("visibility", "hidden")})
       .on("mousemove", function(){return tooltip.style("top",
         (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
-      .transition()
-      .duration(2000)
-      .style("opacity", 1)
   }
 
   render() {

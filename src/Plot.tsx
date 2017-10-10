@@ -103,19 +103,40 @@ class Plot extends React.Component<Props, State> {
 
     const node = this.node;
 
-    // Build housing component
+    // Build component to place entire graph in
     let svg = d3.select(node)
       .append('svg')
       .attr('width', 300)
       .attr('height', 300)
       .append('g');
 
+    // Setup functions to map from a range to the dimensions of the graph
     let xScale = d3.scale.linear()
       .domain([0, xMax])
       .range([0, width]);
     let yScale = d3.scale.linear()
       .domain([0, yMax])
       .range([height, 0]);
+
+    // Build axis
+    let yAxis = d3.svg.axis()
+      .orient("left")
+      .scale(yScale);
+
+    let xAxis = d3.svg.axis()
+      .orient("bottom")
+      .scale(xScale);
+
+    // draw y axis with labels and move in from the size by the amount of padding
+    svg.append("g")
+      .attr("transform", "translate("+50+",0)")
+      .call(yAxis);
+
+    // draw x axis with labels and move to the bottom of the chart area
+    svg.append("g")
+      .attr("class", "xaxis")   // give it a class so it can be used to select only xaxis labels  below
+      .attr("transform", "translate(0," + (height - 50) + ")")
+      .call(xAxis);
   }
 
   render() {

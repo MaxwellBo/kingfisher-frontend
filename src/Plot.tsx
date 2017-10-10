@@ -26,7 +26,8 @@ class DataGenerator {
         treeData.push({
           site: sites[i],
           time: times[j],
-          data: this.allData[sites[i]]['measurements'][times[j]]['trees']
+          data: this.allData[sites[i]]['measurements'][times[j]]['trees'],
+          siteAndTime: sites[i] + " " + times[j]
         });
       }
     }
@@ -96,6 +97,25 @@ class Plot extends React.Component<Props, State> {
   createPlot() {
     let dataGenerator:DataGenerator = new DataGenerator(this.state.data);
     let data:Array<Object> = dataGenerator.getDataBySiteAndTime();
+
+    console.log(data);
+
+    let dataKeys = Object.keys(data);
+    let allData:Array<Array<number>> = [];
+    for(let i=0; i<dataKeys.length; i++) {
+      let heightVals = dataGenerator.getHeightValues(data[dataKeys[i]]['data']);
+      console.log(data[dataKeys[i]]['siteAndTime']);
+      Array.prototype.push.apply(allData,heightVals.map((input:number, index:number) => [data[dataKeys[i]]['siteAndTime'], input]));
+    }
+
+    let siteAndTimes:Array<String> = [""]
+    for(let i=0; i<dataKeys.length; i++) {
+      siteAndTimes.push(data[dataKeys[i]]['siteAndTime']);
+    }
+    siteAndTimes.push(" ")
+
+    console.log(allData);
+
     let yMax:number = dataGenerator.getMaximumHeightValue();
     let xMax:number = data.length;
 
@@ -116,12 +136,13 @@ class Plot extends React.Component<Props, State> {
       .attr('height', divHeight)
       .append('g');
 
-    // Setup functions to map from a range to the dimensions of the graph
-    let xScale = d3.scale.linear()
-      .domain([0, xMax])
-      .range([padding, divWidth - padding]);
+    // Build mappings
+    let xScale = d3.scale.ordinal()
+      .domain(siteAndTimes)
+      .rangePoints([padding, divWidth - padding]);
+
     let yScale = d3.scale.linear()
-      .domain([0, yMax])
+      .domain([200, yMax])
       .range([divHeight - padding, padding]);
 
     // Build axis
@@ -132,6 +153,9 @@ class Plot extends React.Component<Props, State> {
     let xAxis = d3.svg.axis()
       .orient("bottom")
       .scale(xScale);
+
+    let xMap = (dataPoint) => xScale(dataPoint[0]);
+    let yMap = (dataPoint) => yScale(dataPoint[1]);
 
     // draw y axis with labels and move in from the size by the amount of padding
     svg.append("g")
@@ -144,13 +168,18 @@ class Plot extends React.Component<Props, State> {
       .attr("transform", "translate("+ 0 +"," + (height - padding) + ")")
       .call(xAxis);
 
-    let dataKeys = Object.keys(data);
-    for(let i=0; i<dataKeys.length; i++) {
-      let heightVals = dataGenerator.getHeightValues(data[dataKeys[i]]['data']);
+    // Create a group for every data point
+    let dataElements = svg.selectAll("g")
+      .data(allData)
+      .enter()
+      .append("g")
+      .attr("class", "shot")
 
-    }
-
-    console.log(data);
+    dataElements.append("circle")
+      .attr("r", 3.5)
+      .attr("cx", xMap)
+      .attr("cy", yMap)
+      .attr("treeName", (dataPoint) => dataPoint)
   }
 
   render() {

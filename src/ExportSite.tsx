@@ -82,7 +82,7 @@ export default class ExportSite extends React.Component<Props, State> {
         </button>
       </div>
     ));
-        
+
     return (
       <div className="export-site">
         <h1 className="title">

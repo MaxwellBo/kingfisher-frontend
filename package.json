@@ -29,7 +29,8 @@
     "react-faux-dom": "^2.5.0",
     "react-google-maps": "^8.1.0",
     "react-router-dom": "^4.1.2",
-    "react-scripts-ts": "2.4.0"
+    "react-scripts-ts": "2.4.0",
+    "summary-statistics": "^1.0.0"
   },
   "devDependencies": {},
   "scripts": {

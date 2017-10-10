@@ -254,8 +254,78 @@ class Plot extends React.Component<Props, State> {
       .orient("bottom")
       .scale(xScale);
 
+    console.log(boxData);
+
     let xMap = (dataPoint) => xScale(dataPoint['siteAndTime']);
+    let x1Map = (dataPoint) => xScale(dataPoint['siteAndTime']) - 25;
+    let x2Map = (dataPoint) => xScale(dataPoint['siteAndTime']) + 25;
     let yMap = (dataPoint) => yScale(dataPoint['height']);
+    let yLow = (dataPoint) => yScale(dataPoint['q3']);
+    let yMedian = (dataPoint) => yScale(dataPoint['median']);
+    let yHeight = (dataPoint) => yScale(dataPoint['q1']) - yScale(dataPoint['q3']);
+    let yq3 = (dataPoint) => yScale(dataPoint['q3']);
+    let yTopWhisker = (dataPoint) => yScale(dataPoint['topWhisker'])
+    let yq1 = (dataPoint) => yScale(dataPoint['q1']);
+    let yBottomWhisker = (dataPoint) => yScale(dataPoint['bottomWhisker'])
+
+
+    // Create a group for every data point
+    let boxElements = svg.selectAll("g")
+      .data(boxData)
+      .enter()
+      .append("g")
+      .attr("class", "boxPlot")
+
+    boxElements.append("rect")
+      .attr("x", xMap)
+      .attr("y", yLow)
+      .attr("width", 50)
+      .attr("height", yHeight)
+      .attr("transform", "translate(-25, 0)")
+      .style("fill", "blue")
+
+    boxElements.append("line")
+      .attr("x1", x1Map)
+      .attr("x2", x2Map)
+      .attr("y1", yMedian)
+      .attr("y2", yMedian)
+      .style("stroke", "black")
+      .style("stroke-width", "2")
+
+    boxElements.append("line")
+      .attr("x1", xMap)
+      .attr("x2", xMap)
+      .attr("y1", yq3)
+      .attr("y2", yTopWhisker)
+      .style("stroke", "black")
+      .style("stroke-width", "2")
+
+    boxElements.append("line")
+      .attr("x1", x1Map)
+      .attr("x2", x2Map)
+      .attr("y1", yTopWhisker)
+      .attr("y2", yTopWhisker)
+      .style("stroke", "black")
+      .style("stroke-width", "2")
+
+    boxElements.append("line")
+      .attr("x1", xMap)
+      .attr("x2", xMap)
+      .attr("y1", yq1)
+      .attr("y2", yBottomWhisker)
+      .style("stroke", "black")
+      .style("stroke-width", "2")
+
+    boxElements.append("line")
+      .attr("x1", x1Map)
+      .attr("x2", x2Map)
+      .attr("y1", yBottomWhisker)
+      .attr("y2", yBottomWhisker)
+      .style("stroke", "black")
+      .style("stroke-width", "2")
+
+    xMap = (dataPoint) => xScale(dataPoint['siteAndTime']);
+    yMap = (dataPoint) => yScale(dataPoint['height']);
 
     // draw y axis with labels and move in from the size by the amount of padding
     svg.append("g")
@@ -312,9 +382,6 @@ class Plot extends React.Component<Props, State> {
         tooltip.style("visibility", "hidden")})
       .on("mousemove", function(){return tooltip.style("top",
         (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
-      .transition()
-      .duration(2000)
-      .style("opacity", 1)
   }
 
   render() {

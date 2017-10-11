@@ -386,6 +386,7 @@ class Plot extends React.Component<Props, State> {
         d3.select(this).style("fill", "green");
         this.parentNode.parentNode.appendChild(this.parentNode);
         tooltip.style("visibility", "visible");
+        tooltip.text("Height: " + dataPoint[1])
       })
       .on("mouseout", function(this:any, dataPoint, index, array) {
         d3.select(this).style("fill", "black").attr("r", 3)

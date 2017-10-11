@@ -84,18 +84,11 @@ class AddSite extends React.Component {
   addNewSite = () => {
     if (this.state.newSiteCode !== "") {
       const ref = fbi.database().ref("sites").child(this.state.newSiteCode);
+
       ref.keepSynced(true);
 
-      navigator.geolocation.requestAuthorization();
-
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          ref.set(position.coords);
-          this.setState({ newSiteCode:"" }); // only reset field when ref is set
-        },
-        (error) => {},
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-      );
+      ref.set({measurements:""});
+      this.setState({ newSiteCode:"" });
     }
   }
 

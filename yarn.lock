@@ -850,6 +850,10 @@ clap@^1.0.9:
   dependencies:
     chalk "^1.1.3"
 
+classnames@^2.2.3:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
+
 clean-css@4.1.x:
   version "4.1.7"
   resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.1.7.tgz#b9aea4f85679889cf3eae8b40349ec4ebdfdd032"
@@ -4497,6 +4501,12 @@ react-dom@^15.6.1:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "^15.5.10"
+
+react-dropdown@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/react-dropdown/-/react-dropdown-1.3.1.tgz#d12ab6060debc4d5211fefd9538df7d6f5e736a3"
+  dependencies:
+    classnames "^2.2.3"
 
 react-easy-chart@^0.1.13:
   version "0.1.13"

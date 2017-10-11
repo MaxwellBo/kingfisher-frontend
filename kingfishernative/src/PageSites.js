@@ -91,7 +91,7 @@ class AddSite extends React.Component {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           ref.set(position.coords);
-          this.state.newSiteCode = ""; // only reset field when ref is set
+          this.setState({ newSiteCode:"" }); // only reset field when ref is set
         },
         (error) => {},
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },

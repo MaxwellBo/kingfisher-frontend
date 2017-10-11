@@ -240,6 +240,18 @@ class Plot extends React.Component<Props, State> {
       .attr('height', height)
       .append('g');
 
+    // Build tool tip
+    let tooltip = d3.select(node)
+      .append("div")
+      .style("position", "absolute")
+      .style("z-index", "10")
+      .style("visibility", "hidden")
+      .text("a simple tooltip")
+      .style("white-space", "pre")
+      .style("background", "rgba(76, 175, 80, 0.9)")
+      .style("padding", "5px")
+      .style("border-radius", "25px")
+
     // Build mappings
     let xScale = d3.scale.ordinal()
       .domain(siteAndTimes)
@@ -271,6 +283,18 @@ class Plot extends React.Component<Props, State> {
       .attr("r", 3)
       .attr("cx", outlierXMap)
       .attr("cy", outlierYMap)
+      .on("mouseover", function(this:any, dataPoint, index, array){
+        d3.select(this).style("fill", "green");
+        this.parentNode.parentNode.appendChild(this.parentNode);
+        tooltip.style("visibility", "visible");
+        tooltip.text("Height: " + dataPoint[1])
+        tooltip.style("background", "rgba(255, 0, 0, 0.3)")
+      })
+      .on("mouseout", function(this:any, dataPoint, index, array) {
+        d3.select(this).style("fill", "black").attr("r", 3)
+        tooltip.style("visibility", "hidden")})
+      .on("mousemove", function(){return tooltip.style("top",
+        (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
 
     // Build axis
     let yAxis = d3.svg.axis()
@@ -353,7 +377,6 @@ class Plot extends React.Component<Props, State> {
       if(d3.select(this).style("opacity") === "0") {
         svg.selectAll("g.boxPlot").transition().style("opacity", "1");
         svg.selectAll("g.boxValue").transition().style("opacity", "0");
-        console.log(svg.selectAll("g.boxValue"));
       } else {
         svg.selectAll("g.boxPlot").transition().style("opacity", "0");
         svg.selectAll("g.boxValue").transition().style("opacity", "1");
@@ -387,18 +410,6 @@ class Plot extends React.Component<Props, State> {
       })
     });
 
-    // Creates a tooltip to use within the svg component (it's just a div that floats around)
-    let tooltip = d3.select(node)
-      .append("div")
-      .style("position", "absolute")
-      .style("z-index", "10")
-      .style("visibility", "hidden")
-      .text("a simple tooltip")
-      .style("white-space", "pre")
-      .style("background", "rgba(76, 175, 80, 0.9)")
-      .style("padding", "5px")
-      .style("border-radius", "25px")
-
     // Create a group for every data point
     let dataElements = svg.selectAll("g.outlier")
       .data(outliers)
@@ -416,6 +427,7 @@ class Plot extends React.Component<Props, State> {
         this.parentNode.parentNode.appendChild(this.parentNode);
         tooltip.style("visibility", "visible");
         tooltip.text("Height: " + dataPoint[1])
+        tooltip.style("background", "rgba(76, 175, 80, 0.9)")
       })
       .on("mouseout", function(this:any, dataPoint, index, array) {
         d3.select(this).style("fill", "black").attr("r", 3)

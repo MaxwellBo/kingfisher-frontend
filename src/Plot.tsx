@@ -293,12 +293,15 @@ class Plot extends React.Component<Props, State> {
       .attr("class", "boxValue")
       .style("opacity", 0)
 
+    let jitter = 10;
+
     let outlierXMap = (dataPoint) => xScale(dataPoint[0]);
     let outlierYMap = (dataPoint) => yScale(dataPoint[1]);
+    let xMapJitter = (dataPoint) => xScale(dataPoint[0]) + (Math.random() > 0.5? Math.random() * -jitter : Math.random() * jitter);
 
     boxVals.append("circle")
       .attr("r", 3)
-      .attr("cx", outlierXMap)
+      .attr("cx", xMapJitter)
       .attr("cy", outlierYMap)
       .on("mouseover", function(this:any, dataPoint, index, array){
         d3.select(this).style("fill", "green");
@@ -390,16 +393,17 @@ class Plot extends React.Component<Props, State> {
       .style("stroke", "black")
       .style("stroke-width", "2")
 
-    // TODO, instead of changing opacity, just destroy the elements entirely
     boxElements.on("click", function(this:any) {
       if(d3.select(this).style("opacity") === "0") {
         svg.selectAll("g.boxPlot").transition().style("opacity", "1");
         svg.selectAll("g.boxValue").transition().style("opacity", "0");
+        svg.selectAll("g.boxValue").select("circle").attr("r", "0");
         d3.selectAll("g.boxPlot").moveToFront();
         d3.selectAll("g.boxValue").moveToBack();
       } else {
         svg.selectAll("g.boxPlot").transition().style("opacity", "0");
         svg.selectAll("g.boxValue").transition().style("opacity", "1");
+        svg.selectAll("g.boxValue").select("circle").attr("r", "3");
         d3.selectAll("g.boxPlot").moveToBack();
         d3.selectAll("g.boxValue").moveToFront();
       }

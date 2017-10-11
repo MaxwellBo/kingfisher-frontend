@@ -22,6 +22,9 @@ class DataGenerator {
     let sites:Array<string> = Object.keys(this.allData);
     let treeData:Array<Object> = [];
     for(let i:number=0; i<sites.length; i++) {
+      if(!this.allData[sites[i]]['measurements']) {
+        continue;
+      }
       let times:Array<string> = Object.keys(this.allData[sites[i]]['measurements']);
       for(let j:number=0; j<times.length; j++) {
         treeData.push({
@@ -44,6 +47,9 @@ class DataGenerator {
       let latitude = dataAtSite['latitude'];
       let longitude = dataAtSite['longitude']
       let measurements = dataAtSite['measurements'];
+      if(!measurements) {
+        continue;
+      }
       let times = Object.keys(measurements);
       for(let j=0; j<times.length; j++) {
         let time = times[j];

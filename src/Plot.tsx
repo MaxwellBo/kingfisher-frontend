@@ -290,7 +290,8 @@ class Plot extends React.Component<Props, State> {
       .data(boxValues)
       .enter()
       .append("g")
-      .attr("class", "boxValue");
+      .attr("class", "boxValue")
+      .style("opacity", 0)
 
     let outlierXMap = (dataPoint) => xScale(dataPoint[0]);
     let outlierYMap = (dataPoint) => yScale(dataPoint[1]);
@@ -389,6 +390,7 @@ class Plot extends React.Component<Props, State> {
       .style("stroke", "black")
       .style("stroke-width", "2")
 
+    // TODO, instead of changing opacity, just destroy the elements entirely
     boxElements.on("click", function(this:any) {
       if(d3.select(this).style("opacity") === "0") {
         svg.selectAll("g.boxPlot").transition().style("opacity", "1");

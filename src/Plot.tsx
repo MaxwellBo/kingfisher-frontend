@@ -222,6 +222,22 @@ class Plot extends React.Component<Props, State> {
       boxData.push(dataGenerator.getBoxPlotInfoForArray('height', seperatedData[i]));
     }
 
+    // Setup some helper functions
+    d3.selection.prototype.moveToFront = function() {
+      return this.each(function(this:any){
+        this.parentNode.appendChild(this);
+      });
+    };
+    d3.selection.prototype.moveToBack = function() {
+      return this.each(function(this: any) {
+        var firstChild = this.parentNode.firstChild;
+        if (firstChild) {
+          this.parentNode.insertBefore(this, firstChild);
+        }
+      });
+    };
+
+
     // Begin plotting
     let yMax:number = dataGenerator.getMaximumHeightValue();
     let xMax:number = data.length;
@@ -377,9 +393,13 @@ class Plot extends React.Component<Props, State> {
       if(d3.select(this).style("opacity") === "0") {
         svg.selectAll("g.boxPlot").transition().style("opacity", "1");
         svg.selectAll("g.boxValue").transition().style("opacity", "0");
+        d3.selectAll("g.boxPlot").moveToFront();
+        d3.selectAll("g.boxValue").moveToBack();
       } else {
         svg.selectAll("g.boxPlot").transition().style("opacity", "0");
         svg.selectAll("g.boxValue").transition().style("opacity", "1");
+        d3.selectAll("g.boxPlot").moveToBack();
+        d3.selectAll("g.boxValue").moveToFront();
       }
     })
 

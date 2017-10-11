@@ -10,6 +10,7 @@ import PageAddTree from "./PageAddTree"
 import AccordionViewSite from "./AccordionViewSite"
 import Field from "./Field"
 import PageVizTree from "./PageVizTree"
+import PageSettings from "./PageSettings"
 
 /**
  * Returns a single "site" button.
@@ -166,6 +167,7 @@ export default class PageSites extends React.Component {
         <Route exact path="/sites/:siteCode/:date/viz" component={PageVizTree} />
         <Route exact path="/sites/:siteCode/:date/edit/:treeName" component={PageAddTree} />
         <Route exact path="/sites" render={SitesComponent} />
+        <Route exacr path="/sites/settings" component={PageSettings} />
       </Container>
     );
   }

@@ -212,8 +212,6 @@ class Plot extends React.Component<Props, State> {
       }
     }
 
-    console.log(siteAndTimesAsObject);
-
     let siteAndTimes = [""];
     siteAndTimes = siteAndTimes.concat(Object.keys(siteAndTimesAsObject));
     siteAndTimes.push(" ");
@@ -250,6 +248,29 @@ class Plot extends React.Component<Props, State> {
     let yScale = d3.scale.linear()
       .domain([200, yMax])
       .range([height - padding, padding]);
+
+    let boxValues:Array<Array<any>> = [];
+    boxData.map((data, index, array) => {
+      let boxVals = data['boxValues'];
+      let siteAndTime = data['siteAndTime'];
+      boxVals.map((boxVal, index, array) => {
+        boxValues.push([siteAndTime, boxVal])
+      })
+    });
+
+    let boxVals = svg.selectAll("g.boxValue")
+      .data(boxValues)
+      .enter()
+      .append("g")
+      .attr("class", "boxValue");
+
+    let outlierXMap = (dataPoint) => xScale(dataPoint[0]);
+    let outlierYMap = (dataPoint) => yScale(dataPoint[1]);
+
+    boxVals.append("circle")
+      .attr("r", 3)
+      .attr("cx", outlierXMap)
+      .attr("cy", outlierYMap)
 
     // Build axis
     let yAxis = d3.svg.axis()
@@ -328,6 +349,17 @@ class Plot extends React.Component<Props, State> {
       .style("stroke", "black")
       .style("stroke-width", "2")
 
+    boxElements.on("click", function(this:any) {
+      if(d3.select(this).style("opacity") === "0") {
+        svg.selectAll("g.boxPlot").transition().style("opacity", "1");
+        svg.selectAll("g.boxValue").transition().style("opacity", "0");
+        console.log(svg.selectAll("g.boxValue"));
+      } else {
+        svg.selectAll("g.boxPlot").transition().style("opacity", "0");
+        svg.selectAll("g.boxValue").transition().style("opacity", "1");
+      }
+    })
+
     // draw y axis with labels and move in from the size by the amount of padding
     svg.append("g")
       .attr("transform", "translate("+padding+"," + 0 + ")")
@@ -368,14 +400,11 @@ class Plot extends React.Component<Props, State> {
       .style("border-radius", "25px")
 
     // Create a group for every data point
-    let dataElements = svg.selectAll("g.data")
+    let dataElements = svg.selectAll("g.outlier")
       .data(outliers)
       .enter()
       .append("g")
       .attr("class", "outliers");
-
-    let outlierXMap = (dataPoint) => xScale(dataPoint[0]);
-    let outlierYMap = (dataPoint) => yScale(dataPoint[1]);
 
     // Attach a circle to every data point
     dataElements.append("circle")

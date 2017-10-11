@@ -30,4 +30,23 @@ $tabs-link-hover-color: $primary;
   color: $primary;
 }
 
+// DROPDOWNS
+.Dropdown-control {
+  border: 1px #666 solid;
+  padding: 0.25em;
+  border-radius: 4px;
+}
+
+.Dropdown-option {
+  border: 1px #666 solid;
+  border-top: none;
+  padding: 0.25em;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.Dropdown-root {
+  margin-bottom: 2em;
+}
+
 @import "../node_modules/bulma/bulma";

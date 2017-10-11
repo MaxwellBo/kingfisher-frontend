@@ -206,6 +206,12 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
   },
 
+  siteAddLabel: {
+    color: TEXT_GREY,
+    textAlign: "center",
+    fontSize: 18,
+  },
+
   siteAddField: {
     flex: 4,
   },

@@ -99,13 +99,13 @@ class VisMenu extends React.Component<Props, State> {
       // TODO Clean this up
       avgHeight = Math.round((sumHeight / treeCount) / 10);
       if (dateCount === 0) {
-        returnString = returnString.concat(avgHeight.toString() + '{');
+        returnString = returnString.concat((avgHeight*10).toString() + '{');
       }
       returnString = returnString.concat(avgHeight.toString() + ',');
       dateCount++;
     }
     returnString = returnString.substring(0, returnString.length - 1)
-      + '}' + avgHeight.toString();
+      + '}' + (avgHeight*10).toString();
     // console.log(returnString);
 
     return returnString;
@@ -131,7 +131,7 @@ class VisMenu extends React.Component<Props, State> {
         <section className="section has-text-centered">
           <div className="container">
             <div className="title">
-              {'Let\'s visualise some data'}
+              {'Historical Average Tree Heights'}
             </div>
             <div className="title">
               {siteCards}

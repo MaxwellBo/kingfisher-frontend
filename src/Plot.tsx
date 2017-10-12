@@ -332,6 +332,7 @@ class Plot extends React.Component<Props, State> {
     let yLow = (dataPoint) => yScale(dataPoint['q3']);
     let yMedian = (dataPoint) => yScale(dataPoint['median']);
     let yHeight = (dataPoint) => yScale(dataPoint['q1']) - yScale(dataPoint['q3']);
+    let yBoxPlotHeight = (dataPoint) => yScale(dataPoint['bottomWhisker']) - yScale(dataPoint['topWhisker'])
     let yq3 = (dataPoint) => yScale(dataPoint['q3']);
     let yTopWhisker = (dataPoint) => yScale(dataPoint['topWhisker'])
     let yq1 = (dataPoint) => yScale(dataPoint['q1']);
@@ -344,6 +345,15 @@ class Plot extends React.Component<Props, State> {
       .enter()
       .append("g")
       .attr("class", "boxPlot")
+
+    boxElements.append("rect")
+      .attr("x", xMap)
+      .attr("y", yTopWhisker)
+      .attr("width", 50)
+      .attr("height", yBoxPlotHeight)
+      .style("fill", "black")
+      .attr("transform", "translate(-25, 0)")
+      .style("opacity", 0);
 
     boxElements.append("rect")
       .attr("x", xMap)

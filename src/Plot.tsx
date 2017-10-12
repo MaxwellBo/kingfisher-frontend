@@ -144,19 +144,15 @@ class DataGenerator {
     return avg;
   }
 
+  variance(array) {
+    var mean = this.average(array);
+    return this.average(array.map(function(num) {
+      return Math.pow(num - mean, 2);
+    }));
+  }
+
   standardDeviation(values) {
-    let avg = this.average(values);
-
-    let squareDiffs = values.map(function (value) {
-      let diff = value - avg;
-      let sqrDiff = diff * diff;
-      return sqrDiff;
-    });
-
-    let avgSquareDiff = this.average(squareDiffs);
-
-    let stdDev = Math.sqrt(avgSquareDiff);
-    return stdDev;
+    return Math.sqrt(this.variance(values));
   }
 
   getBoxPlotInfoForArray(key:string, data:Array<Object>) {
@@ -185,11 +181,17 @@ class DataGenerator {
         boxValues.push(uniqueValues[i]);
       }
     }
+    let allDataString:Array<number> = outliers.concat(boxValues).map(Number);
+
     fiveNumberSummary['outliers'] = outliers;
     fiveNumberSummary['boxValues'] = boxValues;
     fiveNumberSummary['bottomWhisker'] = boxValues[0];
     fiveNumberSummary['topWhisker'] = boxValues[boxValues.length - 1];
     fiveNumberSummary['siteAndTime'] = data[0]['siteAndTime'];
+    fiveNumberSummary['allData'] = allDataString;
+    fiveNumberSummary['mean'] = this.average(allDataString);
+    fiveNumberSummary['std'] = this.standardDeviation(allDataString);
+    fiveNumberSummary['variance'] = this.variance(allDataString);
     return fiveNumberSummary;
   }
 }
@@ -261,6 +263,7 @@ class Plot extends React.Component<Props, State> {
       });
     };
 
+    console.log(boxData);
 
     // Begin plotting
     let yMax:number = dataGenerator.getMaximumHeightValue();
@@ -362,6 +365,58 @@ class Plot extends React.Component<Props, State> {
     let yq1 = (dataPoint) => yScale(dataPoint['q1']);
     let yBottomWhisker = (dataPoint) => yScale(dataPoint['bottomWhisker'])
 
+    let avgAndStdElements = svg.append("g")
+      .attr("class", "areaStuff")
+      .style("opacity", "0")
+
+    let avgLine = d3.svg.line()
+      .x(function(d) {
+        return xScale(d['siteAndTime']);
+      })
+      .y(function(d) {
+        return yScale(d['mean']);
+      })
+
+    let stdHigh = d3.svg.line()
+      .x(function(d) {
+        return xScale(d['siteAndTime']);
+      })
+      .y(function(d) {
+        return yScale(d['mean'] + d['std']);
+      })
+
+    let stdLow = d3.svg.line()
+      .x(function(d) {
+        return xScale(d['siteAndTime']);
+      })
+      .y(function(d) {
+        return yScale(d['mean'] - d['std']);
+      })
+
+    let o_aDifference = d3.svg.area()
+      .x(function(d,i) {
+        return xScale(d['siteAndTime'])
+      })
+      .y(function(d) {
+        return yScale(d['mean'] + d['std'],d['std'])
+      })
+      .y0(function(d) {
+        return yScale(d['mean'] - d['std'])
+      })
+      .interpolate("linear");
+
+    avgAndStdElements.append("path")
+      .style("fill", "orange")
+      .style("fill-opacity", .1)
+      .attr("class", "difference")
+      .attr("d", o_aDifference(boxData))
+
+    avgAndStdElements.append("svg:path")
+      .attr("d", stdLow(boxData) + avgLine(boxData) + stdHigh(boxData))
+      .style("stroke", "grey")
+      .style("stroke-width", "2")
+      .style("opacity", .4)
+      .attr("fill", "none");
 
     // Create a group for every data point
     let boxElements = svg.selectAll("g.boxPlot")
@@ -432,12 +487,14 @@ class Plot extends React.Component<Props, State> {
         svg.selectAll("g.boxPlot").transition().style("opacity", "1");
         svg.selectAll("g.boxValue").transition().style("opacity", "0");
         svg.selectAll("g.boxValue").select("circle").attr("r", "0");
+        svg.selectAll("g.areaStuff").transition().style("opacity", "0");
         d3.selectAll("g.boxPlot").moveToFront();
         d3.selectAll("g.boxValue").moveToBack();
       } else {
         svg.selectAll("g.boxPlot").transition().style("opacity", "0");
         svg.selectAll("g.boxValue").transition().style("opacity", "1");
         svg.selectAll("g.boxValue").select("circle").attr("r", "3");
+        svg.selectAll("g.areaStuff").transition().style("opacity", "1");
         d3.selectAll("g.boxPlot").moveToBack();
         d3.selectAll("g.boxValue").moveToFront();
       }

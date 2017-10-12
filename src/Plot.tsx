@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { withFauxDOM, ReactFauxDOM } from 'react-faux-dom';
 import * as d3 from 'd3';
-import {selectAll} from "d3-selection";
 
 interface Props {
   data: Object;
@@ -22,6 +21,9 @@ class DataGenerator {
     let sites:Array<string> = Object.keys(this.allData);
     let treeData:Array<Object> = [];
     for(let i:number=0; i<sites.length; i++) {
+      if(!this.allData[sites[i]]['measurements']) {
+        continue;
+      }
       let times:Array<string> = Object.keys(this.allData[sites[i]]['measurements']);
       for(let j:number=0; j<times.length; j++) {
         treeData.push({
@@ -44,6 +46,9 @@ class DataGenerator {
       let latitude = dataAtSite['latitude'];
       let longitude = dataAtSite['longitude']
       let measurements = dataAtSite['measurements'];
+      if(!measurements) {
+        continue;
+      }
       let times = Object.keys(measurements);
       for(let j=0; j<times.length; j++) {
         let time = times[j];
@@ -157,6 +162,7 @@ class DataGenerator {
       }
     }
     fiveNumberSummary['outliers'] = outliers;
+    fiveNumberSummary['boxValues'] = boxValues;
     fiveNumberSummary['bottomWhisker'] = boxValues[0];
     fiveNumberSummary['topWhisker'] = boxValues[boxValues.length - 1];
     fiveNumberSummary['siteAndTime'] = data[0]['siteAndTime'];
@@ -206,8 +212,6 @@ class Plot extends React.Component<Props, State> {
       }
     }
 
-    console.log(siteAndTimesAsObject);
-
     let siteAndTimes = [""];
     siteAndTimes = siteAndTimes.concat(Object.keys(siteAndTimesAsObject));
     siteAndTimes.push(" ");
@@ -217,6 +221,22 @@ class Plot extends React.Component<Props, State> {
     for(let i=0; i<seperatedData.length; i++) {
       boxData.push(dataGenerator.getBoxPlotInfoForArray('height', seperatedData[i]));
     }
+
+    // Setup some helper functions
+    d3.selection.prototype.moveToFront = function() {
+      return this.each(function(this:any){
+        this.parentNode.appendChild(this);
+      });
+    };
+    d3.selection.prototype.moveToBack = function() {
+      return this.each(function(this: any) {
+        var firstChild = this.parentNode.firstChild;
+        if (firstChild) {
+          this.parentNode.insertBefore(this, firstChild);
+        }
+      });
+    };
+
 
     // Begin plotting
     let yMax:number = dataGenerator.getMaximumHeightValue();
@@ -236,6 +256,18 @@ class Plot extends React.Component<Props, State> {
       .attr('height', height)
       .append('g');
 
+    // Build tool tip
+    let tooltip = d3.select(node)
+      .append("div")
+      .style("position", "absolute")
+      .style("z-index", "10")
+      .style("visibility", "hidden")
+      .text("a simple tooltip")
+      .style("white-space", "pre")
+      .style("background", "rgba(76, 175, 80, 0.9)")
+      .style("padding", "5px")
+      .style("border-radius", "25px")
+
     // Build mappings
     let xScale = d3.scale.ordinal()
       .domain(siteAndTimes)
@@ -245,6 +277,45 @@ class Plot extends React.Component<Props, State> {
       .domain([200, yMax])
       .range([height - padding, padding]);
 
+    let boxValues:Array<Array<any>> = [];
+    boxData.map((data, index, array) => {
+      let boxVals = data['boxValues'];
+      let siteAndTime = data['siteAndTime'];
+      boxVals.map((boxVal, index, array) => {
+        boxValues.push([siteAndTime, boxVal])
+      })
+    });
+
+    let boxVals = svg.selectAll("g.boxValue")
+      .data(boxValues)
+      .enter()
+      .append("g")
+      .attr("class", "boxValue")
+      .style("opacity", 0)
+
+    let jitter = 10;
+
+    let outlierXMap = (dataPoint) => xScale(dataPoint[0]);
+    let outlierYMap = (dataPoint) => yScale(dataPoint[1]);
+    let xMapJitter = (dataPoint) => xScale(dataPoint[0]) + (Math.random() > 0.5? Math.random() * -jitter : Math.random() * jitter);
+
+    boxVals.append("circle")
+      .attr("r", 3)
+      .attr("cx", xMapJitter)
+      .attr("cy", outlierYMap)
+      .on("mouseover", function(this:any, dataPoint, index, array){
+        d3.select(this).style("fill", "green");
+        this.parentNode.parentNode.appendChild(this.parentNode);
+        tooltip.style("visibility", "visible");
+        tooltip.text("Height: " + dataPoint[1])
+        tooltip.style("background", "rgba(255, 0, 0, 0.3)")
+      })
+      .on("mouseout", function(this:any, dataPoint, index, array) {
+        d3.select(this).style("fill", "black").attr("r", 3)
+        tooltip.style("visibility", "hidden")})
+      .on("mousemove", function(){return tooltip.style("top",
+        (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
+
     // Build axis
     let yAxis = d3.svg.axis()
       .orient("left")
@@ -253,8 +324,6 @@ class Plot extends React.Component<Props, State> {
     let xAxis = d3.svg.axis()
       .orient("bottom")
       .scale(xScale);
-
-    console.log(boxData);
 
     let xMap = (dataPoint) => xScale(dataPoint['siteAndTime']);
     let x1Map = (dataPoint) => xScale(dataPoint['siteAndTime']) - 25;
@@ -270,7 +339,7 @@ class Plot extends React.Component<Props, State> {
 
 
     // Create a group for every data point
-    let boxElements = svg.selectAll("g")
+    let boxElements = svg.selectAll("g.boxPlot")
       .data(boxData)
       .enter()
       .append("g")
@@ -324,17 +393,31 @@ class Plot extends React.Component<Props, State> {
       .style("stroke", "black")
       .style("stroke-width", "2")
 
-    xMap = (dataPoint) => xScale(dataPoint['siteAndTime']);
-    yMap = (dataPoint) => yScale(dataPoint['height']);
+    boxElements.on("click", function(this:any) {
+      if(d3.select(this).style("opacity") === "0") {
+        svg.selectAll("g.boxPlot").transition().style("opacity", "1");
+        svg.selectAll("g.boxValue").transition().style("opacity", "0");
+        svg.selectAll("g.boxValue").select("circle").attr("r", "0");
+        d3.selectAll("g.boxPlot").moveToFront();
+        d3.selectAll("g.boxValue").moveToBack();
+      } else {
+        svg.selectAll("g.boxPlot").transition().style("opacity", "0");
+        svg.selectAll("g.boxValue").transition().style("opacity", "1");
+        svg.selectAll("g.boxValue").select("circle").attr("r", "3");
+        d3.selectAll("g.boxPlot").moveToBack();
+        d3.selectAll("g.boxValue").moveToFront();
+      }
+    })
 
     // draw y axis with labels and move in from the size by the amount of padding
     svg.append("g")
       .attr("transform", "translate("+padding+"," + 0 + ")")
+      .attr("class", "yaxis")
       .call(yAxis);
 
     // draw x axis with labels and move to the bottom of the chart area
     svg.append("g")
-      .attr("class", "xaxis")   // give it a class so it can be used to select only xaxis labels  below
+      .attr("class", "xaxis")
       .attr("transform", "translate("+ 0 +"," + (height - padding) + ")")
       .call(xAxis)
       .selectAll("text")
@@ -344,41 +427,36 @@ class Plot extends React.Component<Props, State> {
       .attr("transform", "rotate(20), translate(0, 20)")
       .style("text-anchor", "start");
 
-    // Creates a tooltip to use within the svg component (it's just a div that floats around)
-    let tooltip = d3.select(node)
-      .append("div")
-      .style("position", "absolute")
-      .style("z-index", "10")
-      .style("visibility", "hidden")
-      .text("a simple tooltip")
-      .style("white-space", "pre")
-      .style("background", "rgba(76, 175, 80, 0.9)")
-      .style("padding", "5px")
-      .style("border-radius", "25px")
+    let outliers:Array<Array<any>> = [];
+    boxData.map((data, index, array) => {
+      let dataOutliers = data['outliers'];
+      let siteAndTime = data['siteAndTime'];
+      dataOutliers.map((outlier, index, array) => {
+        outliers.push([siteAndTime, outlier]);
+      })
+    });
 
     // Create a group for every data point
-    let dataElements = svg.selectAll("g")
-      .data(data)
+    let dataElements = svg.selectAll("g.outlier")
+      .data(outliers)
       .enter()
       .append("g")
-      .attr("class", "shot")
+      .attr("class", "outliers");
 
     // Attach a circle to every data point
     dataElements.append("circle")
       .attr("r", 3)
-      .attr("cx", xMap)
-      .attr("cy", yMap)
-      .attr("treeName", (dataPoint) => dataPoint)
-      .on("mouseover", function(dataPoint, index, array){
-        d3.select(array[index]).style("fill", "green").attr("r", 5)
-        tooltip.style("visibility", "visible")
-        tooltip.text("Height: " + dataPoint['height'] +
-          "\n Tree type: " + dataPoint['species'] +
-          "\n Dbhs: " + dataPoint['allDbhs'] +
-          "\n Latitude: " + dataPoint['latitude'] +
-          "\n Longitude: " + dataPoint['longitude'])})
-      .on("mouseout", function(dataPoint, index, array) {
-        d3.select(array[index]).style("fill", "black").attr("r", 3.5)
+      .attr("cx", outlierXMap)
+      .attr("cy", outlierYMap)
+      .on("mouseover", function(this:any, dataPoint, index, array){
+        d3.select(this).style("fill", "green");
+        this.parentNode.parentNode.appendChild(this.parentNode);
+        tooltip.style("visibility", "visible");
+        tooltip.text("Height: " + dataPoint[1])
+        tooltip.style("background", "rgba(76, 175, 80, 0.9)")
+      })
+      .on("mouseout", function(this:any, dataPoint, index, array) {
+        d3.select(this).style("fill", "black").attr("r", 3)
         tooltip.style("visibility", "hidden")})
       .on("mousemove", function(){return tooltip.style("top",
         (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})

@@ -135,6 +135,30 @@ class DataGenerator {
     return data;
   }
 
+  average(data) {
+    let sum = data.reduce(function (sum, value) {
+      return sum + value;
+    }, 0);
+
+    let avg = sum / data.length;
+    return avg;
+  }
+
+  standardDeviation(values) {
+    let avg = this.average(values);
+
+    let squareDiffs = values.map(function (value) {
+      let diff = value - avg;
+      let sqrDiff = diff * diff;
+      return sqrDiff;
+    });
+
+    let avgSquareDiff = this.average(squareDiffs);
+
+    let stdDev = Math.sqrt(avgSquareDiff);
+    return stdDev;
+  }
+
   getBoxPlotInfoForArray(key:string, data:Array<Object>) {
     // Remove duplicate treeIds TODO just for height
     let seenKeys:Object = {};

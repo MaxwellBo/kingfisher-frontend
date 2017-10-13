@@ -6,6 +6,9 @@ import {withFauxDOM, ReactFauxDOM} from 'react-faux-dom';
 import {isNumber} from "util";
 import * as d3 from 'd3'
 import Plot from "./Plot";
+import Select from 'react-select';
+// Be sure to include styles at some point, probably during your bootstrapping
+import 'react-select/dist/react-select.css';
 
 interface Props {}
 
@@ -14,6 +17,7 @@ interface State {
   data: {};
   sites: {};
   mounted: boolean;
+  selected: string;
 }
 
 class VisMenu extends React.Component<Props, State> {
@@ -24,6 +28,7 @@ class VisMenu extends React.Component<Props, State> {
       data: {},
       sites: {},
       mounted: false,
+      selected:""
     };
   }
 
@@ -115,6 +120,15 @@ class VisMenu extends React.Component<Props, State> {
     let allData = this.state.data;
 
     if (this.state.mounted) {
+      let siteNames = Object.keys(this.state.data);
+      let options = siteNames.map((data) => {return ({value: data, label: data})})
+
+      let logChange = (val) => {
+        if(val['value']) {
+          this.setState({selected: val['value']})
+        }
+      };
+
       let siteCards = (this.state.data == null) ? <div/> :
         Object.keys(this.state.data).map((siteName) =>
           (
@@ -135,6 +149,12 @@ class VisMenu extends React.Component<Props, State> {
               {siteCards}
             </div>
           </div>
+          <Select
+            name="form-field-name"
+            value={this.state.selected}
+            options={options}
+            onChange={logChange}
+          />
           <Plot data={this.state.data}/>
         </section>
       );

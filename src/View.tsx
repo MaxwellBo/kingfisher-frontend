@@ -126,15 +126,18 @@ class VisMenu extends React.Component<Props, State> {
 
       return (
         <section className="section has-text-centered">
-          <Plot data={this.state.data}/>
-          <div style={{width: "30%", margin: "0 auto"}}>
-            <Select
-              name="form-field-name"
-              value={this.state.selected}
-              options={options}
-              onChange={logChange}
-            />
+          <div className="field">
+            <label className="label">Select Site</label>
+            <div style={{width: "30%", margin: "0 auto"}}>
+              <Select
+                name="form-field-name"
+                value={this.state.selected}
+                options={options}
+                onChange={logChange}
+              />
+            </div>
           </div>
+          <Plot data={this.state.data}/>
         </section>
       );
     } else {

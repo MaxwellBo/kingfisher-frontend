@@ -91,8 +91,6 @@ class VisMenu extends React.Component<Props, State> {
     let siteVisitDates = siteData[datesKey];
     let avgHeight = 0;
     let dateCount = 0;
-    // iterate through all measurement dates
-    // console.log(siteName);
     for (var date in siteVisitDates) {
       let measurements = siteVisitDates[date][measurementKey];
       let treeCount = 1;
@@ -111,14 +109,11 @@ class VisMenu extends React.Component<Props, State> {
     }
     returnString = returnString.substring(0, returnString.length - 1)
       + '}' + (avgHeight*10).toString();
-    // console.log(returnString);
 
     return returnString;
   }
 
   render() {
-    let allData = this.state.data;
-
     if (this.state.mounted) {
       let siteNames = Object.keys(this.state.data);
       let options = siteNames.map((data) => {return ({value: data, label: data})})
@@ -129,25 +124,17 @@ class VisMenu extends React.Component<Props, State> {
         }
       };
 
-      let siteCards = (this.state.data == null) ? <div/> :
-        Object.keys(this.state.data).map((siteName) =>
-          (
-            <ViewSiteCard
-              key={siteName}
-              title={siteName.toString()}
-              data={this.getAverageTreeHeights(siteName, allData)}
-            />
-          )
-        );
       return (
         <section className="section has-text-centered">
-          <Select
-            name="form-field-name"
-            value={this.state.selected}
-            options={options}
-            onChange={logChange}
-          />
           <Plot data={this.state.data}/>
+          <div style={{width: "30%", margin: "0 auto"}}>
+            <Select
+              name="form-field-name"
+              value={this.state.selected}
+              options={options}
+              onChange={logChange}
+            />
+          </div>
         </section>
       );
     } else {

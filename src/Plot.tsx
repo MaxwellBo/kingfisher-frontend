@@ -330,15 +330,15 @@ class Plot extends React.Component<Props, State> {
       .attr("r", 3)
       .attr("cx", xMapJitter)
       .attr("cy", outlierYMap)
+      .style("fill", "green")
       .on("mouseover", function(this:any, dataPoint, index, array){
-        d3.select(this).style("fill", "green");
         this.parentNode.parentNode.appendChild(this.parentNode);
         tooltip.style("visibility", "visible");
         tooltip.text("Height: " + dataPoint[1])
         tooltip.style("background", "rgba(255, 0, 0, 0.3)")
       })
       .on("mouseout", function(this:any, dataPoint, index, array) {
-        d3.select(this).style("fill", "black").attr("r", 3)
+        d3.select(this).attr("r", 3)
         tooltip.style("visibility", "hidden")})
       .on("mousemove", function(){return tooltip.style("top",
         (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
@@ -540,15 +540,16 @@ class Plot extends React.Component<Props, State> {
       .attr("r", 3)
       .attr("cx", outlierXMap)
       .attr("cy", outlierYMap)
+      .style("fill", "red")
       .on("mouseover", function(this:any, dataPoint, index, array){
-        d3.select(this).style("fill", "green");
+        d3.select(this)
         this.parentNode.parentNode.appendChild(this.parentNode);
         tooltip.style("visibility", "visible");
         tooltip.text("Height: " + dataPoint[1])
         tooltip.style("background", "rgba(76, 175, 80, 0.9)")
       })
       .on("mouseout", function(this:any, dataPoint, index, array) {
-        d3.select(this).style("fill", "black").attr("r", 3)
+        d3.select(this).attr("r", 3)
         tooltip.style("visibility", "hidden")})
       .on("mousemove", function(){return tooltip.style("top",
         (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})

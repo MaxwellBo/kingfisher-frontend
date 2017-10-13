@@ -141,14 +141,6 @@ class VisMenu extends React.Component<Props, State> {
         );
       return (
         <section className="section has-text-centered">
-          <div className="container">
-            <div className="title">
-              {'Historical Average Tree Heights'}
-            </div>
-            <div className="title">
-              {siteCards}
-            </div>
-          </div>
           <Select
             name="form-field-name"
             value={this.state.selected}

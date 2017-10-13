@@ -30,4 +30,12 @@ $tabs-link-hover-color: $primary;
   color: $primary;
 }
 
+.tabs-logo-cont {
+  text-align: center;
+}
+
+.tabs-logo {
+  margin-top: 0.5em;
+}
+
 @import "../node_modules/bulma/bulma";

@@ -112,9 +112,7 @@ class VisMenu extends React.Component<Props, State> {
   }
 
   render() {
-    // let placeHolder = "{1,1,2,3,5,8,13,21,34,55,89,100,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}";
     let allData = this.state.data;
-    //data={this.getSiteData(siteName)}
 
     if (this.state.mounted) {
       let siteCards = (this.state.data == null) ? <div/> :

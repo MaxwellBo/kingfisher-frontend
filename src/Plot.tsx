@@ -352,6 +352,7 @@ class Plot extends React.Component<Props, State> {
       .orient("bottom")
       .scale(xScale);
 
+    // Setup mappings
     let xMap = (dataPoint) => xScale(dataPoint['siteAndTime']);
     let x1Map = (dataPoint) => xScale(dataPoint['siteAndTime']) - 25;
     let x2Map = (dataPoint) => xScale(dataPoint['siteAndTime']) + 25;

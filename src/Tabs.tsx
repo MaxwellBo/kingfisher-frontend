@@ -6,6 +6,10 @@ interface Props { }
 interface State { activeTab: string; }
 
 export default class Tabs extends React.Component<Props, State> {
+  static contextTypes = {
+    router: React.PropTypes.object,
+  };
+
   constructor() {
     super();
     this.state = {
@@ -14,10 +18,11 @@ export default class Tabs extends React.Component<Props, State> {
   }
 
   changeTab = (name) => {
-    this.setState({activeTab: name})
+    //this.setState({activeTab: name})
   }
 
   render() {
+    console.log(this.context);
     return (
       <div className="tabs-container">
         <div className="tabs-logo-cont">
@@ -26,25 +31,25 @@ export default class Tabs extends React.Component<Props, State> {
         <div className="tabs is-centered is-primary is-medium">
           <ul>
             <Link onClick={() => this.changeTab("view")} to="/app/view">
-              <li className={this.state.activeTab === 'view' ? 'active-tab' : ''}>
+              <li className={this.context.router.route.location.pathname === '/app/view' ? 'active-tab' : ''}>
                 <span className="icon is-small"><i className="fa fa-area-chart"/></span>
                 <span>View Data</span>
               </li>
             </Link>
             <Link onClick={() => this.changeTab("newsite")} to="/app/newsite">
-              <li className={this.state.activeTab === 'newsite' ? 'active-tab' : ''}>
+              <li className={this.context.router.route.location.pathname === '/app/newsite' ? 'active-tab' : ''}>
                 <span className="icon is-small"><i className="fa fa-map"/></span>
                 <span>New Site</span>
               </li>
             </Link>
             <Link onClick={() => this.changeTab("import")} to="/app/input">
-              <li className={this.state.activeTab === 'import' ? 'active-tab' : ''}>
+              <li className={this.context.router.route.location.pathname === '/app/input' ? 'active-tab' : ''}>
                 <span className="icon is-small"><i className="fa fa-edit"/></span>
                 <span>Import Data</span>
               </li>
             </Link>
             <Link onClick={() => this.changeTab("export")} to="/app/export">
-              <li className={this.state.activeTab === 'export' ? 'active-tab' : ''}>
+              <li className={this.context.router.route.location.pathname === '/app/export' ? 'active-tab' : ''}>
                 <span className="icon is-small"><i className="fa fa-download"/></span>
                 <span>Export</span>
               </li>

@@ -154,10 +154,9 @@ class Export extends React.Component<Props, State> {
           </div>
           <div className="field">
             <div className="control">
-              <button className="button" onClick={this.exportSite}>Export</button>
+              <button className="button is-primary" onClick={this.exportSite}>Export</button>
             </div>
           </div>
-          <MapWithAMarkerCluster />
         </div>
       </section>
     );

@@ -38,7 +38,6 @@ class AddSite extends React.Component {
   render() {
     return (
       <View>
-        <Text style={styles.siteAddLabel}>Add New Site</Text>
         <View style={styles.siteAddCont}>
           <Field
             name="newSiteCode"
@@ -70,7 +69,8 @@ export default class PageSettings extends React.Component {
     return (
       <Content contentContainerStyle={styles.pageCont}>
         <View>
-          <Text style={styles.pageHeadTitle}>Settings</Text>
+          <Text style={styles.pageHeadTitle}>Add New Site</Text>
+          <Text style={styles.pageHeadDesc}>Type the desired site code below, then tap the plus icon.</Text>
         </View>
 
         <AddSite goBack={this.props.history.goBack}/>

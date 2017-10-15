@@ -59,7 +59,7 @@ function Sites(props) {
       <View>
         <Text style={styles.pageHeadTitle}>Sites</Text>
         <Text style={styles.pageHeadDesc}>Click to view past records, or add a new record.</Text>
-        <LinkButton to={"/sites/settings"} buttonText="Settings" />
+        <LinkButton to={"/sites/settings"} buttonText="Add New Site" />
       </View>
       <View style={styles.sites}>
         
@@ -98,7 +98,7 @@ export default class PageSites extends React.Component {
     // https://github.com/ReactTraining/react-router/issues/4105
     const TitleComponent = (props) => (
       <Head
-        titleInfo={props.location.pathname}
+        titleInfo={"Kingfisher"}
         goBack={() => props.history.goBack()}
       />);
 
@@ -114,7 +114,7 @@ export default class PageSites extends React.Component {
         <Route exact path="/sites/:siteCode/:date/viz" component={PageVizTree} />
         <Route exact path="/sites/:siteCode/:date/edit/:treeName" component={PageAddTree} />
         <Route exact path="/sites" render={SitesComponent} />
-        <Route exacr path="/sites/settings" component={PageSettings} />
+        <Route exact path="/sites/settings" component={PageSettings} />
       </Container>
     );
   }

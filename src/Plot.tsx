@@ -8,6 +8,8 @@ import 'react-select/dist/react-select.css';
 interface Props {
   data: Object
   selected: String
+  height:number
+  width:number
 }
 
 interface State {
@@ -217,8 +219,8 @@ class Plot extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    let height:number = 700;
-    let width:number = 700;
+    let height:number = this.props.height;
+    let width:number = this.props.width;
     const node = this.node;
     let svg = d3.select(node)
       .append('svg')
@@ -239,6 +241,8 @@ class Plot extends React.Component<Props, State> {
    *
    */
   createPlot() {
+    let minTreeHeight = 200;
+
     if(this.selected == "") {
       return;
     }
@@ -296,8 +300,8 @@ class Plot extends React.Component<Props, State> {
 
     let padding:number = 100;
 
-    let height:number = 700;
-    let width:number = 700;
+    let height:number = this.props.height;
+    let width:number = this.props.width;
 
     const node = this.node;
 
@@ -324,7 +328,7 @@ class Plot extends React.Component<Props, State> {
       .rangePoints([padding, width - padding]);
 
     let yScale = d3.scale.linear()
-      .domain([200, yMax])
+      .domain([minTreeHeight, yMax])
       .range([height - padding, padding]);
 
     let boxValues:Array<Array<any>> = [];

@@ -123,10 +123,6 @@ class VisMenu extends React.Component<Props, State> {
 
       return (
         <section className="section has-text-centered">
-          <Plot
-            data={data}
-            selected={selected}
-          />
           <div style={{width: "30%", margin: "0 auto"}}>
             <Select
               name="form-field-name"
@@ -135,6 +131,12 @@ class VisMenu extends React.Component<Props, State> {
               onChange={(val) => this.setState({selected: val['value']})}
             />
           </div>
+          <Plot
+            data={data}
+            selected={selected}
+            width={700}
+            height={700}
+          />
         </section>
       );
     } else {

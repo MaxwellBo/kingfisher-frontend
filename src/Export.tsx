@@ -4,6 +4,7 @@ import Dropdown from "react-dropdown";
 
 import ExportSite from './ExportSite';
 import MapWithAMarkerCluster from './Map';
+import Select from 'react-select';
 
 function writeUserData() {
   const user = firebase.auth().currentUser;
@@ -55,12 +56,12 @@ class Export extends React.Component<Props, State> {
     writeUserData();
   }
 
-  changeSite = (event) => {
+  changeSite = (val) => {
     this.setState({
-      site: event.target.value,
+      site: val["value"],
     });
 
-    firebase.database().ref('sites').child(event.target.value).child("measurements").once('value', (records) => {
+    firebase.database().ref('sites').child(val["value"]).child("measurements").once('value', (records) => {
       if (records) {
         this.setState({records: records.val()});
       }
@@ -68,35 +69,67 @@ class Export extends React.Component<Props, State> {
     console.log(this.state);
   }
 
-  changeRecord = (event) => {
-    this.setState({record: event.target.value});
+  changeRecord = (val) => {
+    this.setState({record: val["value"]});
+  }
+
+  exportSite = () => {
+    this.state.sitesRef.child(this.state.site).child("measurements").child(this.state.record).once('value', (record) => {
+      if (record) {
+        let trees = record.val().trees;
+        let csv = 'key,dbhs,height,species\n'
+        for (let key in trees) {
+          if (trees.hasOwnProperty(key)) {
+            csv += key + ',' + trees[key].dbhs + ',' + trees[key].height + ',' + trees[key].species + '\n';
+          }
+        }
+        var link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+
+        if (Blob !== undefined) {
+            var blob = new Blob([csv], {type: 'text/plain'});
+            link.setAttribute('href', URL.createObjectURL(blob));
+        } else {
+            link.setAttribute('href', 'data:text/plain,' + encodeURIComponent(csv));
+        }
+        link.setAttribute('download', this.state.site + "_" + this.state.record + '_export.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    });
   }
 
   render() {
     const siteComponents = (this.state.sites == null) ? <div/> : Object.keys(this.state.sites).map(key =>
       <ExportSite key={key} code={key} /> 
     );
+
     // options should be a list of all the site keys
     const siteOptions = (this.state.sites == null) ? [] : Object.keys(this.state.sites).map(key => 
-      <option value={key}>{key}</option>
+      {return ({value: key, label: key})}
     );
+
+    console.log(siteOptions);
 
     const recordOptions = (this.state.records == null) ? [] : Object.keys(this.state.records).map(key => 
-      <option value={key}>{key}</option>
+      {return ({value: key, label: key})}
     );
-
-    console.log(recordOptions.length == 0);
 
     const recordSelect = (recordOptions.length == 0 ?
     (
-      <select disabled>
-        <option value="Please select valid site">Please select valid site</option>
-      </select>
+      <Select
+        disabled={true}
+        value="Please select a valid site"
+        />
     ) :
     (
-      <select onChange={this.changeRecord}>
-        {recordOptions}
-      </select>
+      <Select
+        name="record-select"
+        onChange={this.changeRecord}
+        value={this.state.record}
+        options={recordOptions}
+        />
     ))
 
     return (
@@ -106,12 +139,24 @@ class Export extends React.Component<Props, State> {
           <h2 className="subtitle">
             Click on a site record to download the data as a Comma Separated Value (CSV) file.
           </h2>
-          {siteComponents}
-          <select onChange={this.changeSite}>
-            {siteOptions}
-          </select>
-          {recordSelect}
-          <MapWithAMarkerCluster />
+          <div className="field">
+            <label className="label">Select Site</label>
+            <Select
+              name="site-select"
+              value={this.state.site}
+              options={siteOptions}
+              onChange={this.changeSite}
+              />
+          </div>
+          <div className="field">
+            <label className="label">Select Record</label>
+            {recordSelect}
+          </div>
+          <div className="field">
+            <div className="control">
+              <button className="button is-primary" onClick={this.exportSite}>Export</button>
+            </div>
+          </div>
         </div>
       </section>
     );

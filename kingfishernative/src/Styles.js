@@ -135,6 +135,40 @@ export const styles = StyleSheet.create({
     borderColor: "#333333"
   },
 
+  fieldInputDropdown: {
+    marginTop: 5,
+    marginBottom: 10,
+    backgroundColor: UNFILLED_FIELD,
+    height: 40,
+    borderWidth: 1,
+    borderRadius: 3,
+    borderColor: "#333333",
+    width: "100%",
+  },
+
+  fieldInputDropdownOk: {
+    marginTop: 5,
+    marginBottom: 10,
+    backgroundColor: FILLED_FIELD,
+    height: 40,
+    borderWidth: 1,
+    borderRadius: 3,
+    borderColor: "#333333",
+    width: "100%",
+  },
+
+  fieldInputDropdownBad: {
+    marginTop: 5,
+    marginBottom: 10,
+    backgroundColor: KINGFISHER_RED,
+    height: 40,
+    borderWidth: 1,
+    borderRadius: 3,
+    borderColor: "#333333",
+    width: "100%",
+  },
+
+
   title: {
     flex: 0,
     backgroundColor: TITLE_BG,

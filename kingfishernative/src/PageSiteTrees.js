@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { Container, Content, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import { styles } from "./Styles"
-import Title from "./Title"
 import LinkButton from "./LinkButton"
 import SiteTreesItem from "./SiteTreesItem"
 import { fbi } from "./Global"

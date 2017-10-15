@@ -17,6 +17,7 @@ const UNFILLED_FIELD = '#898689';
 const PAGE_BG = "#252B38";
 const TITLE_BG = "#48b040";
 
+
 const BUTTON_BG = KINGFISHER_GREEN;
 const BUTTON_TEXT = '#e6e6e6';
 const TEXT_GREY = '#c4c4c4';
@@ -81,6 +82,11 @@ export const styles = StyleSheet.create({
     borderRadius: 2,
   },
 
+  buttonContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
   delete: {
     backgroundColor: KINGFISHER_RED
   },
@@ -90,7 +96,7 @@ export const styles = StyleSheet.create({
   },
 
   buttonText: {
-    color: BUTTON_TEXT,
+    color: PAGE_BG,
     fontWeight: "bold",
     fontSize: 20,
   },
@@ -139,30 +145,8 @@ export const styles = StyleSheet.create({
     flexDirection: "row"
   },
 
-  titleLeft: {
-    width: 70,
-  },
-
-  titleCenter: {
-    flexGrow: 1,
-    justifyContent: "center",
-  },
-
-  titleRight: {
-    width: 70,
-  },
-
-  titleLogo: {
-    width: 50,
-    height: 50,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-
   titleBack: {
-    width: 50,
-    height: 50,
-    marginRight: 30,
+     color: TITLE_BG,
   },
 
   titleText: {

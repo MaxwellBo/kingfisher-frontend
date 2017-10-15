@@ -217,11 +217,18 @@ class Plot extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    let height:number = 700;
+    let width:number = 700;
+    const node = this.node;
+    let svg = d3.select(node)
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
     this.createPlot();
   }
 
   componentDidUpdate() {
-    d3.select("svg").remove();
+    d3.select("svg").select("g").remove();
     this.selected = this.props.selected;
     this.createPlot();
   }
@@ -296,9 +303,7 @@ class Plot extends React.Component<Props, State> {
 
     // Build component to place entire graph in
     let svg = d3.select(node)
-      .append('svg')
-      .attr('width', width)
-      .attr('height', height)
+      .select("svg")
       .append('g');
 
     // Build tool tip

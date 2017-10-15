@@ -17,7 +17,6 @@ export default class PageSiteTrees extends React.Component {
   constructor(props) {
     super(props);
 
-    // Fuckin hell
     const siteCode = this.props.match.params.siteCode
     const date = this.props.match.params.date
 

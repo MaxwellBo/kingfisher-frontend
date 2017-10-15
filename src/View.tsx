@@ -118,26 +118,25 @@ class VisMenu extends React.Component<Props, State> {
       let siteNames = Object.keys(this.state.data);
       let options = siteNames.map((data) => {return ({value: data, label: data})})
 
-      let logChange = (val) => {
-        if(val['value']) {
-          this.setState({selected: val['value']})
-        }
-      };
+      let selected=this.state.selected;
+      let data = this.state.data;
 
       return (
         <section className="section has-text-centered">
-          <div className="field">
-            <label className="label">Select Site</label>
-            <div style={{width: "30%", margin: "0 auto"}}>
-              <Select
-                name="form-field-name"
-                value={this.state.selected}
-                options={options}
-                onChange={logChange}
-              />
-            </div>
+          <div style={{width: "30%", margin: "0 auto"}}>
+            <Select
+              name="form-field-name"
+              value={this.state.selected}
+              options={options}
+              onChange={(val) => this.setState({selected: val['value']})}
+            />
           </div>
-          <Plot data={this.state.data}/>
+          <Plot
+            data={data}
+            selected={selected}
+            width={700}
+            height={700}
+          />
         </section>
       );
     } else {

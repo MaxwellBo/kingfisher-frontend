@@ -1,13 +1,20 @@
 import * as React from 'react';
 import { withFauxDOM, ReactFauxDOM } from 'react-faux-dom';
 import * as d3 from 'd3';
+import Select from 'react-select';
+// Be sure to include styles at some point, probably during your bootstrapping
+import 'react-select/dist/react-select.css';
 
 interface Props {
-  data: Object;
+  data: Object
+  selected: String
+  height:number
+  width:number
 }
 
 interface State {
-  data: Object;
+  data: Object
+  selected: String
 }
 
 class DataGenerator {
@@ -198,27 +205,34 @@ class DataGenerator {
 
 class Plot extends React.Component<Props, State> {
   private node: HTMLDivElement | null;
+  selected:String;
 
   constructor(props: Props) {
     super(props);
 
     this.state = {
-      data: this.props.data
+      data: this.props.data,
+      selected: ""
     };
 
     this.createPlot = this.createPlot.bind(this);
   }
 
   componentDidMount() {
+    let height:number = this.props.height;
+    let width:number = this.props.width;
+    const node = this.node;
+    let svg = d3.select(node)
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
     this.createPlot();
   }
 
   componentDidUpdate() {
+    d3.select("svg").select("g").remove();
+    this.selected = this.props.selected;
     this.createPlot();
-  }
-
-  shouldComponentUpdate() {
-    return false;
   }
 
   /**
@@ -227,8 +241,25 @@ class Plot extends React.Component<Props, State> {
    *
    */
   createPlot() {
+    let minTreeHeight = 200;
+
+    if(this.selected == "") {
+      return;
+    }
+
     // Organize data
-    let dataGenerator:DataGenerator = new DataGenerator(this.state.data);
+    let allData = this.state.data;
+    let useableData = {};
+    for(let i=0; i<Object.keys(allData).length; i++) {
+      let key = Object.keys(allData)[i];
+      if(key === this.selected) {
+        useableData[key] = allData[key];
+      }
+    }
+
+    console.log(useableData);
+
+    let dataGenerator:DataGenerator = new DataGenerator(useableData);
     let data:Array<Object> = dataGenerator.getAllDataAsArray();
 
     let siteAndTimesAsObject:Object = {};
@@ -263,24 +294,20 @@ class Plot extends React.Component<Props, State> {
       });
     };
 
-    console.log(boxData);
-
     // Begin plotting
     let yMax:number = dataGenerator.getMaximumHeightValue();
     let xMax:number = data.length;
 
     let padding:number = 100;
 
-    let height:number = 700;
-    let width:number = 700;
+    let height:number = this.props.height;
+    let width:number = this.props.width;
 
     const node = this.node;
 
     // Build component to place entire graph in
     let svg = d3.select(node)
-      .append('svg')
-      .attr('width', width)
-      .attr('height', height)
+      .select("svg")
       .append('g');
 
     // Build tool tip
@@ -301,7 +328,7 @@ class Plot extends React.Component<Props, State> {
       .rangePoints([padding, width - padding]);
 
     let yScale = d3.scale.linear()
-      .domain([200, yMax])
+      .domain([minTreeHeight, yMax])
       .range([height - padding, padding]);
 
     let boxValues:Array<Array<any>> = [];
@@ -557,7 +584,9 @@ class Plot extends React.Component<Props, State> {
 
   render() {
     return (
-      <div ref={node => this.node = node}>
+      <div>
+        <div ref={node => this.node = node}>
+        </div>
       </div>
     );
   }

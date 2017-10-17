@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, Image, ScrollView, Dimensions, Alert } from 'react-native';
-import { Container, Content, Button, Left, Right, Body, Icon, Text } from 'native-base';
+import { Container, Content, Button, Left, Right, Body, Icon, Text, Form, Picker } from 'native-base';
 import { styles } from "./Styles"
 import SpecialButton from "./SpecialButton"
 import Field from "./Field"
 import { fbi } from "./Global"
 
+const Item = Picker.Item;
 /**
  * All classes beginning with "Page" are different representations of pages
  * to be rendered by App. 
@@ -85,6 +86,10 @@ export default class PageAddTree extends React.Component {
     obj = {};
     obj[specName] = value;
     this.setState(obj);
+  }
+
+  changeSpecies = (value) => {
+    this.setState({species: value, speciesValid: 1});
   }
 
   DBHChangeText(dbhIndex, value) {
@@ -189,12 +194,28 @@ export default class PageAddTree extends React.Component {
           <Text style={styles.pageHeadTitle}>{this.state.existingTreeName ? "Edit Tree Record" : "Add Tree Record"}</Text>
         </View>
         <View style={styles.verticalFlexCont}>
-          <Field label="Species" name="species" defaultValue={this.state.species}
-            onChangeText={(specName, value) => this.changeSpec(specName, value)}
-                  inputStyles={(this.state.speciesValid === 0) && {backgroundColor: '#DD4649'}
-                  || (this.state.speciesValid === 1) && {backgroundColor: '#96DD90'}
-                  || (this.state.speciesValid === -1) && {backgroundColor: '#898689'}}
-                  onEndEditing={(fieldName, text) => this.validInput(fieldName, text)}/>
+          <Text style={styles.fieldLabel}>Species</Text>
+          <Form>
+            <Picker
+              style={(this.state.speciesValid === -1) && styles.fieldInputDropdown
+              || (this.state.speciesValid === 1) && styles.fieldInputDropdownOk
+              || (this.state.speciesValid === 0) && styles.fieldInputDropdownBad}
+              iosHeader="Select species"
+              mode="dropdown"
+              selectedValue={this.state.species}
+              onValueChange={this.changeSpecies}
+            >
+              <Item label="Avicennia marina" value="Avicennia marina"/>
+              <Item label="Bruguiera gymnorhiza" value="Bruguiera gymnorhiza"/>
+              <Item label="Ceriops australis" value="Ceriops australis"/>
+              <Item label="Excoecaria agallocha" value="Excoecaria agallocha"/>
+              <Item label="Rhizophora stylosa" value="Rhizophora stylosa"/>
+              <Item label="Sarcocornia quinqueflora" value="Sarcocornia quinqueflora"/>
+              <Item label="Sporobolus virginicus" value="Sporobolus virginicus"/>
+              <Item label="Suaeda arbusculoides" value="Suaeda arbusculoides"/>
+              <Item label="Suaeda australis" value="Suaeda australis"/>
+            </Picker>
+          </Form>
           <Field label="Tree Height (cm)" name="height" defaultValue={"" + this.state.height}
             onChangeText={(specName, value) => this.changeSpec(specName, value)}
                   inputStyles={(this.state.heightValid === 0) && {backgroundColor: '#DD4649'}

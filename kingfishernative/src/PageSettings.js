@@ -3,7 +3,6 @@ import { StyleSheet, View, ScrollView, TouchableHighlight } from 'react-native';
 import { Container, Header, Content, Footer, FooterTab, Button, Left, Right, Icon, Text } from 'native-base';
 import { Route } from 'react-router-native'
 import { styles } from "./Styles"
-import Title from "./Title"
 import { fbi } from "./Global"
 import PageSiteTrees from "./PageSiteTrees"
 import PageAddTree from "./PageAddTree"
@@ -39,7 +38,6 @@ class AddSite extends React.Component {
   render() {
     return (
       <View>
-        <Text style={styles.siteAddLabel}>Add New Site</Text>
         <View style={styles.siteAddCont}>
           <Field
             name="newSiteCode"
@@ -71,7 +69,8 @@ export default class PageSettings extends React.Component {
     return (
       <Content contentContainerStyle={styles.pageCont}>
         <View>
-          <Text style={styles.pageHeadTitle}>Settings</Text>
+          <Text style={styles.pageHeadTitle}>Add New Site</Text>
+          <Text style={styles.pageHeadDesc}>Type the desired site code below, then tap the plus icon.</Text>
         </View>
 
         <AddSite goBack={this.props.history.goBack}/>

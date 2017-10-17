@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, View, ScrollView, Alert } from 'react-native';
 import { Container, Content, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import { styles } from "./Styles"
-import Title from "./Title"
 import LinkButton from "./LinkButton"
 import SiteTreesItem from "./SiteTreesItem"
 import { fbi } from "./Global"
@@ -18,7 +17,6 @@ export default class PageSiteTrees extends React.Component {
   constructor(props) {
     super(props);
 
-    // Fuckin hell
     const siteCode = this.props.match.params.siteCode
     const date = this.props.match.params.date
 

@@ -22,10 +22,11 @@ export default class PageVizTree extends React.Component {
     this.state = {
       trees: {},
       dataRef: fbi.database(),
+      language: "height",
       showHeight: true,
       textInputValue: '',
       currentSelectedSites: [[siteCode, date]],
-      data: []
+      data: [],
     };
 
     // TODO FIGURE OUT HOW BEHAVIOUR IS OFFLINE
@@ -191,10 +192,11 @@ export default class PageVizTree extends React.Component {
   render() {
     return (
       <Content contentContainerStyle={[styles.pageCont, styles.siteTrees]}>
+        <Text style={styles.fieldLabel}>Select legend: </Text>
         <Picker
           selectedValue={this.state.language}
           onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue, showHeight: !this.state.showHeight})}
-          style={{backgroundColor:"gray"}}>
+          style={styles.fieldInputDropdown}>
           <Picker.Item label="Height" value="height" />
           <Picker.Item label="DBHS" value="dbhs" />
         </Picker>

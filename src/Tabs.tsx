@@ -42,12 +42,6 @@ export default class Tabs extends React.Component<Props, State> {
                 <span>New Site</span>
               </li>
             </Link>
-            <Link onClick={() => this.changeTab("import")} to="/app/input">
-              <li className={this.context.router.route.location.pathname === '/app/input' ? 'active-tab' : ''}>
-                <span className="icon is-small"><i className="fa fa-edit"/></span>
-                <span>Import Data</span>
-              </li>
-            </Link>
             <Link onClick={() => this.changeTab("export")} to="/app/export">
               <li className={this.context.router.route.location.pathname === '/app/export' ? 'active-tab' : ''}>
                 <span className="icon is-small"><i className="fa fa-download"/></span>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, Alert } from 'react-native';
 import { Container, Content, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import { styles } from "./Styles"
 import Title from "./Title"
@@ -43,6 +43,61 @@ export default class PageSiteTrees extends React.Component {
     this.state.treesRef.off();
   }
 
+  chunk (arr, len) {
+
+    var chunks = [],
+      i = 0,
+      n = arr.length;
+
+    while (i < n) {
+      chunks.push(arr.slice(i, i += len));
+    }
+
+    return chunks;
+  }
+
+  getHeightAvg(trees, treeNames) {
+    let totalHeight = 0;
+    for(let i=0; i<treeNames.length; i++) {
+      totalHeight += parseInt(trees[treeNames[i]]['height']);
+    }
+    let avgHeight = totalHeight/treeNames.length;
+    return avgHeight;
+  }
+
+  splitIntoSetsOf10() {
+    let trees = this.state.trees;
+    let treeNames = Object.keys(trees);
+    /*
+    if(!(treeNames.length % 10 === 0 && treeNames.length > 10)) {
+      return;
+    }
+    */
+
+    if(!treeNames) {
+      return;
+    }
+    let treeGroups = this.chunk(treeNames, 4);
+    if(!treeGroups[0]) {
+      return;
+    }
+    let lastChunkAverage = this.getHeightAvg(trees, treeGroups[treeGroups.length - 1]);
+    for(let i=0; i<treeGroups.length - 1; i++) {
+      if(!treeGroups[i]) {
+        continue;
+      }
+      let comparisonChunk = this.getHeightAvg(trees, treeGroups[i]);
+      let diff = Math.abs(lastChunkAverage - comparisonChunk) / comparisonChunk * 100;
+      if (diff < 2) {
+        Alert.alert(
+          "You're done!"
+        )
+        return;
+      }
+    }
+  }
+
+
   deleteTree = (treeID) => {
     this.state.treesRef.child(treeID).remove();
   }
@@ -65,6 +120,7 @@ export default class PageSiteTrees extends React.Component {
       />
     );
 
+    this.splitIntoSetsOf10();
 
     return (
       <Content contentContainerStyle={[styles.pageCont, styles.siteTrees]}>

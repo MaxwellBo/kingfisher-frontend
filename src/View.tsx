@@ -6,6 +6,9 @@ import {withFauxDOM, ReactFauxDOM} from 'react-faux-dom';
 import {isNumber} from "util";
 import * as d3 from 'd3'
 import Plot from "./Plot";
+import Select from 'react-select';
+// Be sure to include styles at some point, probably during your bootstrapping
+import 'react-select/dist/react-select.css';
 
 interface Props {}
 
@@ -14,6 +17,7 @@ interface State {
   data: {};
   sites: {};
   mounted: boolean;
+  selected: string;
 }
 
 class VisMenu extends React.Component<Props, State> {
@@ -24,6 +28,7 @@ class VisMenu extends React.Component<Props, State> {
       data: {},
       sites: {},
       mounted: false,
+      selected:""
     };
   }
 
@@ -86,8 +91,6 @@ class VisMenu extends React.Component<Props, State> {
     let siteVisitDates = siteData[datesKey];
     let avgHeight = 0;
     let dateCount = 0;
-    // iterate through all measurement dates
-    // console.log(siteName);
     for (var date in siteVisitDates) {
       let measurements = siteVisitDates[date][measurementKey];
       let treeCount = 1;
@@ -106,38 +109,34 @@ class VisMenu extends React.Component<Props, State> {
     }
     returnString = returnString.substring(0, returnString.length - 1)
       + '}' + (avgHeight*10).toString();
-    // console.log(returnString);
 
     return returnString;
   }
 
   render() {
-    // let placeHolder = "{1,1,2,3,5,8,13,21,34,55,89,100,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}";
-    let allData = this.state.data;
-    //data={this.getSiteData(siteName)}
-
     if (this.state.mounted) {
-      let siteCards = (this.state.data == null) ? <div/> :
-        Object.keys(this.state.data).map((siteName) =>
-          (
-            <ViewSiteCard
-              key={siteName}
-              title={siteName.toString()}
-              data={this.getAverageTreeHeights(siteName, allData)}
-            />
-          )
-        );
+      let siteNames = Object.keys(this.state.data);
+      let options = siteNames.map((data) => {return ({value: data, label: data})})
+
+      let selected=this.state.selected;
+      let data = this.state.data;
+
       return (
         <section className="section has-text-centered">
-          <div className="container">
-            <div className="title">
-              {'Historical Average Tree Heights'}
-            </div>
-            <div className="title">
-              {siteCards}
-            </div>
+          <div style={{width: "30%", margin: "0 auto"}}>
+            <Select
+              name="form-field-name"
+              value={this.state.selected}
+              options={options}
+              onChange={(val) => this.setState({selected: val['value']})}
+            />
           </div>
-          <Plot data={this.state.data}/>
+          <Plot
+            data={data}
+            selected={selected}
+            width={700}
+            height={700}
+          />
         </section>
       );
     } else {

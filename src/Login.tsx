@@ -44,7 +44,7 @@ class Login extends React.Component<Props, State> {
         <section className="section">
           <div className="container">
             <p>You're already logged in!</p>
-            <Link to="/app"><p>Go to app</p></Link>
+            <Link to="/app/view"><p>Go to app</p></Link>
           </div>
         </section>
       );

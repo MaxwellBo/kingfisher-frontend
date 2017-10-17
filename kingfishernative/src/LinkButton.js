@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import { Link } from 'react-router-native'
+import { StyleSheet, View, Image } from 'react-native';
+import { Button, Text } from 'native-base';
+import { Redirect } from 'react-router-native'
 import { styles } from "./Styles"
 
 
@@ -14,13 +15,26 @@ import { styles } from "./Styles"
  * object's worth of styles.
  */
 export default class LinkButton extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      redirect: false,
+    }
+  }
+
+  handleOnClick = () => {
+    this.setState({redirect: true})
+  }
+
   render() {
+    if (this.state.redirect) {
+      return <Redirect push to={this.props.to} />
+    }
+
     return (
-      <Link to={this.props.to}>
-        <View style={[styles.button].concat(this.props.extraStyles)}>
-          <Text style={[styles.centeredText, styles.buttonText]}>{this.props.buttonText}</Text>
-        </View>
-      </Link>
+      <Button onPress={this.handleOnClick} style={[styles.button].concat(this.props.extraStyles)} light full>
+        <Text style={[styles.centeredText, styles.buttonText]}>{this.props.buttonText}</Text>
+      </Button>
     );
   }
 }

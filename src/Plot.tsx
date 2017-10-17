@@ -1,13 +1,20 @@
 import * as React from 'react';
 import { withFauxDOM, ReactFauxDOM } from 'react-faux-dom';
 import * as d3 from 'd3';
+import Select from 'react-select';
+// Be sure to include styles at some point, probably during your bootstrapping
+import 'react-select/dist/react-select.css';
 
 interface Props {
-  data: Object;
+  data: Object
+  selected: String
+  height:number
+  width:number
 }
 
 interface State {
-  data: Object;
+  data: Object
+  selected: String
 }
 
 class DataGenerator {
@@ -135,6 +142,26 @@ class DataGenerator {
     return data;
   }
 
+  average(data) {
+    let sum = data.reduce(function (sum, value) {
+      return sum + value;
+    }, 0);
+
+    let avg = sum / data.length;
+    return avg;
+  }
+
+  variance(array) {
+    var mean = this.average(array);
+    return this.average(array.map(function(num) {
+      return Math.pow(num - mean, 2);
+    }));
+  }
+
+  standardDeviation(values) {
+    return Math.sqrt(this.variance(values));
+  }
+
   getBoxPlotInfoForArray(key:string, data:Array<Object>) {
     // Remove duplicate treeIds TODO just for height
     let seenKeys:Object = {};
@@ -161,38 +188,51 @@ class DataGenerator {
         boxValues.push(uniqueValues[i]);
       }
     }
+    let allDataString:Array<number> = outliers.concat(boxValues).map(Number);
+
     fiveNumberSummary['outliers'] = outliers;
     fiveNumberSummary['boxValues'] = boxValues;
     fiveNumberSummary['bottomWhisker'] = boxValues[0];
     fiveNumberSummary['topWhisker'] = boxValues[boxValues.length - 1];
     fiveNumberSummary['siteAndTime'] = data[0]['siteAndTime'];
+    fiveNumberSummary['allData'] = allDataString;
+    fiveNumberSummary['mean'] = this.average(allDataString);
+    fiveNumberSummary['std'] = this.standardDeviation(allDataString);
+    fiveNumberSummary['variance'] = this.variance(allDataString);
     return fiveNumberSummary;
   }
 }
 
 class Plot extends React.Component<Props, State> {
   private node: HTMLDivElement | null;
+  selected:String;
 
   constructor(props: Props) {
     super(props);
 
     this.state = {
-      data: this.props.data
+      data: this.props.data,
+      selected: ""
     };
 
     this.createPlot = this.createPlot.bind(this);
   }
 
   componentDidMount() {
+    let height:number = this.props.height;
+    let width:number = this.props.width;
+    const node = this.node;
+    let svg = d3.select(node)
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
     this.createPlot();
   }
 
   componentDidUpdate() {
+    d3.select("svg").select("g").remove();
+    this.selected = this.props.selected;
     this.createPlot();
-  }
-
-  shouldComponentUpdate() {
-    return false;
   }
 
   /**
@@ -201,8 +241,25 @@ class Plot extends React.Component<Props, State> {
    *
    */
   createPlot() {
+    let minTreeHeight = 200;
+
+    if(this.selected == "") {
+      return;
+    }
+
     // Organize data
-    let dataGenerator:DataGenerator = new DataGenerator(this.state.data);
+    let allData = this.state.data;
+    let useableData = {};
+    for(let i=0; i<Object.keys(allData).length; i++) {
+      let key = Object.keys(allData)[i];
+      if(key === this.selected) {
+        useableData[key] = allData[key];
+      }
+    }
+
+    console.log(useableData);
+
+    let dataGenerator:DataGenerator = new DataGenerator(useableData);
     let data:Array<Object> = dataGenerator.getAllDataAsArray();
 
     let siteAndTimesAsObject:Object = {};
@@ -237,23 +294,20 @@ class Plot extends React.Component<Props, State> {
       });
     };
 
-
     // Begin plotting
     let yMax:number = dataGenerator.getMaximumHeightValue();
     let xMax:number = data.length;
 
     let padding:number = 100;
 
-    let height:number = 700;
-    let width:number = 700;
+    let height:number = this.props.height;
+    let width:number = this.props.width;
 
     const node = this.node;
 
     // Build component to place entire graph in
     let svg = d3.select(node)
-      .append('svg')
-      .attr('width', width)
-      .attr('height', height)
+      .select("svg")
       .append('g');
 
     // Build tool tip
@@ -274,7 +328,7 @@ class Plot extends React.Component<Props, State> {
       .rangePoints([padding, width - padding]);
 
     let yScale = d3.scale.linear()
-      .domain([200, yMax])
+      .domain([minTreeHeight, yMax])
       .range([height - padding, padding]);
 
     let boxValues:Array<Array<any>> = [];
@@ -303,15 +357,15 @@ class Plot extends React.Component<Props, State> {
       .attr("r", 3)
       .attr("cx", xMapJitter)
       .attr("cy", outlierYMap)
+      .style("fill", "green")
       .on("mouseover", function(this:any, dataPoint, index, array){
-        d3.select(this).style("fill", "green");
         this.parentNode.parentNode.appendChild(this.parentNode);
         tooltip.style("visibility", "visible");
         tooltip.text("Height: " + dataPoint[1])
         tooltip.style("background", "rgba(255, 0, 0, 0.3)")
       })
       .on("mouseout", function(this:any, dataPoint, index, array) {
-        d3.select(this).style("fill", "black").attr("r", 3)
+        d3.select(this).attr("r", 3)
         tooltip.style("visibility", "hidden")})
       .on("mousemove", function(){return tooltip.style("top",
         (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
@@ -325,6 +379,7 @@ class Plot extends React.Component<Props, State> {
       .orient("bottom")
       .scale(xScale);
 
+    // Setup mappings
     let xMap = (dataPoint) => xScale(dataPoint['siteAndTime']);
     let x1Map = (dataPoint) => xScale(dataPoint['siteAndTime']) - 25;
     let x2Map = (dataPoint) => xScale(dataPoint['siteAndTime']) + 25;
@@ -332,11 +387,64 @@ class Plot extends React.Component<Props, State> {
     let yLow = (dataPoint) => yScale(dataPoint['q3']);
     let yMedian = (dataPoint) => yScale(dataPoint['median']);
     let yHeight = (dataPoint) => yScale(dataPoint['q1']) - yScale(dataPoint['q3']);
+    let yBoxPlotHeight = (dataPoint) => yScale(dataPoint['bottomWhisker']) - yScale(dataPoint['topWhisker'])
     let yq3 = (dataPoint) => yScale(dataPoint['q3']);
     let yTopWhisker = (dataPoint) => yScale(dataPoint['topWhisker'])
     let yq1 = (dataPoint) => yScale(dataPoint['q1']);
     let yBottomWhisker = (dataPoint) => yScale(dataPoint['bottomWhisker'])
 
+    let avgAndStdElements = svg.append("g")
+      .attr("class", "areaStuff")
+      .style("opacity", "0")
+
+    let avgLine = d3.svg.line()
+      .x(function(d) {
+        return xScale(d['siteAndTime']);
+      })
+      .y(function(d) {
+        return yScale(d['mean']);
+      })
+
+    let stdHigh = d3.svg.line()
+      .x(function(d) {
+        return xScale(d['siteAndTime']);
+      })
+      .y(function(d) {
+        return yScale(d['mean'] + d['std']);
+      })
+
+    let stdLow = d3.svg.line()
+      .x(function(d) {
+        return xScale(d['siteAndTime']);
+      })
+      .y(function(d) {
+        return yScale(d['mean'] - d['std']);
+      })
+
+    let o_aDifference = d3.svg.area()
+      .x(function(d,i) {
+        return xScale(d['siteAndTime'])
+      })
+      .y(function(d) {
+        return yScale(d['mean'] + d['std'],d['std'])
+      })
+      .y0(function(d) {
+        return yScale(d['mean'] - d['std'])
+      })
+      .interpolate("linear");
+
+    avgAndStdElements.append("path")
+      .style("fill", "orange")
+      .style("fill-opacity", .1)
+      .attr("class", "difference")
+      .attr("d", o_aDifference(boxData))
+
+    avgAndStdElements.append("svg:path")
+      .attr("d", stdLow(boxData) + avgLine(boxData) + stdHigh(boxData))
+      .style("stroke", "grey")
+      .style("stroke-width", "2")
+      .style("opacity", .4)
+      .attr("fill", "none");
 
     // Create a group for every data point
     let boxElements = svg.selectAll("g.boxPlot")
@@ -344,6 +452,15 @@ class Plot extends React.Component<Props, State> {
       .enter()
       .append("g")
       .attr("class", "boxPlot")
+
+    boxElements.append("rect")
+      .attr("x", xMap)
+      .attr("y", yTopWhisker)
+      .attr("width", 50)
+      .attr("height", yBoxPlotHeight)
+      .style("fill", "black")
+      .attr("transform", "translate(-25, 0)")
+      .style("opacity", 0);
 
     boxElements.append("rect")
       .attr("x", xMap)
@@ -398,12 +515,14 @@ class Plot extends React.Component<Props, State> {
         svg.selectAll("g.boxPlot").transition().style("opacity", "1");
         svg.selectAll("g.boxValue").transition().style("opacity", "0");
         svg.selectAll("g.boxValue").select("circle").attr("r", "0");
+        svg.selectAll("g.areaStuff").transition().style("opacity", "0");
         d3.selectAll("g.boxPlot").moveToFront();
         d3.selectAll("g.boxValue").moveToBack();
       } else {
         svg.selectAll("g.boxPlot").transition().style("opacity", "0");
         svg.selectAll("g.boxValue").transition().style("opacity", "1");
         svg.selectAll("g.boxValue").select("circle").attr("r", "3");
+        svg.selectAll("g.areaStuff").transition().style("opacity", "1");
         d3.selectAll("g.boxPlot").moveToBack();
         d3.selectAll("g.boxValue").moveToFront();
       }
@@ -448,15 +567,16 @@ class Plot extends React.Component<Props, State> {
       .attr("r", 3)
       .attr("cx", outlierXMap)
       .attr("cy", outlierYMap)
+      .style("fill", "red")
       .on("mouseover", function(this:any, dataPoint, index, array){
-        d3.select(this).style("fill", "green");
+        d3.select(this)
         this.parentNode.parentNode.appendChild(this.parentNode);
         tooltip.style("visibility", "visible");
         tooltip.text("Height: " + dataPoint[1])
         tooltip.style("background", "rgba(76, 175, 80, 0.9)")
       })
       .on("mouseout", function(this:any, dataPoint, index, array) {
-        d3.select(this).style("fill", "black").attr("r", 3)
+        d3.select(this).attr("r", 3)
         tooltip.style("visibility", "hidden")})
       .on("mousemove", function(){return tooltip.style("top",
         (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
@@ -464,7 +584,9 @@ class Plot extends React.Component<Props, State> {
 
   render() {
     return (
-      <div ref={node => this.node = node}>
+      <div>
+        <div ref={node => this.node = node}>
+        </div>
       </div>
     );
   }

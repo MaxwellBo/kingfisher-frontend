@@ -185,7 +185,7 @@ export default class PageAddTree extends React.Component {
                || (this.state.dbhsValid[i] == 0) && {backgroundColor: '#DD4649'}
                || (this.state.dbhsValid[i] == 1) && {backgroundColor: '#96DD90'}
                || (this.state.dbhsValid[i] == -1) && {backgroundColor: '#898689'}}
-               onEndEditing={(fieldName, text) => this.validInput(fieldName, text)}/>
+               onEndEditing={(text) => this.validInput(i, text)}/>
       )
     }
     return (
@@ -216,12 +216,12 @@ export default class PageAddTree extends React.Component {
               <Item label="Suaeda australis" value="Suaeda australis"/>
             </Picker>
           </Form>
-          <Field label="Tree Height (cm)" name="height" defaultValue={"" + this.state.height}
+          <Field label="Tree Height (cm)" defaultValue={"" + this.state.height}
             onChangeText={(specName, value) => this.changeSpec(specName, value)}
                   inputStyles={(this.state.heightValid === 0) && {backgroundColor: '#DD4649'}
                   || (this.state.heightValid === 1) && {backgroundColor: '#96DD90'}
                   || (this.state.heightValid === -1) && {backgroundColor: '#898689'}}
-                  onEndEditing={(fieldName, text) => this.validInput(fieldName, text)}/>
+                  onEndEditing={(text) => this.validInput("height", text)}/>
         </View>
         <View style={styles.dbhCont}>
           <Text style={styles.h2}>

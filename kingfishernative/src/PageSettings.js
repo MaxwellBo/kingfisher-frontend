@@ -40,9 +40,8 @@ class AddSite extends React.Component {
       <View>
         <View style={styles.siteAddCont}>
           <Field
-            name="newSiteCode"
             extraStyles={styles.siteAddField}
-            onChangeText={this.changeNewSiteCode}
+            onChangeText={(text) => this.changeNewSiteCode("newSiteCode", text)}
             />
           <TouchableHighlight
             onPress={() => {

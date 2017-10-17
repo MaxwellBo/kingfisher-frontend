@@ -128,8 +128,8 @@ export const styles = StyleSheet.create({
 
   fieldInput: {
     backgroundColor: UNFILLED_FIELD,
-    textAlign: "center",
     height: 40,
+    paddingHorizontal: 15,
     borderWidth: 1,
     borderRadius: 3,
     borderColor: "#333333"

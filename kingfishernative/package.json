@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "babel-preset-react-native-stage-0": "^1.0.1",
     "babel-jest": "^21.2.0",
     "jest": "^21.2.1",
     "jest-cli": "^21.2.1",

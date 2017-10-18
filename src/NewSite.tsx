@@ -32,7 +32,7 @@ export default class NewSite extends React.Component<Props, State> {
     ref.set({
       latitude: this.state.latitude, 
       longitude: this.state.longitude,
-      measurements: "",
+      measurements: '',
     });
     window.location.reload(); // TODO: Change this to a redirect (to the site's vis page?)
   }

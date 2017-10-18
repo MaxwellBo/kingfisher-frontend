@@ -87,7 +87,7 @@ export default class PageSiteTrees extends React.Component {
       let diff = Math.abs(lastChunkAverage - comparisonChunk) / comparisonChunk * 100;
       if (diff < 2) {
         Alert.alert(
-          "You're done!"
+          "Data collected is statistically significant. No additional trees need to be recorded."
         )
         return;
       }

@@ -2,15 +2,15 @@
 import * as React from 'react';
 import * as firebase from 'firebase';
 import ViewSiteCard from './ViewSiteCard';
-import {withFauxDOM, ReactFauxDOM} from 'react-faux-dom';
-import {isNumber} from "util";
-import * as d3 from 'd3'
-import Plot from "./Plot";
+import { withFauxDOM, ReactFauxDOM } from 'react-faux-dom';
+import { isNumber } from "util";
+import * as d3 from 'd3';
+import Plot from './Plot';
 import Select from 'react-select';
 // Be sure to include styles at some point, probably during your bootstrapping
 import 'react-select/dist/react-select.css';
 
-interface Props {}
+interface Props { }
 
 interface State {
   sitesRef: firebase.database.Reference;
@@ -28,7 +28,7 @@ class VisMenu extends React.Component<Props, State> {
       data: {},
       sites: {},
       mounted: false,
-      selected:""
+      selected: ''
     };
   }
 
@@ -41,7 +41,7 @@ class VisMenu extends React.Component<Props, State> {
         this.setState({
           data: snap.val(),
         });
-        this.setState({mounted: true});
+        this.setState({ mounted: true });
       }
     });
   }
@@ -52,18 +52,18 @@ class VisMenu extends React.Component<Props, State> {
     // Pulls JSON from the firebase
     this.state.sitesRef.on('value', (snap) => {
       if (snap) {
-          this.setState({
-            data: snap.val(),
-            sites: Array(Object.keys(snap.val()).length),
-            mounted: true,
-          });
-          this.setState({mounted: true});
+        this.setState({
+          data: snap.val(),
+          sites: Array(Object.keys(snap.val()).length),
+          mounted: true,
+        });
+        this.setState({ mounted: true });
       }
     });
   }
 
   componentWillUnmount() {
-      this.state.sitesRef.off();
+    this.state.sitesRef.off();
   }
 
   /**
@@ -102,13 +102,13 @@ class VisMenu extends React.Component<Props, State> {
       // TODO Clean this up
       avgHeight = Math.round((sumHeight / treeCount) / 10);
       if (dateCount === 0) {
-        returnString = returnString.concat((avgHeight*10).toString() + '{');
+        returnString = returnString.concat((avgHeight * 10).toString() + '{');
       }
       returnString = returnString.concat(avgHeight.toString() + ',');
       dateCount++;
     }
     returnString = returnString.substring(0, returnString.length - 1)
-      + '}' + (avgHeight*10).toString();
+      + '}' + (avgHeight * 10).toString();
 
     return returnString;
   }
@@ -116,19 +116,19 @@ class VisMenu extends React.Component<Props, State> {
   render() {
     if (this.state.mounted) {
       let siteNames = Object.keys(this.state.data);
-      let options = siteNames.map((data) => {return ({value: data, label: data})})
+      let options = siteNames.map((data) => { return ({ value: data, label: data }) })
 
-      let selected=this.state.selected;
+      let selected = this.state.selected;
       let data = this.state.data;
 
       return (
         <section className="section has-text-centered">
-          <div style={{width: "30%", margin: "0 auto"}}>
+          <div style={{ width: "30%", margin: "0 auto" }}>
             <Select
               name="form-field-name"
               value={this.state.selected}
               options={options}
-              onChange={(val) => this.setState({selected: val['value']})}
+              onChange={(val) => this.setState({ selected: val['value'] })}
             />
           </div>
           <Plot

@@ -2,7 +2,6 @@ import * as React from 'react';
 import { withFauxDOM, ReactFauxDOM } from 'react-faux-dom';
 import * as d3 from 'd3';
 import Select from 'react-select';
-// Be sure to include styles at some point, probably during your bootstrapping
 import 'react-select/dist/react-select.css';
 
 interface Props {
@@ -256,8 +255,6 @@ class Plot extends React.Component<Props, State> {
         useableData[key] = allData[key];
       }
     }
-
-    console.log(useableData);
 
     let dataGenerator:DataGenerator = new DataGenerator(useableData);
     let data:Array<Object> = dataGenerator.getAllDataAsArray();

@@ -7,7 +7,6 @@ import {isNumber} from "util";
 import * as d3 from 'd3'
 import Plot from "./Plot";
 import Select from 'react-select';
-// Be sure to include styles at some point, probably during your bootstrapping
 import 'react-select/dist/react-select.css';
 
 interface Props {}
@@ -122,30 +121,37 @@ class VisMenu extends React.Component<Props, State> {
       let data = this.state.data;
 
       return (
-        <section className="section has-text-centered">
-          <div style={{width: "30%", margin: "0 auto"}}>
-            <Select
-              name="form-field-name"
-              value={this.state.selected}
-              options={options}
-              onChange={(val) => this.setState({selected: val['value']})}
-            />
+        <section className="section has-text-centered view">
+          <div className="container">
+            <h1 className="title">View Data</h1>
           </div>
-          <Plot
-            data={data}
-            selected={selected}
-            width={700}
-            height={700}
-          />
+          <section className="section">
+            <div style={{width: "30%", margin: "0 auto"}}>
+              <Select
+                name="form-field-name"
+                value={this.state.selected}
+                options={options}
+                onChange={(val) => this.setState({selected: val['value']})}
+                clearable={false}
+              />
+            </div>
+            <Plot
+              data={data}
+              selected={selected}
+              width={700}
+              height={700}
+            />
+          </section>
         </section>
       );
     } else {
+      
       return (
-        <div className="has-text-centered">
-          <p className="title loading-message">
-            {'Loading your data...'}
-          </p>
-        </div>
+        <section className="section has-text-centered view">
+          <div className="container">
+            <h1 className="title">View Data</h1>
+          </div>
+        </section>
       );
     }
   }

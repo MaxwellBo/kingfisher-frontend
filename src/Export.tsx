@@ -2,8 +2,6 @@ import * as React from 'react';
 import * as firebase from 'firebase';
 import Dropdown from "react-dropdown";
 
-import ExportSite from './ExportSite';
-import MapWithAMarkerCluster from './Map';
 import Select from 'react-select';
 
 function writeUserData() {
@@ -66,7 +64,6 @@ class Export extends React.Component<Props, State> {
         this.setState({records: records.val()});
       }
     });
-    console.log(this.state);
   }
 
   changeRecord = (val) => {
@@ -101,16 +98,10 @@ class Export extends React.Component<Props, State> {
   }
 
   render() {
-    const siteComponents = (this.state.sites == null) ? <div/> : Object.keys(this.state.sites).map(key =>
-      <ExportSite key={key} code={key} /> 
-    );
-
     // options should be a list of all the site keys
     const siteOptions = (this.state.sites == null) ? [] : Object.keys(this.state.sites).map(key => 
       {return ({value: key, label: key})}
     );
-
-    console.log(siteOptions);
 
     const recordOptions = (this.state.records == null) ? [] : Object.keys(this.state.records).map(key => 
       {return ({value: key, label: key})}
@@ -121,6 +112,7 @@ class Export extends React.Component<Props, State> {
       <Select
         disabled={true}
         value="Please select a valid site"
+        clearable={false}
         />
     ) :
     (
@@ -129,6 +121,7 @@ class Export extends React.Component<Props, State> {
         onChange={this.changeRecord}
         value={this.state.record}
         options={recordOptions}
+        clearable={false}
         />
     ))
 
@@ -137,7 +130,7 @@ class Export extends React.Component<Props, State> {
         <div className="container">
           <h1 className="title">Export Data</h1>
           <h2 className="subtitle">
-            Click on a site record to download the data as a Comma Separated Value (CSV) file.
+            Select a site record to download the data as a Comma Separated Value (CSV) file.
           </h2>
           <div className="field">
             <label className="label">Select Site</label>
@@ -146,6 +139,7 @@ class Export extends React.Component<Props, State> {
               value={this.state.site}
               options={siteOptions}
               onChange={this.changeSite}
+              clearable={false}
               />
           </div>
           <div className="field">

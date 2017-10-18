@@ -6,15 +6,41 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 
 interface Props {
-  data: Object
-  selected: String
-  height:number
-  width:number
+  data: Object;
+  selected: string;
+  height: number;
+  width: number;
 }
 
 interface State {
-  data: Object
-  selected: String
+  data: Object;
+  selected: string;
+}
+
+interface TreeData {
+  site: any;
+  time: any;
+  data: any;
+  siteAndTime: any;
+}
+
+interface AllData {
+  site: any;
+  latitude: any;
+  longitude: any;
+  time: any;
+  height: any;
+  species: any;
+  dbhs: any;
+  allDbhs: any;
+  siteAndTime: any;
+  treeId: any;
+}
+
+interface BoxData {
+  boxValues: any;
+  siteAndTime: any;
+  outliers: any;
 }
 
 class DataGenerator {
@@ -24,49 +50,49 @@ class DataGenerator {
     this.allData = allData;
   }
 
-  getDataBySiteAndTime() {
-    let sites:Array<string> = Object.keys(this.allData);
-    let treeData:Array<Object> = [];
-    for(let i:number=0; i<sites.length; i++) {
-      if(!this.allData[sites[i]]['measurements']) {
+  getDataBySiteAndTime(): Array<TreeData> {
+    let sites: Array<string> = Object.keys(this.allData);
+    let treeData: Array<TreeData> = [];
+    for (let i: number = 0; i < sites.length; i++) {
+      if (!this.allData[sites[i]].measurements) {
         continue;
       }
-      let times:Array<string> = Object.keys(this.allData[sites[i]]['measurements']);
-      for(let j:number=0; j<times.length; j++) {
+      let times: Array<string> = Object.keys(this.allData[sites[i]].measurements);
+      for (let j: number = 0; j < times.length; j++) {
         treeData.push({
           site: sites[i],
           time: times[j],
-          data: this.allData[sites[i]]['measurements'][times[j]]['trees'],
-          siteAndTime: sites[i] + " " + times[j]
+          data: this.allData[sites[i]].measurements[times[j]].trees,
+          siteAndTime: sites[i] + ' ' + times[j]
         });
       }
     }
     return treeData;
   }
 
-  getAllDataAsArray() {
+  getAllDataAsArray(): Array<AllData> {
     let sites = Object.keys(this.allData);
-    let allData:Array<Object> = [];
-    for(let i=0; i<sites.length; i++) {
+    let allData: Array<AllData> = [];
+    for (let i = 0; i < sites.length; i++) {
       let site = sites[i];
       let dataAtSite = this.allData[site];
-      let latitude = dataAtSite['latitude'];
-      let longitude = dataAtSite['longitude']
-      let measurements = dataAtSite['measurements'];
-      if(!measurements) {
+      let latitude = dataAtSite.latitude;
+      let longitude = dataAtSite.longitude;
+      let measurements = dataAtSite.measurements;
+      if (!measurements) {
         continue;
       }
       let times = Object.keys(measurements);
-      for(let j=0; j<times.length; j++) {
+      for (let j = 0; j < times.length; j++) {
         let time = times[j];
-        let trees = measurements[time]['trees'];
+        let trees = measurements[time].trees;
         let treeIds = Object.keys(trees);
-        for(let k=0; k<treeIds.length; k++) {
+        for (let k = 0; k < treeIds.length; k++) {
           let tree = trees[treeIds[k]];
-          let height = tree['height'];
-          let species = tree['species'];
-          let dbhs = tree['dbhs'];
-          for(let m=0; m<dbhs.length; m++) {
+          let height = tree.height;
+          let species = tree.species;
+          let dbhs = tree.dbhs;
+          for (let m = 0; m < dbhs.length; m++) {
             allData.push(
               {
                 site: site,
@@ -80,7 +106,7 @@ class DataGenerator {
                 siteAndTime: site + time,
                 treeId: treeIds[k]
               }
-            )
+            );
           }
         }
       }
@@ -93,144 +119,141 @@ class DataGenerator {
    * @param {Object} singleSiteAndDateObject
    * An object full of objects containing height, dbhs (as array) and species
    */
-  getHeightValues(singleSiteAndDateObject:Object) {
+  getHeightValues(singleSiteAndDateObject: Object) {
     let objectIndices = Object.keys(singleSiteAndDateObject);
-    let heightValues:Array<number> = [];
-    for(let i:number=0; i<objectIndices.length; i++) {
-      heightValues.push(parseInt(singleSiteAndDateObject[objectIndices[i]]['height']));
+    let heightValues: Array<number> = [];
+    for (let i: number = 0; i < objectIndices.length; i++) {
+      heightValues.push(parseInt(singleSiteAndDateObject[objectIndices[i]].height));
     }
     return heightValues;
   }
 
   getMaximumHeightValue() {
     let dataBySiteAndTime = this.getDataBySiteAndTime();
-    let allHeights:Array<number> = [];
-    for(let i:number=0; i<dataBySiteAndTime.length; i++) {
-      allHeights = allHeights.concat(this.getHeightValues(dataBySiteAndTime[i]['data']));
+    let allHeights: Array<number> = [];
+    for (let i: number = 0; i < dataBySiteAndTime.length; i++) {
+      allHeights = allHeights.concat(this.getHeightValues(dataBySiteAndTime[i].data));
     }
 
     let largestHeight = 0;
-    for(let i:number=0; i<allHeights.length; i++) {
+    for (let i: number = 0; i < allHeights.length; i++) {
       largestHeight < allHeights[i] ? largestHeight = allHeights[i] : 0;
     }
 
     return largestHeight;
   }
 
-  getFiveNumberSummaryFromArray(values:Array<number>) {
+  getFiveNumberSummaryFromArray(values: Array<number>) {
     var ss = require('summary-statistics');
     var summary = ss(values);
     return summary;
   }
 
-  seperateAllDataAsArrayBySiteAndTime(values: Array<Object>) {
-    let tmp = {}
-    for(let i=0; i<values.length; i++) {
+  seperateAllDataAsArrayBySiteAndTime(values: Array<AllData>) {
+    let tmp = {};
+    for (let i = 0; i < values.length; i++) {
       let dataPoint = values[i];
-      let siteAndTime = dataPoint['siteAndTime'];
-      if(tmp[siteAndTime]) {
-        tmp[siteAndTime]['data'].push(dataPoint);
+      let siteAndTime = dataPoint.siteAndTime;
+      if (tmp[siteAndTime]) {
+        tmp[siteAndTime].data.push(dataPoint);
       } else {
-        tmp[siteAndTime] = {data:[dataPoint]}
+        tmp[siteAndTime] = { data: [dataPoint] };
       }
     }
-    let data:Array<Array<Object>> = [];
+    let data: Array<Array<Object>> = [];
     let siteAndTimes = Object.keys(tmp);
-    for(let i=0; i<siteAndTimes.length; i++) {
-      data.push(tmp[siteAndTimes[i]]['data']);
+    for (let i = 0; i < siteAndTimes.length; i++) {
+      data.push(tmp[siteAndTimes[i]].data);
     }
     return data;
   }
 
-  average(data) {
-    let sum = data.reduce(function (sum, value) {
-      return sum + value;
-    }, 0);
+  average(data: Array<number>) {
+    let f = (col, value) => col + value;
+    let sum = data.reduce(f, 0);
 
-    let avg = sum / data.length;
-    return avg;
+    return sum / data.length;
   }
 
-  variance(array) {
+  variance(array: Array<number>) {
     var mean = this.average(array);
-    return this.average(array.map(function(num) {
-      return Math.pow(num - mean, 2);
-    }));
+    return this.average(array.map(num => Math.pow(num - mean, 2)));
   }
 
-  standardDeviation(values) {
+  standardDeviation(values: Array<number>) {
     return Math.sqrt(this.variance(values));
   }
 
-  getBoxPlotInfoForArray(key:string, data:Array<Object>) {
+  getBoxPlotInfoForArray(key: string, data: Array<any>) {
     // Remove duplicate treeIds TODO just for height
-    let seenKeys:Object = {};
-    let uniqueValues:Array<number> = [];
-    for(let i=0; i<data.length; i++) {
-      if(seenKeys[data[i]['treeId']]) {
+    let seenKeys: Object = {};
+    let uniqueValues: Array<number> = [];
+    for (let i = 0; i < data.length; i++) {
+      if (seenKeys[data[i].treeId]) {
         continue;
       }
-      seenKeys[data[i]['treeId']] = 1;
-      uniqueValues.push(data[i]['height']);
+      seenKeys[data[i].treeId] = 1;
+      uniqueValues.push(data[i].height);
     }
     let fiveNumberSummary = this.getFiveNumberSummaryFromArray(uniqueValues);
-    let IQR = fiveNumberSummary['q3'] - fiveNumberSummary['q1'];
-    let theoreticalLowerBound = fiveNumberSummary['median'] - (IQR * 1.5);
-    let theoreticalUpperBound = fiveNumberSummary['median'] + (IQR * 1.5);
+    let IQR = fiveNumberSummary.q3 - fiveNumberSummary.q1;
+    let theoreticalLowerBound = fiveNumberSummary.median - (IQR * 1.5);
+    let theoreticalUpperBound = fiveNumberSummary.median + (IQR * 1.5);
 
-    let outliers:Array<number> = [];
-    let boxValues:Array<number> = []
+    let outliers: Array<number> = [];
+    let boxValues: Array<number> = [];
     uniqueValues.sort();
-    for(let i=0; i<uniqueValues.length; i++) {
-      if(uniqueValues[i] < theoreticalLowerBound || uniqueValues[i] > theoreticalUpperBound) {
+    for (let i = 0; i < uniqueValues.length; i++) {
+      if (uniqueValues[i] < theoreticalLowerBound || uniqueValues[i] > theoreticalUpperBound) {
         outliers.push(uniqueValues[i]);
       } else {
         boxValues.push(uniqueValues[i]);
       }
     }
-    let allDataString:Array<number> = outliers.concat(boxValues).map(Number);
+    let allDataString: Array<number> = outliers.concat(boxValues).map(Number);
 
-    fiveNumberSummary['outliers'] = outliers;
-    fiveNumberSummary['boxValues'] = boxValues;
-    fiveNumberSummary['bottomWhisker'] = boxValues[0];
-    fiveNumberSummary['topWhisker'] = boxValues[boxValues.length - 1];
-    fiveNumberSummary['siteAndTime'] = data[0]['siteAndTime'];
-    fiveNumberSummary['allData'] = allDataString;
-    fiveNumberSummary['mean'] = this.average(allDataString);
-    fiveNumberSummary['std'] = this.standardDeviation(allDataString);
-    fiveNumberSummary['variance'] = this.variance(allDataString);
+    fiveNumberSummary.outliers = outliers;
+    fiveNumberSummary.boxValues = boxValues;
+    fiveNumberSummary.bottomWhisker = boxValues[0];
+    fiveNumberSummary.topWhisker = boxValues[boxValues.length - 1];
+    fiveNumberSummary.siteAndTime = data[0].siteAndTime;
+    fiveNumberSummary.allData = allDataString;
+    fiveNumberSummary.mean = this.average(allDataString);
+    fiveNumberSummary.std = this.standardDeviation(allDataString);
+    fiveNumberSummary.variance = this.variance(allDataString);
     return fiveNumberSummary;
   }
 }
 
 class Plot extends React.Component<Props, State> {
+  selected: string;
   private node: HTMLDivElement | null;
-  selected:String;
 
   constructor(props: Props) {
     super(props);
 
     this.state = {
       data: this.props.data,
-      selected: ""
+      selected: ''
     };
 
     this.createPlot = this.createPlot.bind(this);
   }
 
   componentDidMount() {
-    let height:number = this.props.height;
-    let width:number = this.props.width;
+    let height: number = this.props.height;
+    let width: number = this.props.width;
     const node = this.node;
     let svg = d3.select(node)
       .append('svg')
       .attr('width', width)
-      .attr('height', height)
+      .attr('height', height);
+
     this.createPlot();
   }
 
   componentDidUpdate() {
-    d3.select("svg").select("g").remove();
+    d3.select('svg').select('g').remove();
     this.selected = this.props.selected;
     this.createPlot();
   }
@@ -243,50 +266,49 @@ class Plot extends React.Component<Props, State> {
   createPlot() {
     let minTreeHeight = 200;
 
-    if(this.selected == "") {
+    if (this.selected === '') {
       return;
     }
 
     // Organize data
     let allData = this.state.data;
     let useableData = {};
-    for(let i=0; i<Object.keys(allData).length; i++) {
+    for (let i = 0; i < Object.keys(allData).length; i++) {
       let key = Object.keys(allData)[i];
-      if(key === this.selected) {
+      if (key === this.selected) {
         useableData[key] = allData[key];
       }
     }
 
-    console.log(useableData);
+    let dataGenerator: DataGenerator = new DataGenerator(useableData);
+    let data: Array<AllData> = dataGenerator.getAllDataAsArray();
 
-    let dataGenerator:DataGenerator = new DataGenerator(useableData);
-    let data:Array<Object> = dataGenerator.getAllDataAsArray();
-
-    let siteAndTimesAsObject:Object = {};
-    for(let key in data) {
-      if(data.hasOwnProperty(key)) {
-        siteAndTimesAsObject[data[key]['siteAndTime']] = 1;
+    let siteAndTimesAsObject: Object = {};
+    for (let key in data) {
+      if (data.hasOwnProperty(key)) {
+        siteAndTimesAsObject[data[key].siteAndTime] = 1;
       }
     }
 
-    let siteAndTimes = [""];
+    let siteAndTimes = [''];
     siteAndTimes = siteAndTimes.concat(Object.keys(siteAndTimesAsObject));
-    siteAndTimes.push(" ");
+    siteAndTimes.push('');
 
     let seperatedData = dataGenerator.seperateAllDataAsArrayBySiteAndTime(data);
-    let boxData:Array<Object> = []
-    for(let i=0; i<seperatedData.length; i++) {
+    let boxData: Array<BoxData> = [];
+    for (let i = 0; i < seperatedData.length; i++) {
       boxData.push(dataGenerator.getBoxPlotInfoForArray('height', seperatedData[i]));
     }
 
     // Setup some helper functions
-    d3.selection.prototype.moveToFront = function() {
-      return this.each(function(this:any){
+    d3.selection.prototype.moveToFront = function () {
+      return this.each(function (this: any) {
         this.parentNode.appendChild(this);
       });
     };
-    d3.selection.prototype.moveToBack = function() {
-      return this.each(function(this: any) {
+
+    d3.selection.prototype.moveToBack = function () {
+      return this.each(function (this: any) {
         var firstChild = this.parentNode.firstChild;
         if (firstChild) {
           this.parentNode.insertBefore(this, firstChild);
@@ -295,32 +317,32 @@ class Plot extends React.Component<Props, State> {
     };
 
     // Begin plotting
-    let yMax:number = dataGenerator.getMaximumHeightValue();
-    let xMax:number = data.length;
+    let yMax: number = dataGenerator.getMaximumHeightValue();
+    let xMax: number = data.length;
 
-    let padding:number = 100;
+    let padding: number = 100;
 
-    let height:number = this.props.height;
-    let width:number = this.props.width;
+    let height: number = this.props.height;
+    let width: number = this.props.width;
 
     const node = this.node;
 
     // Build component to place entire graph in
     let svg = d3.select(node)
-      .select("svg")
+      .select('svg')
       .append('g');
 
     // Build tool tip
     let tooltip = d3.select(node)
-      .append("div")
-      .style("position", "absolute")
-      .style("z-index", "10")
-      .style("visibility", "hidden")
-      .text("a simple tooltip")
-      .style("white-space", "pre")
-      .style("background", "rgba(76, 175, 80, 0.9)")
-      .style("padding", "5px")
-      .style("border-radius", "25px")
+      .append('div')
+      .style('position', 'absolute')
+      .style('z-index', '10')
+      .style('visibility', 'hidden')
+      .text('a simple tooltip')
+      .style('white-space', 'pre')
+      .style('background', 'rgba(76, 175, 80, 0.9)')
+      .style('padding', '5px')
+      .style('border-radius', '25px');
 
     // Build mappings
     let xScale = d3.scale.ordinal()
@@ -331,262 +353,267 @@ class Plot extends React.Component<Props, State> {
       .domain([minTreeHeight, yMax])
       .range([height - padding, padding]);
 
-    let boxValues:Array<Array<any>> = [];
+    let boxValues: Array<Array<any>> = [];
     boxData.map((data, index, array) => {
-      let boxVals = data['boxValues'];
-      let siteAndTime = data['siteAndTime'];
+      let boxVals = data.boxValues;
+      let siteAndTime = data.siteAndTime;
       boxVals.map((boxVal, index, array) => {
         boxValues.push([siteAndTime, boxVal])
-      })
+      });
     });
 
-    let boxVals = svg.selectAll("g.boxValue")
+    let boxVals = svg.selectAll('g.boxValue')
       .data(boxValues)
       .enter()
-      .append("g")
-      .attr("class", "boxValue")
-      .style("opacity", 0)
+      .append('g')
+      .attr('class', 'boxValue')
+      .style('opacity', 0);
 
     let jitter = 10;
 
     let outlierXMap = (dataPoint) => xScale(dataPoint[0]);
     let outlierYMap = (dataPoint) => yScale(dataPoint[1]);
-    let xMapJitter = (dataPoint) => xScale(dataPoint[0]) + (Math.random() > 0.5? Math.random() * -jitter : Math.random() * jitter);
+    let xMapJitter = (dataPoint) => xScale(dataPoint[0]) + (Math.random() > 0.5 ? Math.random() * -jitter : Math.random() * jitter);
 
-    boxVals.append("circle")
-      .attr("r", 3)
-      .attr("cx", xMapJitter)
-      .attr("cy", outlierYMap)
-      .style("fill", "green")
-      .on("mouseover", function(this:any, dataPoint, index, array){
+    boxVals.append('circle')
+      .attr('r', 3)
+      .attr('cx', xMapJitter)
+      .attr('cy', outlierYMap)
+      .style('fill', 'green')
+      .on('mouseover', function (this: any, dataPoint, index, array) {
         this.parentNode.parentNode.appendChild(this.parentNode);
-        tooltip.style("visibility", "visible");
-        tooltip.text("Height: " + dataPoint[1])
-        tooltip.style("background", "rgba(255, 0, 0, 0.3)")
+        tooltip.style('visibility', 'visible');
+        tooltip.text('Height: ' + dataPoint[1]);
+        tooltip.style('background', 'rgba(255, 0, 0, 0.3)');
       })
-      .on("mouseout", function(this:any, dataPoint, index, array) {
-        d3.select(this).attr("r", 3)
-        tooltip.style("visibility", "hidden")})
-      .on("mousemove", function(){return tooltip.style("top",
-        (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
+      .on('mouseout', function (this: any, dataPoint, index, array) {
+        d3.select(this).attr('r', 3);
+        tooltip.style('visibility', 'hidden');
+      })
+      .on('mousemove', function () {
+        return tooltip.style('top',
+          (d3.event.pageY - 10) + 'px').style('left', (d3.event.pageX + 10) + 'px');
+      });
 
     // Build axis
     let yAxis = d3.svg.axis()
-      .orient("left")
+      .orient('left')
       .scale(yScale);
 
     let xAxis = d3.svg.axis()
-      .orient("bottom")
+      .orient('bottom')
       .scale(xScale);
 
     // Setup mappings
-    let xMap = (dataPoint) => xScale(dataPoint['siteAndTime']);
-    let x1Map = (dataPoint) => xScale(dataPoint['siteAndTime']) - 25;
-    let x2Map = (dataPoint) => xScale(dataPoint['siteAndTime']) + 25;
-    let yMap = (dataPoint) => yScale(dataPoint['height']);
-    let yLow = (dataPoint) => yScale(dataPoint['q3']);
-    let yMedian = (dataPoint) => yScale(dataPoint['median']);
+    let xMap = (dataPoint) => xScale(dataPoint.siteAndTime);
+    let x1Map = (dataPoint) => xScale(dataPoint.siteAndTime) - 25;
+    let x2Map = (dataPoint) => xScale(dataPoint.siteAndTime) + 25;
+    let yMap = (dataPoint) => yScale(dataPoint.height);
+    let yLow = (dataPoint) => yScale(dataPoint.q3);
+    let yMedian = (dataPoint) => yScale(dataPoint.median);
     let yHeight = (dataPoint) => yScale(dataPoint['q1']) - yScale(dataPoint['q3']);
     let yBoxPlotHeight = (dataPoint) => yScale(dataPoint['bottomWhisker']) - yScale(dataPoint['topWhisker'])
-    let yq3 = (dataPoint) => yScale(dataPoint['q3']);
-    let yTopWhisker = (dataPoint) => yScale(dataPoint['topWhisker'])
-    let yq1 = (dataPoint) => yScale(dataPoint['q1']);
-    let yBottomWhisker = (dataPoint) => yScale(dataPoint['bottomWhisker'])
+    let yq3 = (dataPoint) => yScale(dataPoint.q3);
+    let yTopWhisker = (dataPoint) => yScale(dataPoint.topWhisker)
+    let yq1 = (dataPoint) => yScale(dataPoint.q1);
+    let yBottomWhisker = (dataPoint) => yScale(dataPoint.bottomWhisker)
 
-    let avgAndStdElements = svg.append("g")
-      .attr("class", "areaStuff")
-      .style("opacity", "0")
+    let avgAndStdElements = svg.append('g')
+      .attr('class', 'areaStuff')
+      .style('opacity', '0');
 
     let avgLine = d3.svg.line()
-      .x(function(d) {
-        return xScale(d['siteAndTime']);
+      .x(function (d) {
+        return xScale(d.siteAndTime);
       })
-      .y(function(d) {
-        return yScale(d['mean']);
-      })
+      .y(function (d) {
+        return yScale(d.mean);
+      });
 
     let stdHigh = d3.svg.line()
-      .x(function(d) {
-        return xScale(d['siteAndTime']);
+      .x(function (d) {
+        return xScale(d.siteAndTime);
       })
-      .y(function(d) {
-        return yScale(d['mean'] + d['std']);
-      })
+      .y(function (d) {
+        return yScale(d.mean + d.std);
+      });
 
     let stdLow = d3.svg.line()
-      .x(function(d) {
-        return xScale(d['siteAndTime']);
+      .x(function (d) {
+        return xScale(d.siteAndTime);
       })
-      .y(function(d) {
-        return yScale(d['mean'] - d['std']);
-      })
+      .y(function (d) {
+        return yScale(d.mean - d.std);
+      });
 
     let o_aDifference = d3.svg.area()
-      .x(function(d,i) {
-        return xScale(d['siteAndTime'])
+      .x(function (d, i) {
+        return xScale(d.siteAndTime);
       })
-      .y(function(d) {
-        return yScale(d['mean'] + d['std'],d['std'])
+      .y(function (d) {
+        return yScale(d.mean  + d.std, d.std);
       })
-      .y0(function(d) {
-        return yScale(d['mean'] - d['std'])
+      .y0(function (d) {
+        return yScale(d.mean - d.std);
       })
-      .interpolate("linear");
+      .interpolate('linear');
 
-    avgAndStdElements.append("path")
-      .style("fill", "orange")
-      .style("fill-opacity", .1)
-      .attr("class", "difference")
-      .attr("d", o_aDifference(boxData))
+    avgAndStdElements.append('path')
+      .style('fill', 'orange')
+      .style('fill-opacity', .1)
+      .attr('class', 'difference')
+      .attr('d', o_aDifference(boxData));
 
-    avgAndStdElements.append("svg:path")
-      .attr("d", stdLow(boxData) + avgLine(boxData) + stdHigh(boxData))
-      .style("stroke", "grey")
-      .style("stroke-width", "2")
-      .style("opacity", .4)
-      .attr("fill", "none");
+    avgAndStdElements.append('svg:path')
+      .attr('d', stdLow(boxData) + avgLine(boxData) + stdHigh(boxData))
+      .style('stroke', 'grey')
+      .style('stroke-width', '2')
+      .style('opacity', .4)
+      .attr('fill', 'none');
 
     // Create a group for every data point
-    let boxElements = svg.selectAll("g.boxPlot")
+    let boxElements = svg.selectAll('g.boxPlot')
       .data(boxData)
       .enter()
-      .append("g")
-      .attr("class", "boxPlot")
+      .append('g')
+      .attr('class', 'boxPlot');
 
-    boxElements.append("rect")
-      .attr("x", xMap)
-      .attr("y", yTopWhisker)
-      .attr("width", 50)
-      .attr("height", yBoxPlotHeight)
-      .style("fill", "black")
-      .attr("transform", "translate(-25, 0)")
-      .style("opacity", 0);
+    boxElements.append('rect')
+      .attr('x', xMap)
+      .attr('y', yTopWhisker)
+      .attr('width', 50)
+      .attr('height', yBoxPlotHeight)
+      .style('fill', 'black')
+      .attr('transform', 'translate(-25, 0)')
+      .style('opacity', 0);
 
-    boxElements.append("rect")
-      .attr("x", xMap)
-      .attr("y", yLow)
-      .attr("width", 50)
-      .attr("height", yHeight)
-      .attr("transform", "translate(-25, 0)")
-      .style("fill", "blue")
+    boxElements.append('rect')
+      .attr('x', xMap)
+      .attr('y', yLow)
+      .attr('width', 50)
+      .attr('height', yHeight)
+      .attr('transform', 'translate(-25, 0)')
+      .style('fill', 'blue');
 
-    boxElements.append("line")
-      .attr("x1", x1Map)
-      .attr("x2", x2Map)
-      .attr("y1", yMedian)
-      .attr("y2", yMedian)
-      .style("stroke", "black")
-      .style("stroke-width", "2")
+    boxElements.append('line')
+      .attr('x1', x1Map)
+      .attr('x2', x2Map)
+      .attr('y1', yMedian)
+      .attr('y2', yMedian)
+      .style('stroke', 'black')
+      .style('stroke-width', '2');
 
-    boxElements.append("line")
-      .attr("x1", xMap)
-      .attr("x2", xMap)
-      .attr("y1", yq3)
-      .attr("y2", yTopWhisker)
-      .style("stroke", "black")
-      .style("stroke-width", "2")
+    boxElements.append('line')
+      .attr('x1', xMap)
+      .attr('x2', xMap)
+      .attr('y1', yq3)
+      .attr('y2', yTopWhisker)
+      .style('stroke', 'black')
+      .style('stroke-width', '2');
 
-    boxElements.append("line")
-      .attr("x1", x1Map)
-      .attr("x2", x2Map)
-      .attr("y1", yTopWhisker)
-      .attr("y2", yTopWhisker)
-      .style("stroke", "black")
-      .style("stroke-width", "2")
+    boxElements.append('line')
+      .attr('x1', x1Map)
+      .attr('x2', x2Map)
+      .attr('y1', yTopWhisker)
+      .attr('y2', yTopWhisker)
+      .style('stroke', 'black')
+      .style('stroke-width', '2');
 
-    boxElements.append("line")
-      .attr("x1", xMap)
-      .attr("x2", xMap)
-      .attr("y1", yq1)
-      .attr("y2", yBottomWhisker)
-      .style("stroke", "black")
-      .style("stroke-width", "2")
+    boxElements.append('line')
+      .attr('x1', xMap)
+      .attr('x2', xMap)
+      .attr('y1', yq1)
+      .attr('y2', yBottomWhisker)
+      .style('stroke', 'black')
+      .style('stroke-width', '2');
 
-    boxElements.append("line")
-      .attr("x1", x1Map)
-      .attr("x2", x2Map)
-      .attr("y1", yBottomWhisker)
-      .attr("y2", yBottomWhisker)
-      .style("stroke", "black")
-      .style("stroke-width", "2")
+    boxElements.append('line')
+      .attr('x1', x1Map)
+      .attr('x2', x2Map)
+      .attr('y1', yBottomWhisker)
+      .attr('y2', yBottomWhisker)
+      .style('stroke', 'black')
+      .style('stroke-width', '2');
 
-    boxElements.on("click", function(this:any) {
-      if(d3.select(this).style("opacity") === "0") {
-        svg.selectAll("g.boxPlot").transition().style("opacity", "1");
-        svg.selectAll("g.boxValue").transition().style("opacity", "0");
-        svg.selectAll("g.boxValue").select("circle").attr("r", "0");
-        svg.selectAll("g.areaStuff").transition().style("opacity", "0");
-        d3.selectAll("g.boxPlot").moveToFront();
-        d3.selectAll("g.boxValue").moveToBack();
+    boxElements.on('click', function (this: any) {
+      if (d3.select(this).style('opacity') === '0') {
+        svg.selectAll('g.boxPlot').transition().style('opacity', '1');
+        svg.selectAll('g.boxValue').transition().style('opacity', '0');
+        svg.selectAll('g.boxValue').select('circle').attr('r', '0');
+        svg.selectAll('g.areaStuff').transition().style('opacity', '0');
+        d3.selectAll('g.boxPlot').moveToFront();
+        d3.selectAll('g.boxValue').moveToBack();
       } else {
-        svg.selectAll("g.boxPlot").transition().style("opacity", "0");
-        svg.selectAll("g.boxValue").transition().style("opacity", "1");
-        svg.selectAll("g.boxValue").select("circle").attr("r", "3");
-        svg.selectAll("g.areaStuff").transition().style("opacity", "1");
-        d3.selectAll("g.boxPlot").moveToBack();
-        d3.selectAll("g.boxValue").moveToFront();
+        svg.selectAll('g.boxPlot').transition().style('opacity', '0');
+        svg.selectAll('g.boxValue').transition().style('opacity', '1');
+        svg.selectAll('g.boxValue').select('circle').attr('r', '3');
+        svg.selectAll('g.areaStuff').transition().style('opacity', '1');
+        d3.selectAll('g.boxPlot').moveToBack();
+        d3.selectAll('g.boxValue').moveToFront();
       }
-    })
+    });
 
     // draw y axis with labels and move in from the size by the amount of padding
-    svg.append("g")
-      .attr("transform", "translate("+padding+"," + 0 + ")")
-      .attr("class", "yaxis")
+    svg.append('g')
+      .attr('transform', 'translate(' + padding + ',' + 0 + ')')
+      .attr('class', 'yaxis')
       .call(yAxis);
 
     // draw x axis with labels and move to the bottom of the chart area
-    svg.append("g")
-      .attr("class", "xaxis")
-      .attr("transform", "translate("+ 0 +"," + (height - padding) + ")")
+    svg.append('g')
+      .attr('class', 'xaxis')
+      .attr('transform', 'translate(' + 0 + ',' + (height - padding) + ')')
       .call(xAxis)
-      .selectAll("text")
-      .attr("y", 0)
-      .attr("x", 9)
-      .attr("dy", ".35em")
-      .attr("transform", "rotate(20), translate(0, 20)")
-      .style("text-anchor", "start");
+      .selectAll('text')
+      .attr('y', 0)
+      .attr('x', 9)
+      .attr('dy', '.35em')
+      .attr('transform', 'rotate(20), translate(0, 20)')
+      .style('text-anchor', 'start');
 
-    let outliers:Array<Array<any>> = [];
-    boxData.map((data, index, array) => {
-      let dataOutliers = data['outliers'];
-      let siteAndTime = data['siteAndTime'];
+    let outliers: Array<Array<any>> = [];
+    boxData.map((d, index, array) => {
+      let dataOutliers = d.outliers;
+      let siteAndTime = d.siteAndTime;
       dataOutliers.map((outlier, index, array) => {
         outliers.push([siteAndTime, outlier]);
-      })
+      });
     });
 
     // Create a group for every data point
-    let dataElements = svg.selectAll("g.outlier")
+    let dataElements = svg.selectAll('g.outlier')
       .data(outliers)
       .enter()
-      .append("g")
-      .attr("class", "outliers");
+      .append('g')
+      .attr('class', 'outliers');
 
     // Attach a circle to every data point
-    dataElements.append("circle")
-      .attr("r", 3)
-      .attr("cx", outlierXMap)
-      .attr("cy", outlierYMap)
-      .style("fill", "red")
-      .on("mouseover", function(this:any, dataPoint, index, array){
-        d3.select(this)
+    dataElements.append('circle')
+      .attr('r', 3)
+      .attr('cx', outlierXMap)
+      .attr('cy', outlierYMap)
+      .style('fill', 'red')
+      .on('mouseover', function (this: any, dataPoint, index, array) {
+        d3.select(this);
         this.parentNode.parentNode.appendChild(this.parentNode);
-        tooltip.style("visibility", "visible");
-        tooltip.text("Height: " + dataPoint[1])
-        tooltip.style("background", "rgba(76, 175, 80, 0.9)")
+        tooltip.style('visibility', 'visible');
+        tooltip.text('Height: ' + dataPoint[1]);
+        tooltip.style('background', 'rgba(76, 175, 80, 0.9)');
       })
-      .on("mouseout", function(this:any, dataPoint, index, array) {
-        d3.select(this).attr("r", 3)
-        tooltip.style("visibility", "hidden")})
-      .on("mousemove", function(){return tooltip.style("top",
-        (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
+      .on('mouseout', function (this: any, dataPoint, index, array) {
+        d3.select(this).attr('r', 3);
+        tooltip.style('visibility', 'hidden');
+      })
+      .on('mousemove', function () {
+        return tooltip.style('top',
+          (d3.event.pageY - 10) + 'px').style('left', (d3.event.pageX + 10) + 'px');
+      });
   }
 
   render() {
     return (
       <div>
-        <div ref={node => this.node = node}>
-        </div>
+        <div ref={node => this.node = node} />
       </div>
     );
   }

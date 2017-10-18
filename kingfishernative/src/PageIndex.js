@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, Alert } from 'react-native';
 import { Link } from 'react-router-native'
 import { styles } from "./Styles"
 import { fbi } from "./Global"
@@ -37,7 +37,9 @@ export default class PageIndex extends React.Component {
       this.props.history.push("/sites");
     })
     .catch((err) => {
-      console.error('User signin error', err);
+      Alert.alert(
+        "Username or password was incorrect. Ensure you are connected to the internet and try again."
+      )
     });
   }
 

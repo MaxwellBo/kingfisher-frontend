@@ -180,7 +180,7 @@ interface State { }
 class App extends React.Component {
   render() {
     return (
-      <div>
+      <div className="main">
         <Route exact={true} path="/" component={Home} />
         <Route path="/app" component={Tabs} />
         <Route exact={true} path="/app/export" component={Export} />
@@ -190,7 +190,7 @@ class App extends React.Component {
         <Route exact={true} path="/tos" component={TOS} />
         <Route exact={true} path="/stats" component={Stats} />
         <Route exact={true} path="/purchase" component={PurchaseForm} />
-        <Route path="/" component={Footer} />
+        <Footer/>
       </div>
     );
   }

@@ -2,7 +2,6 @@ import * as React from 'react';
 import { withFauxDOM, ReactFauxDOM } from 'react-faux-dom';
 import * as d3 from 'd3';
 import Select from 'react-select';
-// Be sure to include styles at some point, probably during your bootstrapping
 import 'react-select/dist/react-select.css';
 
 interface Props {
@@ -411,12 +410,12 @@ class Plot extends React.Component<Props, State> {
     let yMap = (dataPoint) => yScale(dataPoint.height);
     let yLow = (dataPoint) => yScale(dataPoint.q3);
     let yMedian = (dataPoint) => yScale(dataPoint.median);
-    let yHeight = (dataPoint) => yScale(dataPoint['q1']) - yScale(dataPoint['q3']);
-    let yBoxPlotHeight = (dataPoint) => yScale(dataPoint['bottomWhisker']) - yScale(dataPoint['topWhisker'])
+    let yHeight = (dataPoint) => yScale(dataPoint.q1) - yScale(dataPoint.q3);
+    let yBoxPlotHeight = (dataPoint) => yScale(dataPoint.bottomWhisker) - yScale(dataPoint.topWhisker);
     let yq3 = (dataPoint) => yScale(dataPoint.q3);
-    let yTopWhisker = (dataPoint) => yScale(dataPoint.topWhisker)
+    let yTopWhisker = (dataPoint) => yScale(dataPoint.topWhisker);
     let yq1 = (dataPoint) => yScale(dataPoint.q1);
-    let yBottomWhisker = (dataPoint) => yScale(dataPoint.bottomWhisker)
+    let yBottomWhisker = (dataPoint) => yScale(dataPoint.bottomWhisker);
 
     let avgAndStdElements = svg.append('g')
       .attr('class', 'areaStuff')

@@ -22,11 +22,10 @@ export default class Tabs extends React.Component<Props, State> {
   }
 
   render() {
-    console.log(this.context);
     return (
       <div className="tabs-container">
         <div className="tabs-logo-cont">
-          <img className="tabs-logo" src="../../images/favicon-32x32.png" alt="Kingfisher" />
+          <img className="tabs-logo" src="../../images/kingfisher_logo_text.png" alt="Kingfisher" />
         </div>
         <div className="tabs is-centered is-primary is-medium">
           <ul>

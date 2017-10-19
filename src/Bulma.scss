@@ -8,6 +8,12 @@ $info: $dark;
 $tabs-link-hover-border-bottom-color: $primary;
 $tabs-link-hover-color: $primary;
 
+.main {
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 11vh;
+}
+
 .export-button-cont {
   display: flex;
   width: 25rem;
@@ -36,6 +42,26 @@ $tabs-link-hover-color: $primary;
 
 .tabs-logo {
   margin-top: 0.5em;
+  height: 64px;
+}
+
+.centered-container {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding-top: 4vh !important;
+  padding-bottom: 6vh !important;
+}
+
+.view {
+  min-height: 1043px;
 }
 
 @import "../node_modules/bulma/bulma";

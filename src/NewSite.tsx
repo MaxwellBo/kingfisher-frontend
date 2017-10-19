@@ -42,7 +42,6 @@ export default class NewSite extends React.Component<Props, State> {
       <section className="section">
         <div className="container">
           <h1 className="title">New Site</h1>
-          <h2 className="subtitle">Make a new site</h2>
         </div>
         <div className="container">
           <div className="new-site-form">

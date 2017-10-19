@@ -6,6 +6,9 @@ import SpecialButton from "./SpecialButton"
 import Field from "./Field"
 import { fbi } from "./Global"
 
+
+const HEIGHT_MIN = 200;
+const HEIGHT_MAX = 3000;
 const Item = Picker.Item;
 /**
  * All classes beginning with "Page" are different representations of pages
@@ -140,11 +143,11 @@ export default class PageAddTree extends React.Component {
   }
 
   checkHeight() {
-    if(this.state.height < 200 || isNaN(Number(this.state.height))) {
+    if(this.state.height < HEIGHT_MIN || isNaN(Number(this.state.height))) {
       this.setState({heightValid: 0});
     } else {
       this.setState({heightValid: 1});
-      if(this.state.height > 3000) {
+      if(this.state.height > HEIGHT_MAX) {
         // Warn user if height is above 30m
         this.heightWarningAlert()
       }
@@ -178,9 +181,12 @@ export default class PageAddTree extends React.Component {
     // FIXME: Use for .. in rather than indexed iterations
     for (let i = 0; i <= this.state.dbhs.length; i++) {
       dbhList.push(
-        <Field label={"DBH " + (i+1)} name={i} key={"DBH " + i} 
+        <Field 
+          label={"DBH " + (i+1)} 
+          key={"DBH " + i} 
+          keyboardType="decimal-pad"
           defaultValue={i < this.state.dbhs.length ? "" + this.state.dbhs[i] : ""}
-          onChangeText={(dbhIndex, value) => this.DBHChangeText(dbhIndex, value)}
+          onChangeText={(value) => this.DBHChangeText(i, value)}
                inputStyles={(i == this.state.dbhs.length) && {backgroundColor: '#898689'}
                || (this.state.dbhsValid[i] == 0) && {backgroundColor: '#DD4649'}
                || (this.state.dbhsValid[i] == 1) && {backgroundColor: '#96DD90'}
@@ -216,8 +222,12 @@ export default class PageAddTree extends React.Component {
               <Item label="Suaeda australis" value="Suaeda australis"/>
             </Picker>
           </Form>
-          <Field label="Tree Height (cm)" defaultValue={"" + this.state.height}
-            onChangeText={(specName, value) => this.changeSpec(specName, value)}
+          <Field 
+            label="Tree Height (cm)" 
+            defaultValue={"" + this.state.height}
+            keyboardType="decimal-pad"
+            placeholder={HEIGHT_MIN.toString()}
+            onChangeText={(value) => this.changeSpec("height", value)}
                   inputStyles={(this.state.heightValid === 0) && {backgroundColor: '#DD4649'}
                   || (this.state.heightValid === 1) && {backgroundColor: '#96DD90'}
                   || (this.state.heightValid === -1) && {backgroundColor: '#898689'}}

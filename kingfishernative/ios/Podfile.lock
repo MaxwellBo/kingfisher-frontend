@@ -53,7 +53,7 @@ PODS:
   - React/cxxreact_legacy (0.46.4):
     - React/jschelpers_legacy
   - React/jschelpers_legacy (0.46.4)
-  - RNFirebase (2.1.4):
+  - RNFirebase (2.2.3):
     - React
   - Yoga (0.46.4.React)
 
@@ -86,7 +86,7 @@ SPEC CHECKSUMS:
   leveldb-library: 10fb39c39e243db4af1828441162405bbcec1404
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   React: 596d8774642d10fea20b1f24cc591fcf633f73ad
-  RNFirebase: b020d24d8f24461ac7e6a3b23d56cc856b55ba00
+  RNFirebase: 845173139976357d40acd48fee90468f90c27610
   Yoga: 98e24da91afe33bb43fedaf27dafede269c04fe8
 
 PODFILE CHECKSUM: 78e18f22a7cb8530bd2e4d6c1f067de36a437ab5

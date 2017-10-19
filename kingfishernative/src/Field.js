@@ -6,7 +6,6 @@ import { styles } from "./Styles"
  * An input field with label.
  * Ensure it is passed props:
  *  - label
- *  - name (the key of parent state you want it to change onChangeText)
  *  - onChangeText (should change parent's state)
  * 
  * An optional 4th prop, extraStyles, can be used to give it another
@@ -15,8 +14,8 @@ import { styles } from "./Styles"
  * box extra styles.
  */
 export default class Field extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   render() {
@@ -25,13 +24,9 @@ export default class Field extends React.Component {
         <Text style={styles.fieldLabel}>{this.props.label}</Text>
         <View style={styles.fieldInputCont}>
           <TextInput 
-            defaultValue={this.props.defaultValue ? this.props.defaultValue : ""}
+            {...this.props}
             underlineColorAndroid={"transparent"}
             style={[styles.fieldInput].concat(this.props.inputStyles)}
-            onChangeText={(value) => this.props.onChangeText(this.props.name, value)}
-            onEndEditing={this.props.onEndEditing ?
-                          (text) => this.props.onEndEditing(this.props.name, text) :
-                          (text) => {}}
           />
         </View>
       </View>

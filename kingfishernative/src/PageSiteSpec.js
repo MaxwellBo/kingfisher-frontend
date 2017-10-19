@@ -43,22 +43,25 @@ export default class PageSiteSpec extends React.Component {
             <Text style={styles.pageHeadDesc}>Dimensions</Text>
           </View>
           <View style={styles.horizontalFlexCont}>
-            <Field label="Length" name="length" 
-              extraStyles={styles.thirds} onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
-            <Field label="Width" name="width" 
-              extraStyles={styles.thirds} onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
-            <Field label="Section" name="section" 
-              extraStyles={styles.thirds} onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
+            <Field label="Length"
+              extraStyles={styles.thirds} 
+              onChangeText={(value) => this.changeSpec("length", value)}/>
+            <Field label="Width"
+              extraStyles={styles.thirds} 
+              onChangeText={(value) => this.changeSpec("width", value)}/>
+            <Field label="Section"
+              extraStyles={styles.thirds} 
+              onChangeText={(value) => this.changeSpec("section", value)}/>
           </View>
-          <Field label="Species" name="species" // TODO: Convert this to dropdown menu
+          <Field label="Species" // TODO: Convert this to dropdown menu
               inputStyles={styles.error}
-              onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
-          <Field label="Threshold" name="threshold" 
-              onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
-          <Field label="Recorder" name="recorder" // Maybe not necessary with login?
-              onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
-          <Field label="Date" name="date" // TODO: Change to date selector
-              onChangeText={(specName, value) => this.changeSpec(specName, value)}/>
+              onChangeText={(value) => this.changeSpec("species", value)}/>
+          <Field label="Threshold" 
+              onChangeText={(value) => this.changeSpec("threshold", value)}/>
+          <Field label="Recorder" // Maybe not necessary with login?
+              onChangeText={(value) => this.changeSpec("recorder", value)}/>
+          <Field label="Date"// TODO: Change to date selector
+              onChangeText={(value) => this.changeSpec("date", value)}/>
           <View style={styles.horizontalFlexCont}>
           </View>
         </View>

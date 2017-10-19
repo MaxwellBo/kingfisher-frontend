@@ -65,7 +65,7 @@ export default class PageSiteTrees extends React.Component {
 
   splitIntoSetsOf10() {
     let trees = this.state.trees;
-    let treeNames = Object.keys(trees);
+    let treeNames = trees == null ? [] : Object.keys(trees);
     
     if(!(treeNames.length % 10 === 0 && treeNames.length > 10)) {
       return;
@@ -87,7 +87,7 @@ export default class PageSiteTrees extends React.Component {
       let diff = Math.abs(lastChunkAverage - comparisonChunk) / comparisonChunk * 100;
       if (diff < 2) {
         Alert.alert(
-          "You're done!"
+          "Data collected is statistically significant. No additional trees need to be recorded."
         )
         return;
       }

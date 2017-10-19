@@ -18,7 +18,7 @@ export default class ViewSiteCard extends React.Component<Props, State> {
     };
   }
 
-  onClick() {
+  onClick = () => {
     this.setState(
       {render: !this.state.render}
     );
@@ -29,11 +29,12 @@ export default class ViewSiteCard extends React.Component<Props, State> {
       return (
         <div className="site-card-cont">
           <div>
-            <button className="button centered"
+            <button 
+              className="button centered"
               key={this.props.title}
-              onClick={() => this.onClick()}
+              onClick={this.onClick}
             >
-              <div className={"site-card-title"}>
+              <div className={'site-card-title'}>
                 {this.props.title}
               </div>
             </button>

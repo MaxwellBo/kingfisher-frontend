@@ -178,9 +178,9 @@ export default class PageAddTree extends React.Component {
     // FIXME: Use for .. in rather than indexed iterations
     for (let i = 0; i <= this.state.dbhs.length; i++) {
       dbhList.push(
-        <Field label={"DBH " + (i+1)} name={i} key={"DBH " + i} 
+        <Field label={"DBH " + (i+1)} key={"DBH " + i} 
           defaultValue={i < this.state.dbhs.length ? "" + this.state.dbhs[i] : ""}
-          onChangeText={(dbhIndex, value) => this.DBHChangeText(dbhIndex, value)}
+          onChangeText={(value) => this.DBHChangeText(i, value)}
                inputStyles={(i == this.state.dbhs.length) && {backgroundColor: '#898689'}
                || (this.state.dbhsValid[i] == 0) && {backgroundColor: '#DD4649'}
                || (this.state.dbhsValid[i] == 1) && {backgroundColor: '#96DD90'}
@@ -217,7 +217,7 @@ export default class PageAddTree extends React.Component {
             </Picker>
           </Form>
           <Field label="Tree Height (cm)" defaultValue={"" + this.state.height}
-            onChangeText={(specName, value) => this.changeSpec(specName, value)}
+            onChangeText={(value) => this.changeSpec("height", value)}
                   inputStyles={(this.state.heightValid === 0) && {backgroundColor: '#DD4649'}
                   || (this.state.heightValid === 1) && {backgroundColor: '#96DD90'}
                   || (this.state.heightValid === -1) && {backgroundColor: '#898689'}}

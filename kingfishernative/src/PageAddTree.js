@@ -178,7 +178,10 @@ export default class PageAddTree extends React.Component {
     // FIXME: Use for .. in rather than indexed iterations
     for (let i = 0; i <= this.state.dbhs.length; i++) {
       dbhList.push(
-        <Field label={"DBH " + (i+1)} key={"DBH " + i} 
+        <Field 
+          label={"DBH " + (i+1)} 
+          key={"DBH " + i} 
+          keyboardType="decimal-pad"
           defaultValue={i < this.state.dbhs.length ? "" + this.state.dbhs[i] : ""}
           onChangeText={(value) => this.DBHChangeText(i, value)}
                inputStyles={(i == this.state.dbhs.length) && {backgroundColor: '#898689'}
@@ -216,7 +219,10 @@ export default class PageAddTree extends React.Component {
               <Item label="Suaeda australis" value="Suaeda australis"/>
             </Picker>
           </Form>
-          <Field label="Tree Height (cm)" defaultValue={"" + this.state.height}
+          <Field 
+            label="Tree Height (cm)" 
+            defaultValue={"" + this.state.height}
+            keyboardType="decimal-pad"
             onChangeText={(value) => this.changeSpec("height", value)}
                   inputStyles={(this.state.heightValid === 0) && {backgroundColor: '#DD4649'}
                   || (this.state.heightValid === 1) && {backgroundColor: '#96DD90'}

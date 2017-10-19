@@ -90,12 +90,13 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.0'
     lintOptions {
        checkReleaseBuilds false
        abortOnError false
+       quiet true
     }
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "com.kingfishernative"
         minSdkVersion 16

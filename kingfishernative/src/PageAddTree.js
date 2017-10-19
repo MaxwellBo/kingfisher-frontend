@@ -6,6 +6,9 @@ import SpecialButton from "./SpecialButton"
 import Field from "./Field"
 import { fbi } from "./Global"
 
+
+const HEIGHT_MIN = 200;
+const HEIGHT_MAX = 3000;
 const Item = Picker.Item;
 /**
  * All classes beginning with "Page" are different representations of pages
@@ -140,11 +143,11 @@ export default class PageAddTree extends React.Component {
   }
 
   checkHeight() {
-    if(this.state.height < 200 || isNaN(Number(this.state.height))) {
+    if(this.state.height < HEIGHT_MIN || isNaN(Number(this.state.height))) {
       this.setState({heightValid: 0});
     } else {
       this.setState({heightValid: 1});
-      if(this.state.height > 3000) {
+      if(this.state.height > HEIGHT_MAX) {
         // Warn user if height is above 30m
         this.heightWarningAlert()
       }
@@ -223,6 +226,7 @@ export default class PageAddTree extends React.Component {
             label="Tree Height (cm)" 
             defaultValue={"" + this.state.height}
             keyboardType="decimal-pad"
+            placeholder={HEIGHT_MIN.toString()}
             onChangeText={(value) => this.changeSpec("height", value)}
                   inputStyles={(this.state.heightValid === 0) && {backgroundColor: '#DD4649'}
                   || (this.state.heightValid === 1) && {backgroundColor: '#96DD90'}

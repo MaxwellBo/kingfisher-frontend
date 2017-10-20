@@ -46,7 +46,7 @@ class Login extends React.Component<Props, State> {
             <div className="centered-container">
               <p>
                 You're already logged in!
-                <Link to="/app/view"><p>Go to app</p></Link>
+                <Link to="/app/view"><button className="button">Go to app</button></Link>
               </p>
             </div>
           </div>

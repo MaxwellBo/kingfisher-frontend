@@ -1,22 +1,11 @@
 import * as React from 'react';
 import * as firebase from 'firebase';
-import Dropdown from 'react-dropdown';
 
 import Select from 'react-select';
 
-function writeUserData() {
-  const user = firebase.auth().currentUser;
-
-  if (user) {
-    firebase.database().ref('users/' + user.uid).set({
-      uid: user.uid,
-      displayName: user.displayName,
-      email: user.email
-    });
-  }
-}
-
 interface Props { }
+// State contains the site and record to be exported, as well as refs and objects
+// that represent these site records.
 interface State {
   sites: {};
   sitesRef: firebase.database.Reference;
@@ -25,10 +14,13 @@ interface State {
   records: {};
 }
 
+// The main component for the Export page. Allows users to export
+// the json data from the firebase database to CSV format.
 class Export extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
+    // Set the initial state
     this.state = {
       sites: {},
       sitesRef: firebase.database().ref('sites'),
@@ -38,6 +30,8 @@ class Export extends React.Component<Props, State> {
     };
   }
 
+  // Set the sites object in state to the reference from firebase.
+  // sitesRef.on() also will update the sites object if the database changes.
   componentDidMount() {
     this.state.sitesRef.on('value', (sites) => {
       if (sites) {
@@ -46,14 +40,12 @@ class Export extends React.Component<Props, State> {
     });
   }
 
+  // Turn off the reference if the component will unmount.
   componentWillUnmount() {
     this.state.sitesRef.off();
   }
 
-  handleWriteUserDataClick = () => {
-    writeUserData();
-  }
-
+  
   changeSite = (val) => {
     this.setState({
       site: val.value,

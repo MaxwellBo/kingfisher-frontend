@@ -41,7 +41,7 @@ export default class NewSite extends React.Component<Props, State> {
     return (
       <section className="section">
         <div className="container">
-          <h1 className="title">New Site</h1>
+          <h1 className="title has-text-centered">New Site</h1>
         </div>
         <div className="container">
           <div className="new-site-form">

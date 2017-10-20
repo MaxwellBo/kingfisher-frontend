@@ -16,32 +16,6 @@ interface State {
   selected: string;
 }
 
-interface TreeData {
-  site: any;
-  time: any;
-  data: any;
-  siteAndTime: any;
-}
-
-interface AllData {
-  site: any;
-  latitude: any;
-  longitude: any;
-  time: any;
-  height: any;
-  species: any;
-  dbhs: any;
-  allDbhs: any;
-  siteAndTime: any;
-  treeId: any;
-}
-
-interface BoxData {
-  boxValues: any;
-  siteAndTime: any;
-  outliers: any;
-}
-
 class DataGenerator {
   allData: Object;
 

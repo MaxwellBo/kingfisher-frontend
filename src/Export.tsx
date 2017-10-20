@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as firebase from 'firebase';
-import Dropdown from "react-dropdown";
+import Dropdown from 'react-dropdown';
 
 import Select from 'react-select';
 
@@ -16,7 +16,7 @@ function writeUserData() {
   }
 }
 
-interface Props {}
+interface Props { }
 interface State {
   sites: {};
   sitesRef: firebase.database.Reference;
@@ -32,8 +32,8 @@ class Export extends React.Component<Props, State> {
     this.state = {
       sites: {},
       sitesRef: firebase.database().ref('sites'),
-      site: "",
-      record: "",
+      site: '',
+      record: '',
       records: {},
     };
   }
@@ -41,7 +41,7 @@ class Export extends React.Component<Props, State> {
   componentDidMount() {
     this.state.sitesRef.on('value', (sites) => {
       if (sites) {
-        this.setState({sites: sites.val()});
+        this.setState({ sites: sites.val() });
       }
     });
   }
@@ -56,74 +56,78 @@ class Export extends React.Component<Props, State> {
 
   changeSite = (val) => {
     this.setState({
-      site: val["value"],
+      site: val.value,
     });
 
-    firebase.database().ref('sites').child(val["value"]).child("measurements").once('value', (records) => {
+    firebase.database().ref('sites').child(val.value).child('measurements').once('value', (records) => {
       if (records) {
-        this.setState({records: records.val()});
+        this.setState({ records: records.val() });
       }
     });
   }
 
   changeRecord = (val) => {
-    this.setState({record: val["value"]});
+    this.setState({ record: val.value });
   }
 
   exportSite = () => {
-    this.state.sitesRef.child(this.state.site).child("measurements").child(this.state.record).once('value', (record) => {
-      if (record) {
-        let trees = record.val().trees;
-        let csv = 'key,species,height,dbhs\n'
-        for (let key in trees) {
-          if (trees.hasOwnProperty(key)) {
-            csv += key + ',' + trees[key].species + ',' + trees[key].height + ',' + trees[key].dbhs + '\n';
+    this.state.sitesRef
+      .child(this.state.site)
+      .child('measurements')
+      .child(this.state.record)
+      .once('value', (record) => {
+        if (record) {
+          let trees = record.val().trees;
+          let csv = 'key,species,height,dbhs\n';
+          for (let key in trees) {
+            if (trees.hasOwnProperty(key)) {
+              csv += key + ',' + trees[key].species + ',' + trees[key].height + ',' + trees[key].dbhs + '\n';
+            }
           }
-        }
-        var link = document.createElement('a');
-        link.setAttribute('target', '_blank');
+          var link = document.createElement('a');
+          link.setAttribute('target', '_blank');
 
-        if (Blob !== undefined) {
-            var blob = new Blob([csv], {type: 'text/plain'});
+          if (Blob !== undefined) {
+            var blob = new Blob([csv], { type: 'text/plain' });
             link.setAttribute('href', URL.createObjectURL(blob));
-        } else {
+          } else {
             link.setAttribute('href', 'data:text/plain,' + encodeURIComponent(csv));
+          }
+          link.setAttribute('download', this.state.site + '_' + this.state.record + '_export.csv');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
         }
-        link.setAttribute('download', this.state.site + "_" + this.state.record + '_export.csv');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-    });
+      });
   }
 
   render() {
     // options should be a list of all the site keys
-    const siteOptions = (this.state.sites == null) ? [] : Object.keys(this.state.sites).map(key => 
-      {return ({value: key, label: key})}
-    );
+    const siteOptions = (this.state.sites == null) ? [] : Object.keys(this.state.sites).map(key => { 
+      return { value: key, label: key }; 
+    });
 
-    const recordOptions = (this.state.records == null) ? [] : Object.keys(this.state.records).map(key => 
-      {return ({value: key, label: key})}
-    );
+    const recordOptions = (this.state.records == null) ? [] : Object.keys(this.state.records).map(key => { 
+      return { value: key, label: key };
+    });
 
-    const recordSelect = (recordOptions.length == 0 ?
-    (
-      <Select
-        disabled={true}
-        value="Please select a valid site"
-        clearable={false}
+    const recordSelect = (recordOptions.length === 0 ?
+      (
+        <Select
+          disabled={true}
+          value="Please select a valid site"
+          clearable={false}
         />
-    ) :
-    (
-      <Select
-        name="record-select"
-        onChange={this.changeRecord}
-        value={this.state.record}
-        options={recordOptions}
-        clearable={false}
+      ) :
+      (
+        <Select
+          name="record-select"
+          onChange={this.changeRecord}
+          value={this.state.record}
+          options={recordOptions}
+          clearable={false}
         />
-    ))
+      ));
 
     return (
       <section className="section">
@@ -140,7 +144,7 @@ class Export extends React.Component<Props, State> {
               options={siteOptions}
               onChange={this.changeSite}
               clearable={false}
-              />
+            />
           </div>
           <div className="field">
             <label className="label">Select Record</label>

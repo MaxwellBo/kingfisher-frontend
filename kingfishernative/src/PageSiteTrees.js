@@ -3,7 +3,6 @@ import { StyleSheet, View, ScrollView, Alert } from 'react-native';
 import { Container, Content, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import { styles } from "./Styles"
 import LinkButton from "./LinkButton"
-import SiteTreesItem from "./SiteTreesItem"
 import { fbi } from "./Global"
 import AccordionViewTree from "./AccordionViewTree"
 

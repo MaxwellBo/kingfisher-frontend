@@ -45,6 +45,10 @@ $tabs-link-hover-color: $primary;
   height: 64px;
 }
 
+.download-button {
+  margin-top: 2em;
+}
+
 .centered-container {
   display: flex;
   align-content: center;
@@ -62,6 +66,10 @@ $tabs-link-hover-color: $primary;
 
 .view {
   min-height: 1043px;
+}
+
+nav div a {
+  color: #4a4a4a !important;
 }
 
 @import "../node_modules/bulma/bulma";

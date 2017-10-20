@@ -74,10 +74,10 @@ class Export extends React.Component<Props, State> {
     this.state.sitesRef.child(this.state.site).child("measurements").child(this.state.record).once('value', (record) => {
       if (record) {
         let trees = record.val().trees;
-        let csv = 'key,height,species,dbhs\n'
+        let csv = 'key,species,height,dbhs\n'
         for (let key in trees) {
           if (trees.hasOwnProperty(key)) {
-            csv += key + ',' + trees[key].height + ',' + trees[key].species + ',' + trees[key].dbhs + '\n';
+            csv += key + ',' + trees[key].species + ',' + trees[key].height + ',' + trees[key].dbhs + '\n';
           }
         }
         var link = document.createElement('a');

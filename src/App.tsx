@@ -147,19 +147,16 @@ function Home() {
         </h1>
         <p>
           <ul>
-            <li><i className="fa fa-check" aria-hidden="true" />
+            <li>
               Automatically sync data with a centralised database of all tree measurements.
             </li>
-            <li><i className="fa fa-check" aria-hidden="true" />
+            <li>
               Visualise and compare data, online or offline.
             </li>
-            <li><i className="fa fa-check" aria-hidden="true" />
+            <li>
               Easy to use collection interface.
             </li>
-            <li><i className="fa fa-check" aria-hidden="true" />
-              Automatic geolocation when creating sites or tree measurements.
-            </li>
-            <li><i className="fa fa-check" aria-hidden="true" />
+            <li>
               Get notified when the data you've collected is statistically significant enough to stop.
             </li>
           </ul>

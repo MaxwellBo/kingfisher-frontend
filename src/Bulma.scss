@@ -68,4 +68,8 @@ $tabs-link-hover-color: $primary;
   min-height: 1043px;
 }
 
+nav div a {
+  color: #4a4a4a !important;
+}
+
 @import "../node_modules/bulma/bulma";

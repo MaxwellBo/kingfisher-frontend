@@ -132,8 +132,8 @@ class Export extends React.Component<Props, State> {
     return (
       <section className="section">
         <div className="container">
-          <h1 className="title">Export Data</h1>
-          <h2 className="subtitle">
+          <h1 className="title has-text-centered">Export Data</h1>
+          <h2 className="subtitle has-text-centered">
             Select a site record to download the data as a Comma Separated Value (CSV) file.
           </h2>
           <div className="field">

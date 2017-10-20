@@ -43,10 +43,12 @@ class Login extends React.Component<Props, State> {
       return (
         <section className="section">
           <div className="container">
-            <div className="centered-container">
+            <div className="centered-container centered">
               <p>
                 You're already logged in!
-                <Link to="/app/view"><button className="button">Go to app</button></Link>
+                <div className="download-button">
+                  <Link to="/app/view"><button className="button is-primary">Go to app</button></Link>
+                </div>
               </p>
             </div>
           </div>

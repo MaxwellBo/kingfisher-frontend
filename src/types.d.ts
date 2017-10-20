@@ -35,3 +35,29 @@ declare module "firebaseui" {
 // https://github.com/tomchentw/react-google-maps/issues/363
 declare module 'react-google-maps';
 declare module 'react-google-maps/lib/addons/MarkerClusterer';
+
+interface TreeData {
+  site: any;
+  time: any;
+  data: any;
+  siteAndTime: any;
+}
+
+interface AllData {
+  site: any;
+  latitude: any;
+  longitude: any;
+  time: any;
+  height: any;
+  species: any;
+  dbhs: any;
+  allDbhs: any;
+  siteAndTime: any;
+  treeId: any;
+}
+
+interface BoxData {
+  boxValues: any;
+  siteAndTime: any;
+  outliers: any;
+}

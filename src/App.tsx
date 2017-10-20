@@ -83,7 +83,7 @@ function Home() {
               </button>
             </Link>
             <div className="download-button">
-              <a href="app-release.apk" download>
+              <a href="app-release.apk" download={true}>
                 <button className="button is-primary is-medium center-login-button">
                   Download Android APK
                 </button>

@@ -51,7 +51,7 @@ export default class SitePickerComponent extends React.Component{
     for(let i=0; i<sites.length; i++) {
       let siteName = sites[i];
       let measurements = this.state.trees[siteName]['measurements'];
-      if(measurements === undefined) {
+      if(measurements === undefined || !(typeof(measurements) === 'object')) {
         continue;
       } else {
         let measurementKeys = Object.keys(measurements);
@@ -104,8 +104,15 @@ export default class SitePickerComponent extends React.Component{
     }
   )
 
+    Object.keys(this.state.trees)
+    if(!(this.state.trees) || !(typeof(this.state.trees) == 'object')) {
+      return (
+        <Text></Text>
+      )
+    }
+
     let sitesAndDates = this.getOtherSelectedSitesAndDates();
-    
+
     let unselectedLabels = sitesAndDates.map((sitesAndDates, index) =>
       <LabelSelect.ModalItem
         key={index}

@@ -45,7 +45,8 @@ export default class AccordionViewSite extends Component {
 
   render() {
     const { siteRecords } = this.state;
-    const siteRecordComponents = (siteRecords == null) ? <View/> : Object.keys(siteRecords).map(date => 
+    console.log(siteRecords)
+    const siteRecordComponents = (siteRecords && typeof(siteRecords) == 	"object") ? Object.keys(siteRecords).map(date =>
       <Link
         to={this.props.to + "/" + date}
         style={styles.siteButton}
@@ -58,7 +59,7 @@ export default class AccordionViewSite extends Component {
           }
         </Text>
       </Link>
-    );
+    ) : <View/>;
     const now = new Date();
     const nowString = now.getFullYear() + "-" + now.getMonth() + "-" + now.getDay() + "::" +
       now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();

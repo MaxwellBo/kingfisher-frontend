@@ -37,6 +37,7 @@ interface CardProps {
   imgAlt: string;
 }
 
+// Card is a tile which contains an image, a title and a brief description.
 function Card(cardProps: CardProps) {
   return (
     <div className="card centered">
@@ -61,6 +62,8 @@ function Card(cardProps: CardProps) {
   );
 }
 
+// Home is the main structure of the homepage of the web application.
+// Contains links to the actual application, as well as promotional material.
 function Home() {
   return (
     <div>
@@ -178,9 +181,13 @@ function Home() {
   );
 }
 
+// Props and state must be declared according to typescript
 interface Props { }
 interface State { }
 
+// The routing component, which decides which page to render.
+// Always renders a footer, and renders Tabs for all components on
+// path `/app`
 class App extends React.Component {
   render() {
     return (

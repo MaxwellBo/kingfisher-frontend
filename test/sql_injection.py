@@ -13,6 +13,8 @@ import getpass
 class WebTestCase(unittest.TestCase):
 
     domain = "http://localhost:3000/"
+    # username = <put your UQ thing here> REMOVE BEFORE PUSHING
+    # password = <put your UQ thing here> REMOVE BEFORE PUSHING
 
     def setUp(self):
         self.driver = webdriver.Chrome()

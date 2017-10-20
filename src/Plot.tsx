@@ -331,7 +331,7 @@ class Plot extends React.Component<Props, State> {
       let boxVals = data.boxValues;
       let siteAndTime = data.siteAndTime;
       boxVals.map((boxVal, index, array) => {
-        boxValues.push([siteAndTime, boxVal])
+        boxValues.push([siteAndTime, boxVal]);
       });
     });
 
@@ -346,7 +346,8 @@ class Plot extends React.Component<Props, State> {
 
     let outlierXMap = (dataPoint) => xScale(dataPoint[0]);
     let outlierYMap = (dataPoint) => yScale(dataPoint[1]);
-    let xMapJitter = (dataPoint) => xScale(dataPoint[0]) + (Math.random() > 0.5 ? Math.random() * -jitter : Math.random() * jitter);
+    let xMapJitter = (dataPoint) =>
+      xScale(dataPoint[0]) + (Math.random() > 0.5 ? Math.random() * -jitter : Math.random() * jitter);
 
     boxVals.append('circle')
       .attr('r', 3)
@@ -424,7 +425,7 @@ class Plot extends React.Component<Props, State> {
         return xScale(d.siteAndTime);
       })
       .y(function (d) {
-        return yScale(d.mean  + d.std, d.std);
+        return yScale(d.mean + d.std, d.std);
       })
       .y0(function (d) {
         return yScale(d.mean - d.std);

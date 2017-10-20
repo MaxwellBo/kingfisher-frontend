@@ -82,6 +82,13 @@ function Home() {
                 Login
               </button>
             </Link>
+            <div className="download-button">
+              <a href="app-release.apk" download>
+                <button className="button is-primary is-medium center-login-button">
+                  Download Android APK
+                </button>
+              </a>
+            </div>
           </div>
         </div>
 

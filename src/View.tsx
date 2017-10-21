@@ -16,6 +16,7 @@ interface State {
   sites: {};
   mounted: boolean;
   selected: string;
+  heightSelected: boolean;
 }
 
 // The main component for the View page. Allows users to visualise data
@@ -28,7 +29,8 @@ class VisMenu extends React.Component<Props, State> {
       data: {},
       sites: {},
       mounted: false,
-      selected: ''
+      selected: '',
+      heightSelected: true
     };
   }
 
@@ -122,12 +124,23 @@ class VisMenu extends React.Component<Props, State> {
                 onChange={(val) => this.setState({ selected: val.value })}
                 clearable={false}
               />
+              <Select
+                name="select-dbhs-or-height"
+                value={this.state.heightSelected ? "height" : "dbhs"}
+                options={[{value:'dbhs', label:'dbhs'}, {value:'height', label:'height'}]}
+                onChange={(val) => {
+                  console.log(val);
+                  val.value === 'height' ? this.setState({ heightSelected: true }) : this.setState({heightSelected:false});
+                }}
+                clearable={false}
+              />
             </div>
             <Plot
               data={data}
               selected={selected}
               width={700}
               height={700}
+              heightSelected={this.state.heightSelected}
             />
           </section>
         </section>

@@ -43,6 +43,10 @@ export default class SitePickerComponent extends React.Component{
       });
   }
 
+  componentWillUnmount() {
+    this.state.treesRef.off();
+  }
+
   getOtherSelectedSitesAndDates() {
     let sites = Object.keys(this.state.trees);
     let sitesAndDates = [];

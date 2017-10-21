@@ -5,6 +5,8 @@ interface Props { }
 
 interface State { activeTab: string; }
 
+// The navigational component for the web application. Allows users
+// to change the feature they are currently using via react router.
 export default class Tabs extends React.PureComponent<Props, State> {
   static contextTypes = {
     router: React.PropTypes.object,

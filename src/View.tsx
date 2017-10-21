@@ -1,7 +1,6 @@
 ///<reference path="../node_modules/@types/react/index.d.ts"/>
 import * as React from 'react';
 import * as firebase from 'firebase';
-import ViewSiteCard from './ViewSiteCard';
 import { withFauxDOM, ReactFauxDOM } from 'react-faux-dom';
 import { isNumber } from 'util';
 import * as d3 from 'd3';
@@ -19,6 +18,8 @@ interface State {
   selected: string;
 }
 
+// The main component for the View page. Allows users to visualise data
+// for sites.
 class VisMenu extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -32,21 +33,6 @@ class VisMenu extends React.Component<Props, State> {
   }
 
   // add your listeners into here
-  // use this function to set states once the
-  componentWillMount() {
-    // Pulls JSON from the firebase
-    this.state.sitesRef.on('value', (snap) => {
-      if (snap) {
-        this.setState({
-          data: snap.val(),
-        });
-        this.setState({ mounted: true });
-      }
-    });
-  }
-
-  // add your listeners into here
-  // use this function to set states once the
   componentDidMount() {
     // Pulls JSON from the firebase
     this.state.sitesRef.on('value', (snap) => {

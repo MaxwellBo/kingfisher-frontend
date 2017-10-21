@@ -5,9 +5,11 @@ import * as firebaseui from 'firebaseui';
 import { Link } from 'react-router-dom';
 import 'firebaseui/dist/firebaseui.css';
 
+// Must declare state and props even if they are empty
 interface State { }
 interface Props { }
 
+// Get the authUI from firebase
 const authUi = new firebaseui.auth.AuthUI(firebase.auth());
 firebase.auth().onAuthStateChanged(authStateChangedCallback);
 
@@ -17,6 +19,7 @@ function authStateChangedCallback(u: firebase.User) {
   user = u;
 }
 
+// The login page component.
 class Login extends React.Component<Props, State> {
   componentWillUnmount() {
     authUi.reset();

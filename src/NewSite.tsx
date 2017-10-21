@@ -10,6 +10,8 @@ interface State {
   sitesRef: firebase.database.Reference;
 }
 
+// The main component for the NewSite page. Allows users to add a new
+// site to the firebase database from the web app.
 export default class NewSite extends React.Component<Props, State> {
   constructor() {
     super();
@@ -23,10 +25,12 @@ export default class NewSite extends React.Component<Props, State> {
     };
   }
 
+  // Sets the corresponding value in this.state to be a certain value
   handleChange = (event) => {
     this.setState({[event.target.name]: event.target.value});
   }
 
+  // Creates the new site on the firebase ref.
   pushNewSite = () => {
     let ref = this.state.sitesRef.child(this.state.code);
     ref.set({
@@ -34,7 +38,7 @@ export default class NewSite extends React.Component<Props, State> {
       longitude: this.state.longitude,
       measurements: '',
     });
-    window.location.reload(); // TODO: Change this to a redirect (to the site's vis page?)
+    window.location.reload();
   }
 
   render() {

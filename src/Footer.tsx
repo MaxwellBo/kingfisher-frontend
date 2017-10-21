@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+// A simple footer component to appear at the bottom of every page.
 export default class Footer extends React.Component {
   render() {
     return (

@@ -45,12 +45,13 @@ class Export extends React.Component<Props, State> {
     this.state.sitesRef.off();
   }
 
-  
+  // Change the site the dropdown has selected.
   changeSite = (val) => {
     this.setState({
       site: val.value,
     });
 
+    // Grab the value from the sites ref as a snapshot of the database.
     firebase.database().ref('sites').child(val.value).child('measurements').once('value', (records) => {
       if (records) {
         this.setState({ records: records.val() });
@@ -58,10 +59,12 @@ class Export extends React.Component<Props, State> {
     });
   }
 
+  // Change the record the dropdown has selected.
   changeRecord = (val) => {
     this.setState({ record: val.value });
   }
 
+  // Convert the json data to csv and download it.
   exportSite = () => {
     this.state.sitesRef
       .child(this.state.site)
@@ -93,16 +96,20 @@ class Export extends React.Component<Props, State> {
       });
   }
 
+  // Render Export component
   render() {
-    // options should be a list of all the site keys
+    // siteoptions should be a list of all the site keys
     const siteOptions = (this.state.sites == null) ? [] : Object.keys(this.state.sites).map(key => { 
       return { value: key, label: key }; 
     });
 
+    // recordOptions is a list of all record times for the selected site.
     const recordOptions = (this.state.records == null) ? [] : Object.keys(this.state.records).map(key => { 
       return { value: key, label: key };
     });
 
+    // Makes the selector for records disabled if no site is chosen, or a site
+    // with no records is chosen.
     const recordSelect = (recordOptions.length === 0 ?
       (
         <Select

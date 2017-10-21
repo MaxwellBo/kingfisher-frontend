@@ -50,14 +50,14 @@ export default class PageVizTree extends React.Component {
         .child("measurements")
         .child(this.state.currentSelectedSites[i][1])
         .child('trees')
-        .on('value', (trees) => {
+        .once('value', (trees) => {
           if (trees) {
             this.setState({ trees: trees.val() });
           }
         });
     }
 
-    siteRef.on('value', (trees) => {
+    siteRef.once('value', (trees) => {
       if(trees) {
         this.setState({ allData:trees.val() })
       }

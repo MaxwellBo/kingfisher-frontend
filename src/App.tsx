@@ -195,9 +195,6 @@ class App extends React.Component {
         <Route exact={true} path="/app/view" component={View} />
         <Route exact={true} path="/app/newsite" component={NewSite} />
         <Route exact={true} path="/login" component={Login} />
-        <Route exact={true} path="/tos" component={TOS} />
-        <Route exact={true} path="/stats" component={Stats} />
-        <Route exact={true} path="/purchase" component={PurchaseForm} />
         <Footer/>
       </div>
     );

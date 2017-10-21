@@ -36,7 +36,6 @@
     "summary-statistics": "^1.0.0"
   },
   "devDependencies": {
-    "chromedriver": "^2.33.1"
   },
   "scripts": {
     "start": "npm-run-all -p watch-css start-js",

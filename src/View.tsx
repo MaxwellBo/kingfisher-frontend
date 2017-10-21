@@ -1,15 +1,14 @@
 ///<reference path="../node_modules/@types/react/index.d.ts"/>
 import * as React from 'react';
 import * as firebase from 'firebase';
-import ViewSiteCard from './ViewSiteCard';
-import {withFauxDOM, ReactFauxDOM} from 'react-faux-dom';
-import {isNumber} from "util";
-import * as d3 from 'd3'
-import Plot from "./Plot";
+import { withFauxDOM, ReactFauxDOM } from 'react-faux-dom';
+import { isNumber } from 'util';
+import * as d3 from 'd3';
+import Plot from './Plot';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 
-interface Props {}
+interface Props { }
 
 interface State {
   sitesRef: firebase.database.Reference;
@@ -19,6 +18,8 @@ interface State {
   selected: string;
 }
 
+// The main component for the View page. Allows users to visualise data
+// for sites.
 class VisMenu extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -27,42 +28,27 @@ class VisMenu extends React.Component<Props, State> {
       data: {},
       sites: {},
       mounted: false,
-      selected:""
+      selected: ''
     };
   }
 
   // add your listeners into here
-  // use this function to set states once the
-  componentWillMount() {
+  componentDidMount() {
     // Pulls JSON from the firebase
     this.state.sitesRef.on('value', (snap) => {
       if (snap) {
         this.setState({
           data: snap.val(),
+          sites: Array(Object.keys(snap.val()).length),
+          mounted: true,
         });
-        this.setState({mounted: true});
-      }
-    });
-  }
-
-  // add your listeners into here
-  // use this function to set states once the
-  componentDidMount() {
-    // Pulls JSON from the firebase
-    this.state.sitesRef.on('value', (snap) => {
-      if (snap) {
-          this.setState({
-            data: snap.val(),
-            sites: Array(Object.keys(snap.val()).length),
-            mounted: true,
-          });
-          this.setState({mounted: true});
+        this.setState({ mounted: true });
       }
     });
   }
 
   componentWillUnmount() {
-      this.state.sitesRef.off();
+    this.state.sitesRef.off();
   }
 
   /**
@@ -101,13 +87,13 @@ class VisMenu extends React.Component<Props, State> {
       // TODO Clean this up
       avgHeight = Math.round((sumHeight / treeCount) / 10);
       if (dateCount === 0) {
-        returnString = returnString.concat((avgHeight*10).toString() + '{');
+        returnString = returnString.concat((avgHeight * 10).toString() + '{');
       }
       returnString = returnString.concat(avgHeight.toString() + ',');
       dateCount++;
     }
     returnString = returnString.substring(0, returnString.length - 1)
-      + '}' + (avgHeight*10).toString();
+      + '}' + (avgHeight * 10).toString();
 
     return returnString;
   }
@@ -115,9 +101,11 @@ class VisMenu extends React.Component<Props, State> {
   render() {
     if (this.state.mounted) {
       let siteNames = Object.keys(this.state.data);
-      let options = siteNames.map((data) => {return ({value: data, label: data})})
+      let options = siteNames.map((d) => { 
+        return  { value: d, label: d }; 
+      });
 
-      let selected=this.state.selected;
+      let selected = this.state.selected;
       let data = this.state.data;
 
       return (
@@ -126,12 +114,12 @@ class VisMenu extends React.Component<Props, State> {
             <h1 className="title">View Data</h1>
           </div>
           <section className="section">
-            <div style={{width: "30%", margin: "0 auto"}}>
+            <div style={{ width: '30%', margin: '0 auto' }}>
               <Select
                 name="form-field-name"
                 value={this.state.selected}
                 options={options}
-                onChange={(val) => this.setState({selected: val['value']})}
+                onChange={(val) => this.setState({ selected: val.value })}
                 clearable={false}
               />
             </div>
@@ -145,7 +133,7 @@ class VisMenu extends React.Component<Props, State> {
         </section>
       );
     } else {
-      
+
       return (
         <section className="section has-text-centered view">
           <div className="container">

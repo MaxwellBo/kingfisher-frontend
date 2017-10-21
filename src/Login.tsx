@@ -5,9 +5,11 @@ import * as firebaseui from 'firebaseui';
 import { Link } from 'react-router-dom';
 import 'firebaseui/dist/firebaseui.css';
 
+// Must declare state and props even if they are empty
 interface State { }
 interface Props { }
 
+// Get the authUI from firebase
 const authUi = new firebaseui.auth.AuthUI(firebase.auth());
 firebase.auth().onAuthStateChanged(authStateChangedCallback);
 
@@ -17,6 +19,7 @@ function authStateChangedCallback(u: firebase.User) {
   user = u;
 }
 
+// The login page component.
 class Login extends React.Component<Props, State> {
   componentWillUnmount() {
     authUi.reset();
@@ -43,10 +46,12 @@ class Login extends React.Component<Props, State> {
       return (
         <section className="section">
           <div className="container">
-            <div className="centered-container">
+            <div className="centered-container centered">
               <p>
                 You're already logged in!
-                <Link to="/app/view"><p>Go to app</p></Link>
+                <div className="download-button">
+                  <Link to="/app/view"><button className="button is-primary">Go to app</button></Link>
+                </div>
               </p>
             </div>
           </div>

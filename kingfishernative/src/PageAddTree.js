@@ -27,7 +27,7 @@ export default class PageAddTree extends React.Component {
       dbhs: [],
       speciesValid: -1,
       heightValid: -1,
-      dbhsValid:[],
+      dbhsValid: [],
       existingTreeName: null
     }
 
@@ -49,7 +49,7 @@ export default class PageAddTree extends React.Component {
           dbhs: fbTree.dbhs,
           speciesValid: 1, // existing data should already be valid
           heightValid: 1,
-          dbhsValid: fbTree.dbhs.map((x) => {return 1}),
+          dbhsValid: fbTree.dbhs.map((x) => { return 1 }),
           existingTreeName: treeName,
         });
       })
@@ -71,7 +71,7 @@ export default class PageAddTree extends React.Component {
     ref.set({
       species: this.state.species,
       height: this.state.height,
-      dbhs : this.state.dbhs
+      dbhs: this.state.dbhs
     });
 
     ref.keepSynced(true);
@@ -92,13 +92,13 @@ export default class PageAddTree extends React.Component {
   }
 
   changeSpecies = (value) => {
-    this.setState({species: value, speciesValid: 1});
+    this.setState({ species: value, speciesValid: 1 });
   }
 
   DBHChangeText(dbhIndex, value) {
     newDbhs = this.state.dbhs;
     newDbhsIndex = this.state.dbhsValid;
-    if (dbhIndex == newDbhs.length - 1 && value == "") { 
+    if (dbhIndex == newDbhs.length - 1 && value == "") {
       // If it is the last DBH and it's been deleted
       newDbhs.pop(dbhIndex); // Remove it from the list
       newDbhsIndex.pop(dbhIndex);
@@ -107,7 +107,7 @@ export default class PageAddTree extends React.Component {
     } else if (dbhIndex <= newDbhs.length) { // Otherwise, as long as its a valid index
       newDbhs[dbhIndex] = value; // TODO: Validate inputs
     }
-    this.setState({dbhs: newDbhs});
+    this.setState({ dbhs: newDbhs });
   }
 
   validInput(fieldName) {
@@ -121,33 +121,33 @@ export default class PageAddTree extends React.Component {
   }
 
   checkDbhs() {
-    for(let i=0; i<this.state.dbhs.length; i++) {
-      if(this.state.dbhs[i] <= 0 || isNaN(Number(this.state.dbhs[i]))) {
+    for (let i = 0; i < this.state.dbhs.length; i++) {
+      if (this.state.dbhs[i] <= 0 || isNaN(Number(this.state.dbhs[i]))) {
         newDbhs = this.state.dbhsValid;
         newDbhs[i] = 0;
-        this.setState({dbhsValid: newDbhs});
+        this.setState({ dbhsValid: newDbhs });
       } else {
         newDbhs = this.state.dbhsValid;
         newDbhs[i] = 1;
-        this.setState({dbhsValid: newDbhs});
+        this.setState({ dbhsValid: newDbhs });
       }
     }
   }
 
   checkSpecies() {
-    if(this.state.species === "") {
-      this.setState({speciesValid: 0});
+    if (this.state.species === "") {
+      this.setState({ speciesValid: 0 });
     } else {
-      this.setState({speciesValid: 1});
+      this.setState({ speciesValid: 1 });
     }
   }
 
   checkHeight() {
-    if(this.state.height < HEIGHT_MIN || isNaN(Number(this.state.height))) {
-      this.setState({heightValid: 0});
+    if (this.state.height < HEIGHT_MIN || isNaN(Number(this.state.height))) {
+      this.setState({ heightValid: 0 });
     } else {
-      this.setState({heightValid: 1});
-      if(this.state.height > HEIGHT_MAX) {
+      this.setState({ heightValid: 1 });
+      if (this.state.height > HEIGHT_MAX) {
         // Warn user if height is above 30m
         this.heightWarningAlert()
       }
@@ -181,17 +181,17 @@ export default class PageAddTree extends React.Component {
     // FIXME: Use for .. in rather than indexed iterations
     for (let i = 0; i <= this.state.dbhs.length; i++) {
       dbhList.push(
-        <Field 
-          label={"DBH " + (i+1)} 
-          key={"DBH " + i} 
+        <Field
+          label={"DBH " + (i + 1)}
+          key={"DBH " + i}
           keyboardType="decimal-pad"
-          defaultValue={i < this.state.dbhs.length ? "" + this.state.dbhs[i] : ""}
           onChangeText={(value) => this.DBHChangeText(i, value)}
-               inputStyles={(i == this.state.dbhs.length) && {backgroundColor: '#898689'}
-               || (this.state.dbhsValid[i] == 0) && {backgroundColor: '#DD4649'}
-               || (this.state.dbhsValid[i] == 1) && {backgroundColor: '#96DD90'}
-               || (this.state.dbhsValid[i] == -1) && {backgroundColor: '#898689'}}
-               onEndEditing={(text) => this.validInput(i, text)}/>
+          inputStyles={(i == this.state.dbhs.length) && { backgroundColor: '#898689' }
+            || (this.state.dbhsValid[i] == 0) && { backgroundColor: '#DD4649' }
+            || (this.state.dbhsValid[i] == 1) && { backgroundColor: '#96DD90' }
+            || (this.state.dbhsValid[i] == -1) && { backgroundColor: '#898689' }}
+          value={this.state.dbhs[i]}
+          onEndEditing={(text) => this.validInput(i, text)} />
       )
     }
     return (
@@ -204,34 +204,36 @@ export default class PageAddTree extends React.Component {
           <Form>
             <Picker
               style={(this.state.speciesValid === -1) && styles.fieldInputDropdown
-              || (this.state.speciesValid === 1) && styles.fieldInputDropdownOk
-              || (this.state.speciesValid === 0) && styles.fieldInputDropdownBad}
+                || (this.state.speciesValid === 1) && styles.fieldInputDropdownOk
+                || (this.state.speciesValid === 0) && styles.fieldInputDropdownBad}
               iosHeader="Select species"
               mode="dropdown"
               selectedValue={this.state.species}
               onValueChange={this.changeSpecies}
             >
-              <Item label="Avicennia marina" value="Avicennia marina"/>
-              <Item label="Bruguiera gymnorhiza" value="Bruguiera gymnorhiza"/>
-              <Item label="Ceriops australis" value="Ceriops australis"/>
-              <Item label="Excoecaria agallocha" value="Excoecaria agallocha"/>
-              <Item label="Rhizophora stylosa" value="Rhizophora stylosa"/>
-              <Item label="Sarcocornia quinqueflora" value="Sarcocornia quinqueflora"/>
-              <Item label="Sporobolus virginicus" value="Sporobolus virginicus"/>
-              <Item label="Suaeda arbusculoides" value="Suaeda arbusculoides"/>
-              <Item label="Suaeda australis" value="Suaeda australis"/>
+              <Item label="Avicennia marina" value="Avicennia marina" />
+              <Item label="Bruguiera gymnorhiza" value="Bruguiera gymnorhiza" />
+              <Item label="Ceriops australis" value="Ceriops australis" />
+              <Item label="Excoecaria agallocha" value="Excoecaria agallocha" />
+              <Item label="Rhizophora stylosa" value="Rhizophora stylosa" />
+              <Item label="Sarcocornia quinqueflora" value="Sarcocornia quinqueflora" />
+              <Item label="Sporobolus virginicus" value="Sporobolus virginicus" />
+              <Item label="Suaeda arbusculoides" value="Suaeda arbusculoides" />
+              <Item label="Suaeda australis" value="Suaeda australis" />
             </Picker>
           </Form>
-          <Field 
-            label="Tree Height (cm)" 
+          <Field
+            label="Tree Height (cm)"
             defaultValue={"" + this.state.height}
             keyboardType="decimal-pad"
             placeholder={HEIGHT_MIN.toString()}
             onChangeText={(value) => this.changeSpec("height", value)}
-                  inputStyles={(this.state.heightValid === 0) && {backgroundColor: '#DD4649'}
-                  || (this.state.heightValid === 1) && {backgroundColor: '#96DD90'}
-                  || (this.state.heightValid === -1) && {backgroundColor: '#898689'}}
-                  onEndEditing={(text) => this.validInput("height", text)}/>
+            inputStyles={(this.state.heightValid === 0) && { backgroundColor: '#DD4649' }
+              || (this.state.heightValid === 1) && { backgroundColor: '#96DD90' }
+              || (this.state.heightValid === -1) && { backgroundColor: '#898689' }}
+            onEndEditing={(text) => this.validInput("height", text)}
+            value={this.state.height}
+          />
         </View>
         <View style={styles.dbhCont}>
           <Text style={styles.h2}>
@@ -239,29 +241,29 @@ export default class PageAddTree extends React.Component {
           </Text>
           {dbhList}
         </View>
-        <SpecialButton 
+        <SpecialButton
           extraStyles={[styles.indexButton]}
           buttonText="Add"
           onClick={() => {
-              this.checkSpecies();
-              this.checkHeight();
-              this.checkDbhs();
-              if(this.state.speciesValid === 1 && 
-                  this.state.heightValid === 1 && 
-                  this.state.dbhs.length > 0) {
-                for(let i = 0; i < this.state.dbhsValid.length; i++) {
-                  if(this.state.dbhsValid[i] !== 1) {
-                    this.invalidFormAlert();
-                    return false;
-                  }
+            this.checkSpecies();
+            this.checkHeight();
+            this.checkDbhs();
+            if (this.state.speciesValid === 1 &&
+              this.state.heightValid === 1 &&
+              this.state.dbhs.length > 0) {
+              for (let i = 0; i < this.state.dbhsValid.length; i++) {
+                if (this.state.dbhsValid[i] !== 1) {
+                  this.invalidFormAlert();
+                  return false;
                 }
-                this.push();
-                this.props.history.goBack();
-              } else {
-                this.invalidFormAlert();
-                return false;
               }
+              this.push();
+              this.props.history.goBack();
+            } else {
+              this.invalidFormAlert();
+              return false;
             }
+          }
           }
         />
       </Content>

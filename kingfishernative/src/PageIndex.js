@@ -31,6 +31,12 @@ export default class PageIndex extends React.Component {
   }
 
   validate = () => {
+    if (this.state.username == "" || this.state.password == "") {
+      Alert.alert(
+        "Username or password was incorrect. Ensure you are connected to the internet and try again."
+      )
+      return;
+    }
     fbi.auth().signInWithEmailAndPassword(this.state.username, this.state.password)
     .then((user) => {
       console.log('User successfully logged in', user)

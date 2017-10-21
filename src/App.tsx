@@ -22,9 +22,6 @@ firebase.initializeApp(firebaseConfig);
 import Export from './Export';
 import NewSite from './NewSite';
 import Login from './Login';
-import TOS from './TOS';
-import Stats from './Stats';
-import PurchaseForm from './PurchaseForm';
 import Footer from './Footer';
 import Tabs from './Tabs';
 import View from './View';
@@ -37,6 +34,7 @@ interface CardProps {
   imgAlt: string;
 }
 
+// Card is a tile which contains an image, a title and a brief description.
 function Card(cardProps: CardProps) {
   return (
     <div className="card centered">
@@ -61,6 +59,8 @@ function Card(cardProps: CardProps) {
   );
 }
 
+// Home is the main structure of the homepage of the web application.
+// Contains links to the actual application, as well as promotional material.
 function Home() {
   return (
     <div>
@@ -83,7 +83,7 @@ function Home() {
               </button>
             </Link>
             <div className="download-button">
-              <a href="app-release.apk" download>
+              <a href="app-release.apk" download={true}>
                 <button className="button is-primary is-medium center-login-button">
                   Download Android APK
                 </button>
@@ -178,9 +178,13 @@ function Home() {
   );
 }
 
+// Props and state must be declared according to typescript
 interface Props { }
 interface State { }
 
+// The routing component, which decides which page to render.
+// Always renders a footer, and renders Tabs for all components on
+// path `/app`
 class App extends React.Component {
   render() {
     return (
@@ -191,9 +195,6 @@ class App extends React.Component {
         <Route exact={true} path="/app/view" component={View} />
         <Route exact={true} path="/app/newsite" component={NewSite} />
         <Route exact={true} path="/login" component={Login} />
-        <Route exact={true} path="/tos" component={TOS} />
-        <Route exact={true} path="/stats" component={Stats} />
-        <Route exact={true} path="/purchase" component={PurchaseForm} />
         <Footer/>
       </div>
     );

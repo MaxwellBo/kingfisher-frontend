@@ -5,6 +5,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 
+// The function which renders the entire web app.
 ReactDOM.render(
   <BrowserRouter>
     <App />

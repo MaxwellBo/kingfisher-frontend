@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+// The navbar for the initial homepage. The "navbar" for the actual web app
+// Tabs.tsx
 export default class Nav extends React.PureComponent {
   render() {
     return (
@@ -19,15 +21,6 @@ export default class Nav extends React.PureComponent {
               <i className="fa fa-instagram" aria-hidden="true"/>
             </a>
 
-            <a href="/purchase" className="navbar-item">
-              Purchase
-            </a>
-            <a 
-              href="https://api.uqcloud.net/login/http://deco3801-jquery-only.uqcloud.net/stats" 
-              className="navbar-item"
-            >
-              Statistics
-            </a>
           </div>
         </nav>
       </div>

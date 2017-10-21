@@ -18,10 +18,8 @@ class AddSite extends React.Component {
     }
   }
 
-  changeNewSiteCode = (spec, code) => {
-    obj = {}
-    obj[spec] = code
-    this.setState(obj);
+  changeNewSiteCode = (code) => {
+    this.setState({newSiteCode: code});
   }
   
   addNewSite = () => {
@@ -41,7 +39,8 @@ class AddSite extends React.Component {
         <View style={styles.siteAddCont}>
           <Field
             extraStyles={styles.siteAddField}
-            onChangeText={(text) => this.changeNewSiteCode("newSiteCode", text)}
+            onChangeText={(text) => this.changeNewSiteCode(text)}
+            value={this.state.newSiteCode}
             />
           <TouchableHighlight
             onPress={() => {

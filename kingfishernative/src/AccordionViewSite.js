@@ -54,7 +54,6 @@ export default class AccordionViewSite extends Component {
 
   render() {
     const { siteRecords } = this.state;
-    console.log(siteRecords)
     // After firebase watch has turned on, but before the data is retrieved, there is a brief moment
     // when the state attribute it changes is null. This ternary operator is to ensure a null
     // object is not handled (if it's null just return an empty <View/>)
@@ -79,7 +78,7 @@ export default class AccordionViewSite extends Component {
     return (
       <View>
         <TouchableHighlight style={styles.treeEntry} onPress={this._toggleExpanded}>
-          <View style={styles.treeName}>
+          <View style={styles.treeName} accessibilityLabel={this.props.siteCode}>
             <Text style={styles.siteTreeText}>Site {this.props.siteCode}</Text>
             <Image style={styles.dropdownArrow} source={
               // Depending on if it's collapsed or not, render a different
@@ -91,7 +90,7 @@ export default class AccordionViewSite extends Component {
           </View>
         </TouchableHighlight>
         <Collapsible collapsed={this.state.collapsed} align="center">
-          <View style={styles.treeDropdown}>
+          <View style={styles.treeDropdown} accessibilityLabel={this.props.siteCode + "view"}>
             { // The list of site records taken at this particular site.
               siteRecordComponents}
             <LinkButton to={this.props.to + "/" + nowString} buttonText="Add New Site Record" />

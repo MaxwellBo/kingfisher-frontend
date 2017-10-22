@@ -7,17 +7,17 @@ const {width, height, scale} = window;
 PLOT_COLORS = {};
 // The list of valid plot colours
 PLOT_COLORS.names = {
-  green: "#008000",
+  green: "#04dcff",
   gold: "#ffd700",
-  fuchsia: "#ff00ff",
-  indigo: "#4b0082",
+  fuchsia: "#ff00bd",
+  indigo: "#91a3ff",
   lime: "#00ff00",
   magenta: "#ff00ff",
   olive: "#808000",
   orange: "#ffa500",
-  purple: "#800080",
-  violet: "#800080",
-  red: "#ff0000",
+  purple: "#5dff7c",
+  violet: "#e5804a",
+  red: "#835cff",
   yellow: "#ffff00"
 };
 

@@ -25,6 +25,15 @@ export default class NewSite extends React.Component<Props, State> {
     };
   }
 
+  componentDidMount() {
+    // Pulls JSON from the firebase
+    this.state.sitesRef.on('value', (snap) => {
+      if(snap) {
+        this.setState({sites : snap.val()})
+      }
+    });
+  }
+
   // Sets the corresponding value in this.state to be a certain value
   handleChange = (event) => {
     this.setState({[event.target.name]: event.target.value});
@@ -32,6 +41,22 @@ export default class NewSite extends React.Component<Props, State> {
 
   // Creates the new site on the firebase ref.
   pushNewSite = () => {
+
+    let siteNames = Object.keys(this.state.sites);
+    for(let i=0; i<siteNames.length; i++) {
+      if(this.state.code === siteNames[i]) {
+        window.alert("All the fields must be filled and site names must be unique");
+        return;
+      }
+    }
+
+    console.log(this.state);
+    if(this.state.longitude === "" || this.state.latitude === "" || this.state.code === "") {
+      window.alert("All the fields must be filled and site names must be unique");
+      return;
+    }
+
+
     let ref = this.state.sitesRef.child(this.state.code);
     ref.set({
       latitude: this.state.latitude, 
@@ -58,13 +83,13 @@ export default class NewSite extends React.Component<Props, State> {
             <div className="field">
               <label className="label">Latitude</label>
               <div className="control">
-                <input className="input" type="text" name="latitude" onChange={this.handleChange}/>
+                <input className="input" type="number" name="latitude" onChange={this.handleChange}/>
               </div>
             </div>
             <div className="field">
               <label className="label">Longitude</label>
               <div className="control">
-                <input className="input" type="text" name="longitude" onChange={this.handleChange} />
+                <input className="input" type="number" name="longitude" onChange={this.handleChange} />
               </div>
             </div>
             <div className="field">

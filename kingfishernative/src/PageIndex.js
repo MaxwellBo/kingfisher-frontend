@@ -42,7 +42,6 @@ export default class PageIndex extends React.Component {
     }
     fbi.auth().signInWithEmailAndPassword(this.state.username, this.state.password)
     .then((user) => {
-      console.log('User successfully logged in', user)
       this.props.history.push("/sites");
     })
     .catch((err) => {

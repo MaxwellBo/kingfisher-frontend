@@ -31,7 +31,8 @@ function Site(props) {
       to={"/sites/" + code} 
       siteCode={code}
       buttonText={"Site " + code} 
-      key={code} 
+      key={code}
+      accessibilityLabel={code}
     />
   );
 }
@@ -50,7 +51,7 @@ function Sites(props) {
 
   // Construct a button for every single site on record
   const sitesComponents = (sites == null) ? <View/> : Object.keys(sites).map(key =>
-    <Site code={key} key={key} /> //TODO: make site background different if empty i.e no key
+    <Site code={key} key={key} accessibilityLabel={key} /> //TODO: make site background different if empty i.e no key
   );
 
   return (
@@ -58,7 +59,7 @@ function Sites(props) {
       <View>
         <Text style={styles.pageHeadTitle} accessibilityLabel={ 'Page Sites Heading' }>Sites</Text>
         <Text style={styles.pageHeadDesc}>Click to view past records, or add a new record.</Text>
-        <LinkButton to={"/sites/settings"} buttonText="Add New Site" />
+        <LinkButton to={"/sites/settings"} buttonText="Add New Site" accessibilityLabel={ 'add new site button' } />
       </View>
       <View style={styles.sites}>
         { // The list of site buttons

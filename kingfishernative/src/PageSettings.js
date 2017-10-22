@@ -43,9 +43,13 @@ class AddSite extends React.Component {
     let keys = this.state.takenSites == null ? [] : Object.keys(this.state.takenSites).map(key => key);
     for(let i=0; i<keys.length; i++) {
       if(keys[i] === this.state.newSiteCode) {
+        console.log("Match!")
         return;
       }
     }
+
+    console.log(keys);
+    console.log(this.state);
 
     if (this.state.newSiteCode !== "") {
       const ref = fbi.database().ref("sites").child(this.state.newSiteCode);
@@ -69,6 +73,7 @@ class AddSite extends React.Component {
             extraStyles={styles.siteAddField}
             onChangeText={(text) => this.changeNewSiteCode(text)}
             value={this.state.newSiteCode}
+            accessibilityLabel="Site Name"
             />
           <TouchableHighlight
             // This is the submit button for the new site.

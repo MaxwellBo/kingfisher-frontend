@@ -34,7 +34,7 @@ export default class LinkButton extends React.Component {
     }
 
     return (
-      <Button onPress={this.handleOnClick} style={[styles.button].concat(this.props.extraStyles)} light full>
+      <Button onPress={this.handleOnClick} style={[styles.button].concat(this.props.extraStyles)} light full {...this.props}>
         <Text style={[styles.centeredText, styles.buttonText]}>{this.props.buttonText}</Text>
       </Button>
     );

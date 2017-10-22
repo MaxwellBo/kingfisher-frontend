@@ -23,9 +23,25 @@ class AddSite extends React.Component {
   changeNewSiteCode = (code) => {
     this.setState({newSiteCode: code});
   }
+
+  componentDidMount() {
+    fbi.database().ref("sites").on("value", function(val) {
+      if(val) {
+        this.setState({takenSites: Object.keys(val.val())});
+      }
+    });
+  }
   
   // Pushes an empty new site to the firebase database.
   addNewSite = () => {
+
+    let keys = this.state.takenSites;
+    for(let i=0; i<keys.length; i++) {
+      if(keys[i] === this.state.newSiteCode) {
+        return;
+      }
+    }
+
     if (this.state.newSiteCode !== "") {
       const ref = fbi.database().ref("sites").child(this.state.newSiteCode);
 

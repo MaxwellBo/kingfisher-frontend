@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { withFauxDOM, ReactFauxDOM } from 'react-faux-dom';
 import * as d3 from 'd3';
-import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 
 interface Props {
@@ -9,15 +8,18 @@ interface Props {
   selected: string;
   height: number;
   width: number;
+  heightSelected: boolean;
 }
 
 interface State {
   data: Object;
   selected: string;
+  heightSelected: boolean;
 }
 
 class DataGenerator {
   allData: Object;
+  maxVal: number;
 
   constructor(allData: Object) {
     this.allData = allData;
@@ -157,17 +159,39 @@ class DataGenerator {
     return Math.sqrt(this.variance(values));
   }
 
-  getBoxPlotInfoForArray(key: string, data: Array<any>) {
-    // Remove duplicate treeIds TODO just for height
+  getBoxPlotInfoForArray(key: string, data: Array<any>, heightSelected:boolean) {
     let seenKeys: Object = {};
     let uniqueValues: Array<number> = [];
-    for (let i = 0; i < data.length; i++) {
-      if (seenKeys[data[i].treeId]) {
-        continue;
+    if (heightSelected) {
+      for (let i = 0; i < data.length; i++) {
+        if (seenKeys[data[i].treeId]) {
+          continue;
+        }
+        seenKeys[data[i].treeId] = 1;
+        uniqueValues.push(data[i].height);
       }
-      seenKeys[data[i].treeId] = 1;
-      uniqueValues.push(data[i].height);
+    } else {
+      console.log(data);
+      for (let i = 0; i < data.length; i++) {
+        if (seenKeys[data[i].treeId]) {
+          continue;
+        }
+        seenKeys[data[i].treeId] = 1;
+        for(let j = 0; j < data[i].allDbhs.length; j++) {
+          uniqueValues.push(data[i].allDbhs[j])
+        }
+      }
     }
+
+    let maxVal = 0;
+    for(let i=0; i<uniqueValues.length; i++) {
+      parseInt(uniqueValues[i].toString()) > maxVal ? maxVal = uniqueValues[i] : 0;
+    }
+    this.maxVal = maxVal;
+
+    uniqueValues = uniqueValues.map((value) => parseInt(value.toString()));
+    console.log(uniqueValues);
+
     let fiveNumberSummary = this.getFiveNumberSummaryFromArray(uniqueValues);
     let IQR = fiveNumberSummary.q3 - fiveNumberSummary.q1;
     let theoreticalLowerBound = fiveNumberSummary.median - (IQR * 1.5);
@@ -185,21 +209,33 @@ class DataGenerator {
     }
     let allDataString: Array<number> = outliers.concat(boxValues).map(Number);
 
+    boxValues = boxValues.map((value) => parseInt(value.toString()));
+    boxValues = boxValues.sort(function(a, b){return a-b});
+
+    let tmpSummary = this.getFiveNumberSummaryFromArray(boxValues);
+
     fiveNumberSummary.outliers = outliers;
     fiveNumberSummary.boxValues = boxValues;
-    fiveNumberSummary.bottomWhisker = boxValues[0];
-    fiveNumberSummary.topWhisker = boxValues[boxValues.length - 1];
+    fiveNumberSummary.bottomWhisker = tmpSummary['min'];
+    fiveNumberSummary.topWhisker = tmpSummary['max'];
     fiveNumberSummary.siteAndTime = data[0].siteAndTime;
     fiveNumberSummary.allData = allDataString;
     fiveNumberSummary.mean = this.average(allDataString);
     fiveNumberSummary.std = this.standardDeviation(allDataString);
     fiveNumberSummary.variance = this.variance(allDataString);
+    fiveNumberSummary.q1 = tmpSummary.q1;
+    fiveNumberSummary.q3 = tmpSummary.q3;
+
+    console.log(fiveNumberSummary);
+
+
     return fiveNumberSummary;
   }
 }
 
 class Plot extends React.Component<Props, State> {
   selected: string;
+  heightSelected: boolean;
   private node: HTMLDivElement | null;
 
   constructor(props: Props) {
@@ -207,7 +243,8 @@ class Plot extends React.Component<Props, State> {
 
     this.state = {
       data: this.props.data,
-      selected: ''
+      selected: '',
+      heightSelected: this.props.heightSelected
     };
 
     this.createPlot = this.createPlot.bind(this);
@@ -228,22 +265,13 @@ class Plot extends React.Component<Props, State> {
   componentDidUpdate() {
     d3.select('svg').select('g').remove();
     this.selected = this.props.selected;
+    this.heightSelected = this.props.heightSelected;
     this.createPlot();
   }
 
-  /**
-   * NOTE: This operates within a DOM that is controlled via d3, not React. Therefore, the code contained will use d3
-   * idioms.
-   *
-   */
-  createPlot() {
-    let minTreeHeight = 200;
-
-    if (this.selected === '') {
-      return;
-    }
-
+  setupHeightData() {
     // Organize data
+    let minTreeHeight = 200;
     let allData = this.state.data;
     let useableData = {};
     for (let i = 0; i < Object.keys(allData).length; i++) {
@@ -270,8 +298,75 @@ class Plot extends React.Component<Props, State> {
     let seperatedData = dataGenerator.seperateAllDataAsArrayBySiteAndTime(data);
     let boxData: Array<BoxData> = [];
     for (let i = 0; i < seperatedData.length; i++) {
-      boxData.push(dataGenerator.getBoxPlotInfoForArray('height', seperatedData[i]));
+      boxData.push(dataGenerator.getBoxPlotInfoForArray('height', seperatedData[i], true));
     }
+
+    return [boxData, siteAndTimes, minTreeHeight, useableData, dataGenerator, data]
+  }
+
+  setupDbhsData() {
+    let minDbhsSize = 0;
+
+    // Data agnostic
+    // Get selected data
+    let allData = this.state.data;
+    let useableData = {};
+    for (let i = 0; i < Object.keys(allData).length; i++) {
+      let key = Object.keys(allData)[i];
+      if (key === this.selected) {
+        useableData[key] = allData[key];
+      }
+    }
+
+    let dataGenerator: DataGenerator = new DataGenerator(useableData);
+    let data: Array<AllData> = dataGenerator.getAllDataAsArray();
+
+    let siteAndTimesAsObject: Object = {};
+    for (let key in data) {
+      if (data.hasOwnProperty(key)) {
+        siteAndTimesAsObject[data[key].siteAndTime] = 1;
+      }
+    }
+
+    let siteAndTimes = [''];
+    siteAndTimes = siteAndTimes.concat(Object.keys(siteAndTimesAsObject));
+    siteAndTimes.push('');
+
+    let seperatedData = dataGenerator.seperateAllDataAsArrayBySiteAndTime(data);
+    let boxData: Array<BoxData> = [];
+    for (let i = 0; i < seperatedData.length; i++) {
+      boxData.push(dataGenerator.getBoxPlotInfoForArray('height', seperatedData[i], false)); // TODO, ONLY BIT HEIGHT DEP
+    }
+
+    return [boxData, siteAndTimes, minDbhsSize, useableData, dataGenerator, data]
+  }
+
+  /**
+   * Creates a plot by handing over the DOM to d3 and populating that DOM with elements in d3.
+   *
+   * NOTE: This operates within a DOM that is controlled via d3, not React. Therefore, the code contained will use d3
+   * idioms.
+   *
+   */
+  createPlot() {
+    if (this.selected === '') {
+      return;
+    }
+
+    let setupData;
+    if(this.heightSelected === true) {
+      setupData = this.setupHeightData();
+    } else {
+      setupData = this.setupDbhsData();
+    }
+
+    let boxData = setupData[0];
+    let siteAndTimes = setupData[1];
+    siteAndTimes.push("  ");
+    let minDataVal = setupData[2];
+    let useableData = setupData[3];
+    let dataGenerator: DataGenerator = setupData[4];
+    let data: Array<AllData> = setupData[5];
 
     // Setup some helper functions
     d3.selection.prototype.moveToFront = function () {
@@ -290,7 +385,12 @@ class Plot extends React.Component<Props, State> {
     };
 
     // Begin plotting
-    let yMax: number = dataGenerator.getMaximumHeightValue();
+    let yMax: number;
+    if(this.heightSelected) {
+      yMax = dataGenerator.getMaximumHeightValue();
+    } else {
+      yMax = dataGenerator.maxVal;
+    }
     let xMax: number = data.length;
 
     let padding: number = 100;
@@ -323,7 +423,7 @@ class Plot extends React.Component<Props, State> {
       .rangePoints([padding, width - padding]);
 
     let yScale = d3.scale.linear()
-      .domain([minTreeHeight, yMax])
+      .domain([minDataVal, yMax])
       .range([height - padding, padding]);
 
     let boxValues: Array<Array<any>> = [];
@@ -357,7 +457,7 @@ class Plot extends React.Component<Props, State> {
       .on('mouseover', function (this: any, dataPoint, index, array) {
         this.parentNode.parentNode.appendChild(this.parentNode);
         tooltip.style('visibility', 'visible');
-        tooltip.text('Height: ' + dataPoint[1]);
+        this.heightSelected ? tooltip.text('Value: ' + dataPoint[1]) : tooltip.text('Value: ' + dataPoint[1]);
         tooltip.style('background', 'rgba(255, 0, 0, 0.3)');
       })
       .on('mouseout', function (this: any, dataPoint, index, array) {
@@ -571,7 +671,7 @@ class Plot extends React.Component<Props, State> {
         d3.select(this);
         this.parentNode.parentNode.appendChild(this.parentNode);
         tooltip.style('visibility', 'visible');
-        tooltip.text('Height: ' + dataPoint[1]);
+        this.heightSelected === true ? tooltip.text('Value: ' + dataPoint[1]) : tooltip.text('Value: ' + dataPoint[1]);
         tooltip.style('background', 'rgba(76, 175, 80, 0.9)');
       })
       .on('mouseout', function (this: any, dataPoint, index, array) {

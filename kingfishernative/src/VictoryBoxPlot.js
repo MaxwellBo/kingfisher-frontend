@@ -32,6 +32,7 @@ PLOT_COLORS.names = {
   yellow: "#ffff00"
 };
 
+// The box plot which renders the visualisations for site data.
 export default class VictoryBoxPlot extends React.Component {
 
   constructor(props) {

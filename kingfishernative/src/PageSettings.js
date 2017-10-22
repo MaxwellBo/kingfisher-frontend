@@ -10,6 +10,7 @@ import AccordionViewSite from "./AccordionViewSite"
 import Field from "./Field"
 import PageVizTree from "./PageVizTree"
 
+// A component which allows users to add a new site to the database.
 class AddSite extends React.Component {
   constructor() {
     super();
@@ -18,16 +19,22 @@ class AddSite extends React.Component {
     }
   }
 
+  // Updates the state with the value of the field.
   changeNewSiteCode = (code) => {
     this.setState({newSiteCode: code});
   }
   
+  // Pushes an empty new site to the firebase database.
   addNewSite = () => {
     if (this.state.newSiteCode !== "") {
       const ref = fbi.database().ref("sites").child(this.state.newSiteCode);
 
       ref.keepSynced(true);
 
+      // Pushing an empty string is the only way to get a key/value pair
+      // to exist without having any real value. This prevents unwanted
+      // placeholder data from appearing in measurements, while still
+      // allowing the measurements key to exist.
       ref.set({measurements:""});
       this.setState({ newSiteCode: "" });
     }
@@ -43,8 +50,11 @@ class AddSite extends React.Component {
             value={this.state.newSiteCode}
             />
           <TouchableHighlight
+            // This is the submit button for the new site.
             onPress={() => {
               this.addNewSite();
+              // We go back instead of pushing to history or redirecting
+              // because we don't want this page saved in the router history.
               this.props.goBack()}
             }
             accessibilityLabel="Add New Site"
@@ -58,6 +68,9 @@ class AddSite extends React.Component {
   }
 }
 
+// Originally this page was intended to set global settings, 
+// but due to time constraints it was only able to be used as a way to render
+// the add new sites component.
 export default class PageSettings extends React.Component {
   constructor(props) {
     super(props);

@@ -37,6 +37,8 @@ export default class AccordionViewTree extends Component {
         </TouchableHighlight>
         <Collapsible collapsed={this.state.collapsed} align="center">
           <View style={styles.treeDropdown}>
+            { // The accordion only contains data about the tree
+            }
             <Text style={styles.siteTreeText}>Species: {this.props.species}</Text>
             <Text style={styles.siteTreeText}>Height (cm): {this.props.height}</Text>
             <Text style={styles.siteTreeText}>DBHs (mm): {stringifiedDBHS}</Text>

@@ -37,7 +37,7 @@ function Site(props) {
 }
 
 /**
- * Builds the XML will will contain the header and all the buttons
+ * Builds the XML which will contain the title and all the buttons
  *
  * @param props
  *  Fields:
@@ -61,13 +61,14 @@ function Sites(props) {
         <LinkButton to={"/sites/settings"} buttonText="Add New Site" />
       </View>
       <View style={styles.sites}>
-        
-        {sitesComponents}
+        { // The list of site buttons
+          sitesComponents}
       </View>
     </Content>
   );
 }
 
+// The main routing component for the application.
 export default class PageSites extends React.Component {
   constructor(props) {
     super(props);
@@ -80,6 +81,8 @@ export default class PageSites extends React.Component {
     this.state.sitesRef.keepSynced(true);
   }
 
+  // When the component mounts, get the sites data from firebase and monitor for changes.
+  // If it changes, update the state with the new value.
   componentDidMount() {
     this.state.sitesRef
       .on('value', (sites) => {
@@ -89,6 +92,7 @@ export default class PageSites extends React.Component {
       });
   }
 
+  // Turn off the watch on the ref if the component unmounts.
   componentWillUnmount() {
     this.state.sitesRef.off();
   }
@@ -101,10 +105,12 @@ export default class PageSites extends React.Component {
         goBack={() => props.history.goBack()}
       />);
 
+    // This is the page which is rendered if we're on root `sites\`
     const SitesComponent = (props) => (
       <Sites sites={this.state.sites} /> 
     )
 
+    // Routes the user depending on the path.
     return (
       <Container>
         <Route path="/sites" render={TitleComponent} />

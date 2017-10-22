@@ -10,7 +10,7 @@ import ChartComponent from "./ChartComponent";
  * All classes beginning with "Page" are different representations of pages
  * to be rendered by AppScreen.
  *
- * This page is a view of all the tree measurements taken for a particular site.
+ * This page is a visualisation of all the tree measurements taken for a particular site.
  */
 export default class PageVizTree extends React.Component {
   constructor(props) {
@@ -22,6 +22,7 @@ export default class PageVizTree extends React.Component {
     this.state = {
       trees: {},
       dataRef: fbi.database(),
+      // Language represents whether we are looking at height of DBH
       language: "height",
       showHeight: true,
       textInputValue: '',
@@ -29,19 +30,18 @@ export default class PageVizTree extends React.Component {
       data: [],
     };
 
-    // TODO FIGURE OUT HOW BEHAVIOUR IS OFFLINE
-
-    // TODO FIGURE OUT WHAT HAPPENS WHEN WE UNMOUNT
-
     this.addToListOfSelectedData = this.addToListOfSelectedData.bind(this);
     this.removeFromListOfSelectedData = this.removeFromListOfSelectedData.bind(this);
     this.updateData = this.updateData.bind(this);
   }
 
+  // Update the data when the component mounts.
   componentDidMount() {
     this.updateData();
   }
 
+  // Grab SNAPSHOTS of the site data. Due to unmounting issues with the DBH info, snapshots
+  // had to be used, rather than turning on a watch for changes.
   updateData() {
     let siteRef = this.state.dataRef.ref("sites");
 
@@ -64,6 +64,7 @@ export default class PageVizTree extends React.Component {
     });
   }
 
+  // Gets the height for randering a box plot.
   static getHeightForObject(allData) {
     let heights = [];
     for (let key in allData) {
@@ -74,6 +75,7 @@ export default class PageVizTree extends React.Component {
     return heights;
   }
 
+  // Gets the DBHs for rendering a box plot.
   static getDbhsForObject(allData) {
     let allDbhs = [];
     for (let key in allData) {

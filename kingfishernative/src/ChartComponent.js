@@ -11,6 +11,7 @@ export default class ChartComponent extends React.Component {
     super(props);
   }
 
+  // A component which renders a chart using react-native-svg
   render() {
     return(
       <VictoryChart

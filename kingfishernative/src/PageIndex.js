@@ -24,13 +24,16 @@ export default class PageIndex extends React.Component {
     }
   }
 
+  // If the user is already logged in from a previous session, redirect to the sites page.
   componentWillMount() {
     if (fbi.auth().authenticated) {
       this.props.history.push("/sites");
     }
   }
 
+  // Check if the username and password were valid.
   validate = () => {
+    // Check if empty first, otherwise firebase will cause an error on android.
     if (this.state.username == "" || this.state.password == "") {
       Alert.alert(
         "Username or password was incorrect. Ensure you are connected to the internet and try again."
@@ -49,6 +52,7 @@ export default class PageIndex extends React.Component {
     });
   }
 
+  // Renders a simple landing page with a logo and login fields.
   render() {
     return (
       <Container>

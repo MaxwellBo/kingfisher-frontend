@@ -5,6 +5,7 @@ import {Container, Content, Button, Left, Right, Icon, Text, Picker} from 'nativ
 const {width, height, scale} = window;
 
 PLOT_COLORS = {};
+// The list of valid plot colours
 PLOT_COLORS.names = {
   green: "#008000",
   gold: "#ffd700",
@@ -20,6 +21,8 @@ PLOT_COLORS.names = {
   yellow: "#ffff00"
 };
 
+// A component that allows users to choose which sites to render on the box plot,
+// to compare them against each other.
 export default class SitePickerComponent extends React.Component{
   constructor(props) {
     super(props);
@@ -28,13 +31,14 @@ export default class SitePickerComponent extends React.Component{
       treesRef: fbi.database().ref("sites"),
       trees: {}
     };
-    // treesRef: fbi.database().ref("sites").child(siteCode).child("measurements").child(date).child('trees'),
   }
 
   componentWillReceiveProps(props) {
     this.setState({currentSelectedSites: props.currentSelectedSites})
   }
 
+  // Turn on a firebase watch and update the state when changes are detected
+  // (including the initial data retrieval)
   componentDidMount() {
     this.state.treesRef.on('value', (trees) => {
         if (trees) {
@@ -43,6 +47,8 @@ export default class SitePickerComponent extends React.Component{
       });
   }
 
+  // Turn off the firebase watch so that we don't call setState on
+  // an unmounted component.
   componentWillUnmount() {
     this.state.treesRef.off();
   }

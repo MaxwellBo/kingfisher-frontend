@@ -12,6 +12,9 @@ import { Link } from 'react-router-native';
 import LinkButton from "./LinkButton"
 import { fbi } from "./Global"
 
+/**
+ * A site that expands to reveal all site records within it.
+ */
 export default class AccordionViewSite extends Component {
   constructor(props) {
     super(props);
@@ -20,12 +23,16 @@ export default class AccordionViewSite extends Component {
       activeSection: false,
       collapsed: true,
       siteRecords: {},
+      // This is a ref to the firebase database section containing all measurements
+      // (site records) that are related to the given site.
       siteRecordsRef: fbi.database().ref("sites").child(props.siteCode).child("measurements")
     };
 
     this.state.siteRecordsRef.keepSynced(true);
   }
 
+  // When the component mounts, get the data from the ref and start watching it for changes.
+  // If it changes, update the state.
   componentDidMount() {
     this.state.siteRecordsRef
       .on('value', (siteRecords) => {
@@ -35,6 +42,8 @@ export default class AccordionViewSite extends Component {
       });
   }
 
+  // When the component unmounts, turn the watch on the ref off.
+  // This is so that we don't update the state of an unmounted component.
   componentWillUnmount() {
     this.state.siteRecordsRef.off();
   }
@@ -46,7 +55,10 @@ export default class AccordionViewSite extends Component {
   render() {
     const { siteRecords } = this.state;
     console.log(siteRecords)
-    const siteRecordComponents = (siteRecords && typeof(siteRecords) == 	"object") ? Object.keys(siteRecords).map(date =>
+    // After firebase watch has turned on, but before the data is retrieved, there is a brief moment
+    // when the state attribute it changes is null. This ternary operator is to ensure a null
+    // object is not handled (if it's null just return an empty <View/>)
+    const siteRecordComponents = (siteRecords && typeof(siteRecords) ==	"object") ? Object.keys(siteRecords).map(date =>
       <Link
         to={this.props.to + "/" + date}
         style={styles.siteButton}
@@ -61,6 +73,7 @@ export default class AccordionViewSite extends Component {
       </Link>
     ) : <View/>;
     const now = new Date();
+    // Format the date to a readable string
     const nowString = now.getFullYear() + "-" + now.getMonth() + "-" + now.getDay() + "::" +
       now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
     return (
@@ -69,6 +82,8 @@ export default class AccordionViewSite extends Component {
           <View style={styles.treeName}>
             <Text style={styles.siteTreeText}>Site {this.props.siteCode}</Text>
             <Image style={styles.dropdownArrow} source={
+              // Depending on if it's collapsed or not, render a different
+              // direction arrow image.
               this.state.collapsed ?
               require("./img/dropdownDown.png") :
               require("./img/dropdownUp.png")
@@ -77,7 +92,8 @@ export default class AccordionViewSite extends Component {
         </TouchableHighlight>
         <Collapsible collapsed={this.state.collapsed} align="center">
           <View style={styles.treeDropdown}>
-            {siteRecordComponents}
+            { // The list of site records taken at this particular site.
+              siteRecordComponents}
             <LinkButton to={this.props.to + "/" + nowString} buttonText="Add New Site Record" />
           </View>
         </Collapsible>

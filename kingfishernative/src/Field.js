@@ -8,9 +8,9 @@ import { styles } from "./Styles"
  *  - label
  *  - onChangeText (should change parent's state)
  * 
- * An optional 4th prop, extraStyles, can be used to give it another
+ * An optional prop, extraStyles, can be used to give it another
  * object's worth of styles.
- * An optional 5th prop, inputStyles, can be used to give the input
+ * An optional prop, inputStyles, can be used to give the input
  * box extra styles.
  */
 export default class Field extends React.Component {
@@ -18,6 +18,8 @@ export default class Field extends React.Component {
     super(props);
   }
 
+  // Field represents an input field which updates the parent's state
+  // using two way binding.
   render() {
     return (
       <View style={[styles.field].concat(this.props.extraStyles)}>

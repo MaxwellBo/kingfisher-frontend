@@ -5,10 +5,10 @@ import { styles } from "./Styles"
 import LinkButton from "./LinkButton"
 import { fbi } from "./Global"
 import AccordionViewTree from "./AccordionViewTree"
+import SpecialButton from "./SpecialButton"
 
 /**
- * All classes beginning with "Page" are different representations of pages
- * to be rendered by AppScreen. 
+ * All classes beginning with "Page" are different representations of pages.
  * 
  * This page is a view of all the tree measurements taken for a particular site.
  */
@@ -16,17 +16,22 @@ export default class PageSiteTrees extends React.Component {
   constructor(props) {
     super(props);
 
+    // Get the site code and the date of the current site record we're on from
+    // the react-router route.
     const siteCode = this.props.match.params.siteCode
     const date = this.props.match.params.date
 
     this.state = {
       trees: {},
+      // Using the route, get the ref for this site record's trees
       treesRef: fbi.database().ref("sites").child(siteCode).child("measurements").child(date).child('trees')
     };
 
     this.state.treesRef.keepSynced(true);
   }
 
+  // When the component mounts, get the data from the ref and start watching it
+  // for changes. If it changes, update the state.
   componentDidMount() {
     this.state.treesRef
       .on('value', (trees) => {
@@ -36,6 +41,7 @@ export default class PageSiteTrees extends React.Component {
       });
   }
 
+  // Turn off the ref's watch. This is so we don't update state on an unmounted component.
   componentWillUnmount() {
     this.state.treesRef.off();
   }
@@ -53,6 +59,7 @@ export default class PageSiteTrees extends React.Component {
     return chunks;
   }
 
+  // Calculate the mean height for all trees in the site record.
   getHeightAvg(trees, treeNames) {
     let totalHeight = 0;
     for(let i=0; i<treeNames.length; i++) {
@@ -62,6 +69,10 @@ export default class PageSiteTrees extends React.Component {
     return avgHeight;
   }
 
+  // Split the tree measurements into sets of 10 for statistical analysis
+  // on the standard deviation of height and DBHs, so that we can inform the
+  // user when their data is statistically significant and they can stop recording
+  // new tree measurements.
   splitIntoSetsOf10() {
     let trees = this.state.trees;
     let treeNames = trees == null ? [] : Object.keys(trees);
@@ -93,9 +104,13 @@ export default class PageSiteTrees extends React.Component {
     }
   }
 
-
+  // Deletes a tree from the database.
   deleteTree = (treeID) => {
     this.state.treesRef.child(treeID).remove();
+  }
+
+  noVis = () => {
+    Alert.alert("Not enough data to visualise.")
   }
 
   render() {
@@ -103,6 +118,8 @@ export default class PageSiteTrees extends React.Component {
     const date = this.props.match.params.date
 
     const { trees } = this.state;
+    // If the trees object is null, don't touch it and just render an empty <View />.
+    // If it's not null, make accordion views out of each tree in the site record.
     const treesComponents = (trees == null) ? <View/> : Object.keys(trees).map(key =>
       <AccordionViewTree
         treeName={key}
@@ -116,6 +133,17 @@ export default class PageSiteTrees extends React.Component {
       />
     );
 
+    const visualiseButton = (trees == null) ?
+        <SpecialButton 
+          onClick={this.noVis}
+          buttonText="Visualize"
+        /> :
+        <LinkButton
+          buttonText="Visualize"
+          to={"/sites/" + siteCode + "/" + date + "/viz"}
+        />
+
+    // Check if the data is statistically significant before rendering.
     this.splitIntoSetsOf10();
 
     return (
@@ -129,10 +157,7 @@ export default class PageSiteTrees extends React.Component {
             buttonText="Add"
             to={"/sites/" + siteCode + "/" + date + "/add"} 
           />
-          <LinkButton
-            buttonText="Visualize"
-            to={"/sites/" + siteCode + "/" + date + "/viz"}
-          />
+          {visualiseButton}
         </View>
         <View style={styles.trees}>
           {treesComponents}

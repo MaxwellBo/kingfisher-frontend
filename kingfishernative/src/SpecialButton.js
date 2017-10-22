@@ -11,7 +11,8 @@ export default class SpecialButton extends React.Component {
           light
           onPress={this.props.onClick}
           accessibilityLabel={this.props.pageName}
-          style={[styles.button].concat(this.props.extraStyles)} >
+          style={[styles.button].concat(this.props.extraStyles)}
+          {... this.props}>
         <Text style={[styles.centeredText, styles.buttonText]}>{this.props.buttonText}</Text>
       </Button>
     )

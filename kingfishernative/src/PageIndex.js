@@ -62,18 +62,19 @@ export default class PageIndex extends React.Component {
           <Text style={[styles.centeredText, styles.indexH2]}>
             Mangrove Monitoring App for the Queensland Herbarium
           </Text>
-          <Field label="Username"
+          <Field label="Username" accessibilityLabel={ 'login' }
             onChangeText={text => this.setState({username: text})}
             autoCapitalize="none"
             value={this.state.username}
           />
-          <Field label="Password"
+          <Field label="Password" accessibilityLabel={ 'password' }
             onChangeText={text => this.setState({password: text})}
             autoCapitalize="none"
             secureTextEntry={true}
             value={this.state.password}
           />
-          <SpecialButton 
+          <SpecialButton
+            accessibilityLabel={ 'login button' }
             onClick={this.validate}
             buttonText="Login"
           />

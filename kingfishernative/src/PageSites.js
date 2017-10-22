@@ -56,7 +56,7 @@ function Sites(props) {
   return (
     <Content contentContainerStyle={styles.pageCont}>
       <View>
-        <Text style={styles.pageHeadTitle}>Sites</Text>
+        <Text style={styles.pageHeadTitle} accessibilityLabel={ 'Page Sites Heading' }>Sites</Text>
         <Text style={styles.pageHeadDesc}>Click to view past records, or add a new record.</Text>
         <LinkButton to={"/sites/settings"} buttonText="Add New Site" />
       </View>

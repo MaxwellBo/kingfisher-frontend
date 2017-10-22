@@ -16,6 +16,7 @@ class AddSite extends React.Component {
     super();
     this.state = {
       newSiteCode: "",
+      siteRef: fbi.database().ref("sites")
     }
   }
 
@@ -25,17 +26,21 @@ class AddSite extends React.Component {
   }
 
   componentDidMount() {
-    fbi.database().ref("sites").on("value", function(val) {
+    this.state.siteRef.on("value", (val) => {
       if(val) {
-        this.setState({takenSites: Object.keys(val.val())});
+        this.setState({ takenSites: val.val() });
       }
     });
+  }
+
+  componentWillUnmount() {
+    this.state.siteRef.off();
   }
   
   // Pushes an empty new site to the firebase database.
   addNewSite = () => {
 
-    let keys = this.state.takenSites;
+    let keys = this.state.takenSites == null ? [] : Object.keys(this.state.takenSites).map(key => key);
     for(let i=0; i<keys.length; i++) {
       if(keys[i] === this.state.newSiteCode) {
         return;

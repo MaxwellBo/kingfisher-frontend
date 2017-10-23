@@ -86,7 +86,6 @@ class VisMenu extends React.Component<Props, State> {
         sumHeight += parseFloat(measurements[treeNo][heightKey]);
         treeCount++;
       }
-      // TODO Clean this up
       avgHeight = Math.round((sumHeight / treeCount) / 10);
       if (dateCount === 0) {
         returnString = returnString.concat((avgHeight * 10).toString() + '{');
@@ -101,6 +100,7 @@ class VisMenu extends React.Component<Props, State> {
   }
 
   render() {
+    {/* only render data viz components if JSON has been pulled from firebase*/}
     if (this.state.mounted) {
       let siteNames = Object.keys(this.state.data);
       let options = siteNames.map((d) => { 
@@ -117,6 +117,7 @@ class VisMenu extends React.Component<Props, State> {
           </div>
           <section className="section">
             <div style={{ width: '30%', margin: '0 auto' }}>
+              {/*the drop down site selector*/}
               <Select
                 name="form-field-name"
                 value={this.state.selected}
@@ -124,6 +125,7 @@ class VisMenu extends React.Component<Props, State> {
                 onChange={(val) => this.setState({ selected: val.value })}
                 clearable={false}
               />
+              {/*render the drop down measurement selector*/}
               <Select
                 name="select-dbhs-or-height"
                 value={this.state.heightSelected ? "height" : "dbhs"}
@@ -135,6 +137,7 @@ class VisMenu extends React.Component<Props, State> {
                 clearable={false}
               />
             </div>
+            {/*render the data visualisation component*/}
             <Plot
               data={data}
               selected={selected}
@@ -146,7 +149,7 @@ class VisMenu extends React.Component<Props, State> {
         </section>
       );
     } else {
-
+      {/* display empty container*/}
       return (
         <section className="section has-text-centered view">
           <div className="container">

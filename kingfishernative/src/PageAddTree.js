@@ -10,6 +10,8 @@ import { fbi } from "./Global"
 const HEIGHT_MIN = 200;
 const HEIGHT_MAX = 3000;
 const Item = Picker.Item;
+let lastSpecies = "Avicennia marina";
+
 /**
  * All classes beginning with "Page" are different representations of pages
  * to be rendered by App. 
@@ -22,10 +24,10 @@ export default class PageAddTree extends React.Component {
     super();
 
     this.state = {
-      species: "",
+      species: lastSpecies,
       height: "",
       dbhs: [],
-      speciesValid: -1,
+      speciesValid: 1,
       heightValid: -1,
       dbhsValid: [],
       existingTreeName: null
@@ -96,6 +98,7 @@ export default class PageAddTree extends React.Component {
   // two are all valid)
   changeSpecies = (value) => {
     this.setState({ species: value, speciesValid: 1 });
+    lastSpecies = value;
   }
 
   // Change the value of a DBH value of a particular index.
